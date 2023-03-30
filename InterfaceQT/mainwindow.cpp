@@ -8,15 +8,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ui->WindowAddedItems->close();
 
-   // QFileSystemModel *model = new QFileSystemModel;
-   // model->setRootPath(QDir::currentPath());
-   // ui->treeView->setModel(model);
+    db.connection();
+    model = new QSqlTableModel(this,db.return_db());
 
     //added HELP menu with noHelp aaction
     QMenu *help = menuBar()->addMenu("HELP");
-        QAction *noHelp = new QAction(tr("NO HELP"), this);
+    QAction *noHelp = new QAction(tr("NO HELP"), this);
     help->addAction(noHelp);
 
     //add icons
@@ -26,7 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    db.closing();
     delete ui;
+
 }
 
 
@@ -40,4 +40,29 @@ void MainWindow::on_actionauthors_triggered()
 void MainWindow::on_actionExit_triggered()
 {
     close();
+}
+
+void MainWindow::on_dbButton_clicked()
+{
+    model->setTable("AIRPLANS");
+    model->select();
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+    ui->tableView->setModel(model);
+}
+
+void MainWindow::on_addToBdButton_clicked()
+{
+    model->insertRow(model->rowCount());
+}
+
+void MainWindow::on_tableView_clicked(const QModelIndex &index)
+{
+    currentRow = index.row();
+}
+
+void MainWindow::on_moveFromBdButton_clicked()
+{
+    model->removeRow(currentRow);
+    model->select();
 }
