@@ -5,7 +5,12 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+
+    MainWindow w;//как передать экземляр класса баз данных в консутруктор по ссылке
+
+
+
     w.show();
+
     return a.exec();
 }
