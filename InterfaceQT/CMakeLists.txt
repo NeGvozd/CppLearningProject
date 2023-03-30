@@ -25,6 +25,8 @@ add_executable(Zrk_Interface
     object.h
     database.cpp
     database.h
+    databasecontroller.cpp
+    databasecontroller.h
 )
 
 target_link_libraries(Zrk_Interface PRIVATE Qt5::Widgets Qt5::Sql)

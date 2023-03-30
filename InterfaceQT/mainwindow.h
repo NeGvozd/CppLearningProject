@@ -5,7 +5,7 @@
 #include <QTreeWidget>
 #include <QFileSystemModel>
 #include <QDockWidget>
-#include "database.h"
+#include "databasecontroller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,9 +34,10 @@ private slots:
     void on_moveFromBdButton_clicked();
 
 private:
-    QSqlTableModel *model;
     Ui::MainWindow *ui;
-    AirplansDB db;
+    //AirplansDB db;
+    DatabaseController dbController;
+    QSqlTableModel *model;
     int currentRow;
 };
 #endif // MAINWINDOW_H

@@ -9,8 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    db.connection();
-    model = new QSqlTableModel(this,db.return_db());
+    dbController.connection();
+    //Connect viewTable with AirDB - is it true?
+    model = new QSqlTableModel(this,dbController.return_db());
 
     //added HELP menu with noHelp aaction
     QMenu *help = menuBar()->addMenu("HELP");
@@ -24,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    db.closing();
+    dbController.closing();
     delete ui;
 
 }
