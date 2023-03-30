@@ -116,36 +116,6 @@
              <string notr="true">1</string>
             </property>
            </column>
-           <item>
-            <property name="text">
-             <string>Самолёты</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normalon>img/plane_115212.png</normalon>
-             </iconset>
-            </property>
-            <item>
-             <property name="text">
-              <string>СУ-121</string>
-             </property>
-            </item>
-           </item>
-           <item>
-            <property name="text">
-             <string>Вертолёты</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ЗРК</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normalon>img/zrk.png</normalon>
-             </iconset>
-            </property>
-           </item>
           </widget>
          </item>
          <item>
@@ -153,6 +123,19 @@
          </item>
         </layout>
        </widget>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>270</y>
+         <width>80</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
       </widget>
      </widget>
     </item>
@@ -281,20 +264,11 @@
    </property>
   </action>
   <action name="actionauthors">
-   <property name="icon">
-    <iconset>
-     <normalon>img/plane_115212.png</normalon>
-    </iconset>
-   </property>
    <property name="text">
     <string>authors</string>
    </property>
   </action>
   <action name="actionNO_HELP">
-   <property name="icon">
-    <iconset>
-     <normaloff>img/zrk.png</normaloff>img/zrk.png</iconset>
-   </property>
    <property name="text">
     <string>NO HELP</string>
    </property>
