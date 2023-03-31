@@ -24,7 +24,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Sql REQUIRED)
 
 if(ANDROID)
   add_library(Zrk_Interface SHARED
@@ -40,9 +40,13 @@ else()
     mainwindow.h
     object.cpp
     object.h
+    database.cpp
+    database.h
+    databasecontroller.cpp
+    databasecontroller.h
     mainwindow.ui
     resource.qrc
   )
 endif()
 
-target_link_libraries(Zrk_Interface PRIVATE Qt5::Widgets)
+target_link_libraries(Zrk_Interface PRIVATE Qt5::Widgets Qt5::Sql)
