@@ -38,6 +38,8 @@ else()
     main.cpp
     mainwindow.cpp
     mainwindow.h
+    object.cpp
+    object.h
     mainwindow.ui
     resource.qrc
   )
