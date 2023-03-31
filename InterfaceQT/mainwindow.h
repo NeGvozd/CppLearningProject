@@ -37,7 +37,7 @@ private:
     Ui::MainWindow *ui;
     //AirplansDB db;
     DatabaseController dbController;
-    QSqlTableModel *model;
+    QSqlTableModel *model;//to controller
     int currentRow;
 };
 #endif // MAINWINDOW_H
