@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "mapwindow.h"
 #include "./ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -9,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    
+    ui->Map = new MapWindow(this);
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1);

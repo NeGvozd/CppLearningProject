@@ -11,30 +11,21 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check http://doc.qt.io/qt-5/deployment-android.html for more information.
-# They need to be set before the find_package(Qt5 ...) call.
+set(QGIS_PATH /apps)
 
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
+if(NOT DEFINED ENV{QGIS_PATH})
+    set(QGIS_PATH /apps CACHE PATH "specify path to QGIS install directory")
+endif()
+message("QGIS_PATH is defined -- ${QGIS_PATH}")
 
-find_package(Qt5 COMPONENTS Widgets Sql REQUIRED)
+find_package(Qt5 COMPONENTS Widgets Xml Sql Test REQUIRED)
 
-if(ANDROID)
-  add_library(Zrk_Interface SHARED
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-  )
-else()
-  add_executable(Zrk_Interface
+link_directories(/usr/lib)
+link_directories(${QGIS_PATH}/lib)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+add_executable(Zrk_Interface
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -42,11 +33,18 @@ else()
     object.h
     database.cpp
     database.h
-    databasecontroller.cpp
-    databasecontroller.h
+#    databasecontroller.cpp
+#    databasecontroller.h
     mainwindow.ui
     resource.qrc
-  )
-endif()
+    mapwindow.cpp
+    mapwindow.h
+)
 
-target_link_libraries(Zrk_Interface PRIVATE Qt5::Widgets Qt5::Sql)
+target_include_directories(Zrk_Interface PRIVATE
+                                    ${QGIS_PATH}/include/qgis
+                                    /usr/include/gdal)
+
+target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
+
+target_link_libraries(Zrk_Interface PRIVATE Qt5::Widgets Qt5::Xml Qt5::Sql Qt5::Test qgis_native qgis_core qgis_app qgis_gui gdal)
