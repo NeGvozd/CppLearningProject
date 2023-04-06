@@ -1,4 +1,3 @@
-
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileSystemModel>

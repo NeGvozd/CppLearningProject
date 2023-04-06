@@ -51,6 +51,7 @@ MainWindow::~MainWindow(){
 
 void MainWindow:: show(){
     this->QMainWindow::show();
+    ui->DockWidgetForTree->close();
 }
 
 void MainWindow::on_actionNew_triggered(){
