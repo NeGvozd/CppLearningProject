@@ -8,23 +8,9 @@
 #include <QFileDialog>
 #include <memory>
 
-//Если у вас нет Qgs, то вырубайте
-#include <qgsmapcanvas.h>
-#include <qlayout.h>
-#include <qgsvectorlayer.h>
-#include <utility>
-#include <qgssymbol.h>
-#include <qgsgeometry.h>
-#include <qgssinglesymbolrenderer.h>
-#include <qgsmarkersymbollayer.h>
-#include <qgsfields.h>
-#include <qgsvectorfilewriter.h>
-#include <qgslabeling.h>
-#include <qgsvectorlayerlabeling.h>
-#include <qgspallabeling.h>
-#include <qgsrulebasedrenderer.h>
-
 #include <QAbstractButton>
+
+#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -54,7 +40,6 @@ public:
     QWidget *Map;
 
     virtual void show();
-    void setupQgs();
 private slots:
 
 
@@ -70,9 +55,8 @@ private:
     QFrame *HorizontalToolbar;
     QFrame *VerticalToolbar;
 
-
+    QGSController* QgsController;
     //Если у вас нет Qgs, то вырубайте
-    QgsMapCanvas* canvas;
 
     Ui::MainWindow *ui;
 

@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(QGIS_PATH /apps)
@@ -44,6 +44,8 @@ else()
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    QGSController.cpp
+    QGSController.h
     resource.qrc
   )
 endif()

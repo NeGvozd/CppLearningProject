@@ -21,7 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //Если у вас нет Qgs, то вырубайте
-    setupQgs();
+    ui->WindowAddedItems->setParent(Map);
+    QgsController = new QGSController(Map);
+    QgsController->setupQGS();
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1);
@@ -46,41 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 //Если у вас нет Qgs, то вырубайте
-void MainWindow::setupQgs()
-{
-    canvas =new QgsMapCanvas(this->Map);
-
-    canvas->setWindowFlags(canvas->windowFlags() & ~Qt::WindowStaysOnBottomHint);
-    canvas->setCanvasColor("blue");
-
-    QGridLayout* gl =new QGridLayout(this->Map);
-    gl->addWidget(canvas);
-    ui->WindowAddedItems->setParent(canvas);
-
-
-    /*
-    mainCrs.createFromProj("+proj=longlat +datum=WGS84 +no_defs");
-
-    this->setCentralWidget(canvas);
-            QgsVectorLayer::LayerOptions options;
-    options.loadDefaultStyle = false;
-
-
-    QgsVectorLayer* layer =new QgsVectorLayer("/home/runspaer/maps/kx-world-land-areas-110-million-SHP/world-land-areas-110-million.shp",
-    "/home/runspaer/maps/kx-world-land-areas-110-million-SHP/world-land-areas-110-million","ogr" , options);
-    if(!layer->isValid())
-    {
-        printf("Failed to open the layer");
-    }
-
-    // добавляем слой к списку
-    QList<QgsMapLayer*> layers;
-    layers.push_back(layer);
-    QgsProject::instance()->addMapLayers(layers);
-    // добавляем слои на карту
-    canvas->setLayers(layers);
-    */
-}
 
 
 void MainWindow:: show()
@@ -99,43 +66,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionNew_triggered()
 {
-
-    QFileDialog dialog(this, QString("Добавить слой").toLocal8Bit());
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
-    dialog.setNameFilter("*.shp");
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QString layerPath =dialog.selectedFiles()[0];
-        if (!QFile::exists(layerPath))
-            return;
-        //std::unique_ptr<LayerHandler> layerHandler;
-        if (layerPath.contains(".shp"))
-        {
-
-            QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-            QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-
-            QgsVectorLayer* earthLayer = new QgsVectorLayer(layerPath, "earth", "ogr");
-
-            controlPointsLayer->startEditing();
-            controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-            controlPointsLayer->updateFields();
-
-            controlPointsLayer->setLabelsEnabled(true);
-            QgsPalLayerSettings pls;
-            pls.fieldName = "fid";
-            pls.placement = QgsPalLayerSettings::Placement::Line;
-            QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-            controlPointsLayer->setLabeling(simple_label);
-            controlPointsLayer->commitChanges();
-
-            canvas->setLayers({controlPointsLayer, trajectoryPointsLayer, earthLayer});
-            canvas->setExtent(earthLayer->extent());
-            QgsCoordinateReferenceSystem crs("EPSG:4326");
-            canvas->setDestinationCrs(crs);
-            canvas->refresh();
-        }
-    }
+    QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered()
 {
