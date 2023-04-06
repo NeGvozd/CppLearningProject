@@ -43,6 +43,9 @@ public:
 
     virtual void show();
 private slots:
+    void on_addFromTreeButton_clicked();
+
+private slots:
 
 
     void on_actionNew_triggered();

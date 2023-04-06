@@ -116,3 +116,7 @@ void MainWindow::on_DataBaseButton_clicked()
     dbWindow.setModal(true);
     dbWindow.exec();
 }
+void MainWindow::on_addFromTreeButton_clicked()
+{
+    ui->DockWidgetForTree->raise();
+}
