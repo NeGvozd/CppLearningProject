@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
     //Если у вас нет Qgs, то вырубайте
     ui->WindowAddedItems->setParent(Map);
     QgsController = new QGSController(Map);
-    QgsController->setupQGS();
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1);

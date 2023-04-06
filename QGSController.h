@@ -20,7 +20,6 @@ class QGSController{
 public:
     QGSController(QWidget* Map);
     ~QGSController();
-    void setupQGS();
     void addLayer();
 private:
     QgsMapCanvas* canvas;

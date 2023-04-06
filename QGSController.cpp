@@ -8,13 +8,7 @@
 
 QGSController::QGSController(QWidget* Map){
     this->Map = Map;
-}
 
-QGSController::~QGSController(){
-    delete Map;
-}
-void QGSController::setupQGS()
-{
     canvas =new QgsMapCanvas(this->Map);
 
     canvas->setWindowFlags(canvas->windowFlags() & ~Qt::WindowStaysOnBottomHint);
@@ -22,7 +16,10 @@ void QGSController::setupQGS()
 
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
-    
+}
+
+QGSController::~QGSController(){
+    delete Map;
 }
 
 void QGSController::addLayer(){
