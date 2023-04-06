@@ -27,6 +27,86 @@
     <property name="bottomMargin">
      <number>5</number>
     </property>
+    <item row="0" column="0" colspan="2">
+     <widget class="QFrame" name="HorizontalToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QFrame" name="VerticalToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>20</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>51</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>51</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string> + </string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="DataBaseButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>70</y>
+         <width>50</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>SQL</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
     <item row="1" column="1">
      <widget class="QWidget" name="Map" native="true">
       <property name="sizePolicy">
@@ -50,7 +130,7 @@
          <x>0</x>
          <y>0</y>
          <width>200</width>
-         <height>561</height>
+         <height>500</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -118,86 +198,8 @@
            </column>
           </widget>
          </item>
-         <item>
-          <widget class="QTreeView" name="treeView"/>
-         </item>
         </layout>
        </widget>
-      </widget>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="geometry">
-        <rect>
-         <x>340</x>
-         <y>270</y>
-         <width>80</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QFrame" name="HorizontalToolbar">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QFrame" name="VerticalToolbar">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>20</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>51</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <widget class="QPushButton" name="pushButton">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>51</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string> + </string>
-       </property>
       </widget>
      </widget>
     </item>
@@ -264,11 +266,20 @@
    </property>
   </action>
   <action name="actionauthors">
+   <property name="icon">
+    <iconset>
+     <normalon>img/plane_115212.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>authors</string>
    </property>
   </action>
   <action name="actionNO_HELP">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/zrk.png</normaloff>img/zrk.png</iconset>
+   </property>
    <property name="text">
     <string>NO HELP</string>
    </property>
