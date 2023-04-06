@@ -20,8 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     WindowAddedItems=ui->WindowAddedItems;
 
 
-    //Если у вас нет Qgs, то вырубайте
-    ui->WindowAddedItems->setParent(Map);
+    ui->WindowAddedItems->setParent(ui->Center);
     QgsController = new QGSController(Map);
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
@@ -53,6 +52,7 @@ void MainWindow:: show()
 {
     this->QMainWindow::show();
     this->WindowAddedItems->close();
+    this->WindowAddedItems->raise();
 }
 
 

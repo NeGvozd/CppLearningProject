@@ -24,4 +24,7 @@ public:
 private:
     QgsMapCanvas* canvas;
     QWidget* Map;
+
+    int flag=0;
+    QList<QgsMapLayer *> layers;
 };
