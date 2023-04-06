@@ -7,7 +7,7 @@ DatabaseController::DatabaseController()
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("/home/kretki/testQGS/test2/CppLearningProject/database/tth.db");
+    db.setDatabaseName("../database/tth.db");
 
 
     if (db.open())
