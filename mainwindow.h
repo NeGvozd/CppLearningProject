@@ -57,12 +57,8 @@ private slots:
 
     void on_DataBaseButton_clicked();
 private:
-//    QDockWidget *WindowAddedItems;
-//    QFrame *HorizontalToolbar;
-//    QFrame *VerticalToolbar;
-
+    //if you don't have QGS comment bottom line
     QGSController* QgsController;
-    //Если у вас нет Qgs, то вырубайте
 
     Ui::MainWindow *ui;
 

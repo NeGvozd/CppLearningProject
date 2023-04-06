@@ -12,16 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     QFileSystemModel *model = new QFileSystemModel;
     model->setRootPath(QDir::currentPath());
-//    ui->treeView->setModel(model);
 
-//    HorizontalToolbar=ui->HorizontalToolbar;
-//    VerticalToolbar=ui->VerticalToolbar;
     Map=ui->Map;
-//    WindowAddedItems=ui->WindowAddedItems;
 
+    QGridLayout* g = new QGridLayout(ui->Center);
+    g->addWidget(Map);
 
-//    ui->WindowAddedItems->setParent(ui->Center);
+    //if you don't have QGS comment bottom line
     QgsController = new QGSController(Map);
+
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1);
@@ -45,43 +44,35 @@ MainWindow::MainWindow(QWidget *parent)
 
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
     delete ui;
 }
 
 
-void MainWindow:: show()
-{
+void MainWindow:: show(){
     this->QMainWindow::show();
-//    this->WindowAddedItems->close();
-//    this->WindowAddedItems->raise();
 }
 
-void MainWindow::on_actionNew_triggered()
-{
+void MainWindow::on_actionNew_triggered(){
+    //if you don't have QGS comment bottom line
     QgsController->addLayer();
 }
-void MainWindow::on_actionauthors_triggered()
-{
+void MainWindow::on_actionauthors_triggered(){
     QMessageBox *msg = new QMessageBox;
     msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
     msg->exec();
 }
 
-void MainWindow::on_actionExit_triggered()
-{
+void MainWindow::on_actionExit_triggered(){
     close();
 }
 
-void MainWindow::on_pushButton_2_clicked()
-{
+void MainWindow::on_pushButton_2_clicked(){
     QWidget *window2 = new QWidget;
     window2->show();
 }
 
-void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column)
-{
+void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
     dynamic_cast<MyTreeItem*>(item)->get_type();
@@ -96,8 +87,7 @@ MyTreeItem::MyTreeItem(QTreeWidget *parent, int type): QTreeWidgetItem(parent){
     this->type=type;
 }
 
-void MyTreeItem::get_type()
-{
+void MyTreeItem::get_type(){
     qInfo() << type;
 
     if (type == 0) qDebug("zrk");
@@ -105,18 +95,15 @@ void MyTreeItem::get_type()
     if (type == 2) qDebug("gyro");
 }
 
-void MyTreeItem::selected()
-{
+void MyTreeItem::selected(){
     qDebug()<<"Selected ";
 }
 
-void MainWindow::on_DataBaseButton_clicked()
-{
+void MainWindow::on_DataBaseButton_clicked(){
     DataWindow dbWindow;
     dbWindow.setModal(true);
     dbWindow.exec();
 }
-void MainWindow::on_addFromTreeButton_clicked()
-{
+void MainWindow::on_addFromTreeButton_clicked(){
     ui->DockWidgetForTree->raise();
 }
