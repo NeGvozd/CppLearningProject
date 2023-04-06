@@ -1,3 +1,4 @@
+<<<<<<< HEAD:resource.qrc
 <RCC>
     <qresource prefix="/rec">
         <file>img/zrk.png</file>
@@ -5,3 +6,15 @@
         <file>img/gyrocopter.png</file>
     </qresource>
 </RCC>
+=======
+<RCC>
+    <qresource prefix="/rec">
+        <file>img/plane.png</file>
+        <file>img/gyrocopter.png</file>
+        <file>img/zrk.png</file>
+        <file>img/sql_icon.png</file>
+        <file>img/add_icon.png</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>
+>>>>>>> origin/Interface:InterfaceQT/resource.qrc

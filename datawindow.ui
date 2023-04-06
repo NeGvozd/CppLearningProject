@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DataWindow</class>
+ <widget class="QDialog" name="DataWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>843</width>
+    <height>499</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>30</y>
+     <width>711</width>
+     <height>421</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="4">
+     <widget class="QPushButton" name="pushButton_2">
+      <property name="text">
+       <string>что-то еще</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="zrkButton">
+      <property name="text">
+       <string>ЗРК</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="5" rowspan="2">
+     <widget class="QPushButton" name="addButton">
+      <property name="text">
+       <string>Добавить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" rowspan="3" colspan="5">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="4" column="5">
+     <widget class="QPushButton" name="deleteButton">
+      <property name="text">
+       <string>Удалить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="pushButton_5">
+      <property name="text">
+       <string>Вертолёты</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="planeButton">
+      <property name="text">
+       <string>Самолёты</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="pushButton_7">
+      <property name="text">
+       <string>что-то еще</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

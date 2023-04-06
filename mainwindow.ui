@@ -181,6 +181,36 @@
              <string notr="true">1</string>
             </property>
            </column>
+           <item>
+            <property name="text">
+             <string>Самолёты</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normalon>img/plane_115212.png</normalon>
+             </iconset>
+            </property>
+            <item>
+             <property name="text">
+              <string>СУ-121</string>
+             </property>
+            </item>
+           </item>
+           <item>
+            <property name="text">
+             <string>Вертолёты</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ЗРК</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normalon>img/zrk.png</normalon>
+             </iconset>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
@@ -221,6 +251,69 @@
    <zorder>Center</zorder>
    <zorder>HorizontalToolbar</zorder>
    <zorder>VerticalToolbar</zorder>
+    <item row="0" column="0" colspan="2">
+     <widget class="QFrame" name="HorizontalToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QFrame" name="VerticalToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+        <horstretch>20</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>51</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QPushButton" name="pushButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>51</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string> + </string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -266,7 +359,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
    <property name="text">
-    <string>Добавить слой</string>
+    <string>New</string>
    </property>
   </action>
   <action name="actionOpen">
@@ -283,11 +376,20 @@
    </property>
   </action>
   <action name="actionauthors">
+   <property name="icon">
+    <iconset>
+     <normalon>img/plane_115212.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>authors</string>
    </property>
   </action>
   <action name="actionNO_HELP">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/zrk.png</normaloff>img/zrk.png</iconset>
+   </property>
    <property name="text">
     <string>NO HELP</string>
    </property>
