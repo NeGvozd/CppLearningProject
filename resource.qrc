@@ -1,12 +1,3 @@
-<<<<<<< HEAD:resource.qrc
-<RCC>
-    <qresource prefix="/rec">
-        <file>img/zrk.png</file>
-        <file>img/plane_115212.png</file>
-        <file>img/gyrocopter.png</file>
-    </qresource>
-</RCC>
-=======
 <RCC>
     <qresource prefix="/rec">
         <file>img/plane.png</file>
@@ -17,4 +8,3 @@
     </qresource>
     <qresource prefix="/"/>
 </RCC>
->>>>>>> origin/Interface:InterfaceQT/resource.qrc

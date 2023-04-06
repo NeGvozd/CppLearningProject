@@ -6,6 +6,8 @@
 #include <QFileSystemModel>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <QMessageBox>
+#include <typeinfo>
 #include <memory>
 
 #include <QAbstractButton>
@@ -50,10 +52,11 @@ private slots:
 
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
 
+    void on_DataBaseButton_clicked();
 private:
-    QDockWidget *WindowAddedItems;
-    QFrame *HorizontalToolbar;
-    QFrame *VerticalToolbar;
+//    QDockWidget *WindowAddedItems;
+//    QFrame *HorizontalToolbar;
+//    QFrame *VerticalToolbar;
 
     QGSController* QgsController;
     //Если у вас нет Qgs, то вырубайте

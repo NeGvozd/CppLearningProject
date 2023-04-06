@@ -46,6 +46,13 @@ else()
     mainwindow.ui
     QGSController.cpp
     QGSController.h
+    database.cpp
+    database.h
+    databasecontroller.cpp
+    databasecontroller.h
+    datawindow.cpp
+    datawindow.h
+    datawindow.ui
     resource.qrc
   )
 endif()
