@@ -65,15 +65,13 @@ MyTreeItem::MyTreeItem(QTreeWidget *parent, int type): QTreeWidgetItem(parent){
 
 void MyTreeItem::get_type()
 {
+    qInfo() << type;
+
     if (type == 0) qDebug("zrk");
     if (type == 1) qDebug("plane");
     if (type == 2) qDebug("gyro");
 }
 
-void MyTreeItem::selected()
-{
-    qDebug()<<"Selected ";
-}
 
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column)
 {

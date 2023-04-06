@@ -19,11 +19,11 @@ class MyTreeItem : public QTreeWidgetItem
 
 public:
     int type;
+
     MyTreeItem(MyTreeItem *parent = nullptr, int type = 0);
     MyTreeItem(QTreeWidget *parent = nullptr, int type = 0);
 
     void get_type();
-    void selected();
 };
 
 class MainWindow : public QMainWindow
@@ -37,13 +37,12 @@ public:
 private slots:
 
     void on_actionauthors_triggered();
-
     void on_actionExit_triggered();
 
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
 
-
     void on_DataBaseButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;
