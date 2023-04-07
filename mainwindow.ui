@@ -27,8 +27,30 @@
     <property name="bottomMargin">
      <number>5</number>
     </property>
+    <item row="0" column="0" colspan="2">
+     <widget class="QFrame" name="HorizontalToolbar">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1">
-     <widget class="QWidget" name="Map" native="true">
+     <widget class="QWidget" name="Center" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -41,7 +63,7 @@
         <height>0</height>
        </size>
       </property>
-      <widget class="QDockWidget" name="WindowAddedItems">
+      <widget class="QDockWidget" name="DockWidgetForTree">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -50,7 +72,7 @@
          <x>0</x>
          <y>0</y>
          <width>200</width>
-         <height>561</height>
+         <height>500</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -80,7 +102,7 @@
        <property name="features">
         <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
        </property>
-       <widget class="QWidget" name="dockWidgetContents_4">
+       <widget class="QWidget" name="dockWidget">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -118,47 +140,33 @@
            </column>
           </widget>
          </item>
-         <item>
-          <widget class="QTreeView" name="treeView"/>
-         </item>
         </layout>
        </widget>
       </widget>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QWidget" name="Map" native="true">
        <property name="geometry">
         <rect>
-         <x>340</x>
-         <y>270</y>
-         <width>80</width>
-         <height>23</height>
+         <x>-1</x>
+         <y>-1</y>
+         <width>1201</width>
+         <height>551</height>
         </rect>
        </property>
-       <property name="text">
-        <string>PushButton</string>
+       <property name="autoFillBackground">
+        <bool>false</bool>
        </property>
+       <widget class="QWidget" name="horizontalLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>160</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+       </widget>
       </widget>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="2">
-     <widget class="QFrame" name="HorizontalToolbar">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
      </widget>
     </item>
     <item row="1" column="0">
@@ -181,13 +189,13 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="addFromTreeButton">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>51</width>
-         <height>31</height>
+         <width>50</width>
+         <height>50</height>
         </rect>
        </property>
        <property name="font">
@@ -196,7 +204,45 @@
         </font>
        </property>
        <property name="text">
-        <string> + </string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/rec/img/add_icon.png</normaloff>:/rec/img/add_icon.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="DataBaseButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>50</y>
+         <width>50</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/rec/img/sql_icon.png</normaloff>:/rec/img/sql_icon.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
        </property>
       </widget>
      </widget>
@@ -264,11 +310,20 @@
    </property>
   </action>
   <action name="actionauthors">
+   <property name="icon">
+    <iconset>
+     <normalon>img/plane_115212.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>authors</string>
    </property>
   </action>
   <action name="actionNO_HELP">
+   <property name="icon">
+    <iconset>
+     <normaloff>img/zrk.png</normaloff>img/zrk.png</iconset>
+   </property>
    <property name="text">
     <string>NO HELP</string>
    </property>
@@ -279,21 +334,23 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections>
   <connection>
-   <sender>pushButton</sender>
+   <sender>addFromTreeButton</sender>
    <signal>clicked()</signal>
-   <receiver>WindowAddedItems</receiver>
+   <receiver>DockWidgetForTree</receiver>
    <slot>show()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>38</x>
-     <y>103</y>
+     <y>105</y>
     </hint>
     <hint type="destinationlabel">
-     <x>105</x>
-     <y>90</y>
+     <x>96</x>
+     <y>93</y>
     </hint>
    </hints>
   </connection>

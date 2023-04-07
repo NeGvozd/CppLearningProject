@@ -4,18 +4,23 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QDebug>
-#include <QSqlTableModel>
+#include <QtSql>
 
-class AirplansDB
+
+class AirplansTable
 {
 public:
-    AirplansDB();
-    int connection();
-    int closing();
+    AirplansTable();
     int select(int id);
-    QSqlDatabase return_db();
-private:
-    QSqlDatabase db;
+
+};
+
+class ZRKTable
+{
+public:
+    ZRKTable();
+    int select(int id);
+
 };
 
 #endif // DATABASE_H
