@@ -12,7 +12,7 @@
 
 #include <QAbstractButton>
 
-#include "QGSController.h"
+//#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -58,7 +58,7 @@ private slots:
     void on_DataBaseButton_clicked();
 private:
     //if you don't have QGS comment bottom line
-    QGSController* QgsController;
+    //QGSController* QgsController;
 
     Ui::MainWindow *ui;
 

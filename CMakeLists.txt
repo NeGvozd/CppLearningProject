@@ -31,21 +31,14 @@ link_directories(${QGIS_PATH}/lib)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-if(ANDROID)
-  add_library(Zrk_Interface SHARED
+
+add_executable(Zrk_Interface
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-  )
-else()
-  add_executable(Zrk_Interface
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-    QGSController.cpp
-    QGSController.h
+#    QGSController.cpp
+#    QGSController.h
     database.cpp
     database.h
     databasecontroller.cpp
@@ -53,9 +46,8 @@ else()
     datawindow.cpp
     datawindow.h
     datawindow.ui
-    resource.qrc
-  )
-endif()
+    resource.qrc)
+
 
 target_include_directories(Zrk_Interface PRIVATE
                                     ${QGIS_PATH}/include/qgis
@@ -68,9 +60,9 @@ target_link_libraries(Zrk_Interface
         Qt5::Widgets
         Qt5::Xml
         Qt5::Sql
-        qgis_native
-        qgis_core
-        qgis_app
-        qgis_gui
-        gdal
+#        qgis_native
+#        qgis_core
+#        qgis_app
+#        qgis_gui
+#        gdal
         )

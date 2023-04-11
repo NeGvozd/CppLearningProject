@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     g->addWidget(Map);
 
     //if you don't have QGS comment bottom line
-    QgsController = new QGSController(Map);
+    //QgsController = new QGSController(Map);
 
     ui->TreeAddedItems->clear();
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0);
@@ -56,7 +56,7 @@ void MainWindow:: show(){
 
 void MainWindow::on_actionNew_triggered(){
     //if you don't have QGS comment bottom line
-    QgsController->addLayer();
+    //QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     QMessageBox *msg = new QMessageBox;
