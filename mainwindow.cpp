@@ -41,7 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
     firstPlane->setText(0, "plane_1");
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);
     firstGyro->setText(0, "gyro_1");
-
 }
 
 MainWindow::~MainWindow(){
@@ -59,9 +58,11 @@ void MainWindow::on_actionNew_triggered(){
     QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
-    QMessageBox *msg = new QMessageBox;
-    msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
-    msg->exec();
+    //TODO вынести в connect это
+    QgsController->activateSelecting();
+    //QMessageBox *msg = new QMessageBox;
+    //msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
+    //msg->exec();
 }
 
 void MainWindow::on_actionExit_triggered(){
@@ -105,6 +106,13 @@ void MainWindow::on_DataBaseButton_clicked(){
     dbWindow.setModal(true);
     dbWindow.exec();
 }
+
 void MainWindow::on_addFromTreeButton_clicked(){
-    ui->DockWidgetForTree->raise();
+
+    if(!ui->DockWidgetForTree->isVisible()){
+        ui->DockWidgetForTree->show();
+        //ui->DockWidgetForTree->raise();
+    }
+    else
+        ui->DockWidgetForTree->close();
 }

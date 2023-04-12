@@ -1,8 +1,10 @@
+
 #include <QMessageBox>
 #include <QDebug>
 #include <QFileSystemModel>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <QGridLayout>
 #include "QGSController.h"
 
 QGSController::QGSController(QWidget* Map){
@@ -10,10 +12,9 @@ QGSController::QGSController(QWidget* Map){
 
     canvas =new QgsMapCanvas(this->Map);
 
-    canvas->setCanvasColor("blue");
-
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
+
 }
 
 QGSController::~QGSController(){
@@ -30,46 +31,74 @@ void QGSController::addLayer(){
         if (!QFile::exists(layerPath))
             return;
         if (layerPath.contains(".shp"))
-        {
-            dialog.close();
-
-            if (flag==0)
-            {
-                QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-                QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-
-                layers.push_back(controlPointsLayer);
-                layers.push_back(trajectoryPointsLayer);
-
-
-
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->startEditing();
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->updateFields();
-
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->setLabelsEnabled(true);
-                QgsPalLayerSettings pls;
-                pls.fieldName = "fid";
-                pls.placement = QgsPalLayerSettings::Placement::Line;
-                QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->setLabeling(simple_label);
-                (dynamic_cast<QgsVectorLayer*>(layers[0]))->commitChanges();
-
-                QgsCoordinateReferenceSystem crs("EPSG:4326");
-                canvas->setDestinationCrs(crs);
-
-
-                flag=1;
-            }
+        {   
+            startLayer();
 
             QgsVectorLayer* newLayer = new QgsVectorLayer(layerPath, layerPath, "ogr");
 
             layers.push_back(newLayer);
 
+            crs=layers.at(layers.size()-1)->crs();
+
             canvas->setLayers(layers);
             for(int i=2;i<layers.length();i++)
                 canvas->setExtent(layers[i]->extent());
+
             canvas->refresh();
         }
     }
+}
+
+void QGSController::startLayer()
+{
+    if (layers.size()==0)
+    {
+        QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+        QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+
+
+        controlPointsLayer->startEditing();
+        controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+        controlPointsLayer->updateFields();
+
+        controlPointsLayer->setLabelsEnabled(true);
+        QgsPalLayerSettings pls;
+        pls.fieldName = "fid";
+        pls.placement = QgsPalLayerSettings::Placement::Line;
+        QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
+        controlPointsLayer->setLabeling(simple_label);
+        controlPointsLayer->commitChanges();
+
+        setCrs();
+
+        layers.push_back(controlPointsLayer);
+        layers.push_back(trajectoryPointsLayer);
+    }
+}
+
+void QGSController::setCrs()
+{
+    crs.createFromProj("+proj=longlat +datum=WGS84 +no_defs");
+    canvas->setDestinationCrs(crs);
+}
+
+void QGSController::activateSelecting(){
+    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(emitPointTool);
+    //TODO как-то перенести в MainWindow
+    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
+}
+
+void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
+    Points.push_back(point);
+
+    controlPointsLayer->startEditing();
+
+    QgsFeature feat;
+
+    feat.setFields(controlPointsLayer->fields(), true);
+    feat.setAttribute("fid", Points.size()-1);
+    feat.setGeometry(QgsGeometry::fromPointXY(point));
+    controlPointsLayer->addFeature(feat);
+    controlPointsLayer->commitChanges();
 }
