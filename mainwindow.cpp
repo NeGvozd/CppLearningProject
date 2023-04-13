@@ -62,7 +62,7 @@ void MainWindow::on_actionNew_triggered(){
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
-    QgsController->activateSelecting();
+    QgsController->activateSelectingPoint();
     //QMessageBox *msg = new QMessageBox;
     //msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
     //msg->exec();
@@ -80,7 +80,11 @@ void MainWindow::on_pushButton_2_clicked(){
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
-    dynamic_cast<MyTreeItem*>(item)->get_type();
+    int type=dynamic_cast<MyTreeItem*>(item)->get_type();
+    if (type == 0)
+        QgsController->activateSelectingSquare();
+    if (type == 1)
+        QgsController->activateSelectingPoint();
 }
 
 
@@ -92,12 +96,8 @@ MyTreeItem::MyTreeItem(QTreeWidget *parent, int type): QTreeWidgetItem(parent){
     this->type=type;
 }
 
-void MyTreeItem::get_type(){
-    qInfo() << type;
-
-    if (type == 0) qDebug("zrk");
-    if (type == 1) qDebug("plane");
-    if (type == 2) qDebug("gyro");
+int MyTreeItem::get_type(){
+    return type;
 }
 
 void MyTreeItem::selected(){

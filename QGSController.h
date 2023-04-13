@@ -25,10 +25,12 @@ public:
     void addLayer();
     void startLayer();
     void setCrs();
-    void activateSelecting();
+    void activateSelectingPoint();
+    void activateSelectingSquare();
     void go_rend();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
+    void addSquare(const QgsPointXY &point, Qt::MouseButton button);
 
     void go();
 private:
@@ -41,4 +43,5 @@ private:
     QList<QgsMapLayer *> layers;
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+    QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points", "memory");
 };

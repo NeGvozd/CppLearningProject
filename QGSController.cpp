@@ -59,10 +59,6 @@ void QGSController::addLayer(){
 
 void QGSController::startLayer()
 {
-    controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-    QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-
-
     controlPointsLayer->startEditing();
     controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
     controlPointsLayer->updateFields();
@@ -75,10 +71,23 @@ void QGSController::startLayer()
     controlPointsLayer->setLabeling(simple_label);
     controlPointsLayer->commitChanges();
 
+    controlSquareLayer->startEditing();
+    controlSquareLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    controlSquareLayer->updateFields();
+
+    controlSquareLayer->setLabelsEnabled(true);
+    QgsPalLayerSettings pls2;
+    pls2.fieldName = "fid";
+    pls2.placement = QgsPalLayerSettings::Placement::Line;
+    QgsVectorLayerSimpleLabeling* simple_label2 = new QgsVectorLayerSimpleLabeling(pls2);
+    controlSquareLayer->setLabeling(simple_label2);
+    controlSquareLayer->commitChanges();
+
+
     setCrs();
 
     layers.push_back(controlPointsLayer);
-    layers.push_back(trajectoryPointsLayer);
+    layers.push_back(controlSquareLayer);
 }
 
 void QGSController::setCrs()
@@ -87,11 +96,19 @@ void QGSController::setCrs()
     canvas->setDestinationCrs(crs);
 }
 
-void QGSController::activateSelecting(){
+void QGSController::activateSelectingPoint(){
     QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(emitPointTool);
     //TODO как-то перенести в MainWindow
     connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
+}
+
+
+void QGSController::activateSelectingSquare(){
+    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(emitPointTool);
+    //TODO как-то перенести в MainWindow
+    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addSquare);
 }
 
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
@@ -110,6 +127,21 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
     if(controlPointsLayer->featureCount()==1)
         go_rend();
 }
+
+void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
+
+    controlSquareLayer->startEditing();
+
+    QgsFeature feat;
+    feat.setFields(controlSquareLayer->fields(), true);
+    feat.setAttribute("fid",int(controlSquareLayer->featureCount())+1);
+    feat.setGeometry(QgsGeometry::fromRect(QgsRectangle(point,point+QgsVector(1,1))));
+
+    controlSquareLayer->addFeature(feat);
+
+    controlSquareLayer->commitChanges();
+}
+
 
 void QGSController::go(){
     controlPointsLayer->startEditing();

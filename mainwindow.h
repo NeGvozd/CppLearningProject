@@ -27,7 +27,7 @@ public:
     MyTreeItem(MyTreeItem *parent = nullptr, int type = 0);
     MyTreeItem(QTreeWidget *parent = nullptr, int type = 0);
 
-    void get_type();
+    int get_type();
     void selected();
 };
 
