@@ -10,19 +10,6 @@
 QGSController::QGSController(QWidget* Map){
     this->Map = Map;
 
-    controlPointsLayer->startEditing();
-    controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-    controlPointsLayer->updateFields();
-
-    controlPointsLayer->setLabelsEnabled(true);
-
-    QgsPalLayerSettings pls;
-    pls.fieldName = "fid";
-    pls.placement = QgsPalLayerSettings::Placement::Line;
-    QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-    controlPointsLayer->setLabeling(simple_label);
-    controlPointsLayer->commitChanges();
-
     canvas =new QgsMapCanvas(this->Map);
 
     canvas->enableAntiAliasing(true);
@@ -32,9 +19,8 @@ QGSController::QGSController(QWidget* Map){
     canvas->setPreviewJobsEnabled(true);
     canvas->setMapUpdateInterval(500); //ToDO::check possible values
 
+    startLayer();
 
-    layers.push_back(controlPointsLayer);
-    canvas->setLayers(layers);
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
 
@@ -54,8 +40,7 @@ void QGSController::addLayer(){
         if (!QFile::exists(layerPath))
             return;
         if (layerPath.contains(".shp"))
-        {   
-            startLayer();
+        {
 
             QgsVectorLayer* newLayer = new QgsVectorLayer(layerPath, layerPath, "ogr");
 
@@ -74,29 +59,26 @@ void QGSController::addLayer(){
 
 void QGSController::startLayer()
 {
-    if (layers.size()==0)
-    {
-        QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-        QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+    controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+    QgsVectorLayer* trajectoryPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
 
 
-        controlPointsLayer->startEditing();
-        controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-        controlPointsLayer->updateFields();
+    controlPointsLayer->startEditing();
+    controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    controlPointsLayer->updateFields();
 
-        controlPointsLayer->setLabelsEnabled(true);
-        QgsPalLayerSettings pls;
-        pls.fieldName = "fid";
-        pls.placement = QgsPalLayerSettings::Placement::Line;
-        QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-        controlPointsLayer->setLabeling(simple_label);
-        controlPointsLayer->commitChanges();
+    controlPointsLayer->setLabelsEnabled(true);
+    QgsPalLayerSettings pls;
+    pls.fieldName = "fid";
+    pls.placement = QgsPalLayerSettings::Placement::Line;
+    QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
+    controlPointsLayer->setLabeling(simple_label);
+    controlPointsLayer->commitChanges();
 
-        setCrs();
+    setCrs();
 
-        layers.push_back(controlPointsLayer);
-        layers.push_back(trajectoryPointsLayer);
-    }
+    layers.push_back(controlPointsLayer);
+    layers.push_back(trajectoryPointsLayer);
 }
 
 void QGSController::setCrs()
