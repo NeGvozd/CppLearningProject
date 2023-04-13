@@ -10,8 +10,22 @@
 QGSController::QGSController(QWidget* Map){
     this->Map = Map;
 
-    canvas =new QgsMapCanvas(this->Map);
+    controlPointsLayer->startEditing();
+    controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    controlPointsLayer->updateFields();
 
+    controlPointsLayer->setLabelsEnabled(true);
+
+    QgsPalLayerSettings pls;
+    pls.fieldName = "fid";
+    pls.placement = QgsPalLayerSettings::Placement::Line;
+    QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
+    controlPointsLayer->setLabeling(simple_label);
+    controlPointsLayer->commitChanges();
+
+    canvas =new QgsMapCanvas(this->Map);
+    layers.push_back(controlPointsLayer);
+    canvas->setLayers(layers);
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
 
@@ -91,7 +105,6 @@ void QGSController::activateSelecting(){
 
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
     Points.push_back(point);
-
     controlPointsLayer->startEditing();
 
     QgsFeature feat;
