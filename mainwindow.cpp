@@ -49,6 +49,7 @@ MainWindow::~MainWindow(){
 }
 
 
+
 void MainWindow:: show(){
     this->QMainWindow::show();
     ui->DockWidgetForTree->close();
@@ -68,10 +69,6 @@ void MainWindow::on_actionExit_triggered(){
     close();
 }
 
-void MainWindow::on_pushButton_2_clicked(){
-    QWidget *window2 = new QWidget;
-    window2->show();
-}
 
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)

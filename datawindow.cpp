@@ -1,15 +1,12 @@
 #include "datawindow.h"
 #include "ui_datawindow.h"
-
+#include <QDebug>//
 DataWindow::DataWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DataWindow)
 {
     ui->setupUi(this);
 
-    dbController.connection();
-    dbController.select(AIRPLANS,0);//test
-    dbController.select(ZRK,1);//test
 }
 
 DataWindow::~DataWindow()
@@ -21,34 +18,51 @@ void DataWindow::on_planeButton_clicked()
 {
     ui->planeButton->setEnabled(false);
     ui->zrkButton->setEnabled(true);
-    dbController.model->setTable("AIRPLANS");
-    dbController.model->select();
+
+    //emit sig_planeButton_clicked();
+
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->tableView->setModel(dbController.model);
+
+
+    //QSqlTableModel* model;
+    //emit sig_return_model();
+
+    //ui->tableView->setModel(model);//???
 }
 
 void DataWindow::on_zrkButton_clicked()
 {
     ui->zrkButton->setEnabled(false);
     ui->planeButton->setEnabled(true);
-    dbController.model->setTable("ZRK");
-    dbController.model->select();
+
+    //emit sig_zrkButton_clicked();
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->tableView->setModel(dbController.model);
+
+
+    //QSqlTableModel* model;
+    //emit sig_return_model();
+
+    //ui->tableView->setModel(model);//???
 }
 
 void DataWindow::on_addButton_clicked()
 {
-    dbController.model->insertRow(dbController.model->rowCount());
+    //emit sig_addButton_clicked();
 }
 
 void DataWindow::on_deleteButton_clicked()
 {
-    dbController.model->removeRow(currentRow);
-    dbController.model->select();
+    //emit sig_deleteButton_clicked();
 }
 
 void DataWindow::on_tableView_clicked(const QModelIndex &index)
 {
-    currentRow = index.row();
+    //emit sig_tableView_clicked(index);
+}
+
+
+void DataWindow::on_zalupa_clicked()
+{
+    qInfo() << "OH nOOOO!";
+    emit sig_planeButton_clicked();
 }

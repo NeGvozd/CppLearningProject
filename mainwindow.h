@@ -11,7 +11,7 @@
 #include <memory>
 
 #include <QAbstractButton>
-
+#include <databasecontroller.h>
 //#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
@@ -46,12 +46,9 @@ private slots:
     void on_addFromTreeButton_clicked();
 
 private slots:
-
-
     void on_actionNew_triggered();
     void on_actionauthors_triggered();
     void on_actionExit_triggered();
-    void on_pushButton_2_clicked();
 
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
 
@@ -59,7 +56,7 @@ private slots:
 private:
     //if you don't have QGS comment bottom line
     //QGSController* QgsController;
-
+    DatabaseController dbController;
     Ui::MainWindow *ui;
 
 };
