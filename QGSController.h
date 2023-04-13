@@ -26,15 +26,19 @@ public:
     void startLayer();
     void setCrs();
     void activateSelecting();
+    void go_rend();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
+
+    void go();
 private:
+
+
     QgsMapCanvas* canvas;
     QWidget* Map;
 
     QgsCoordinateReferenceSystem crs;
     QList<QgsMapLayer *> layers;
-    QVector<QgsPointXY> Points;
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
 };

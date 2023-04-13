@@ -95,14 +95,41 @@ void QGSController::activateSelecting(){
 }
 
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
-    Points.push_back(point);
+
     controlPointsLayer->startEditing();
 
     QgsFeature feat;
-
     feat.setFields(controlPointsLayer->fields(), true);
-    feat.setAttribute("fid", Points.size()-1);
+    feat.setAttribute("fid",int(controlPointsLayer->featureCount())+1);
     feat.setGeometry(QgsGeometry::fromPointXY(point));
+
     controlPointsLayer->addFeature(feat);
+
+    controlPointsLayer->commitChanges();
+
+    if(controlPointsLayer->featureCount()==1)
+        go_rend();
+}
+
+void QGSController::go(){
+    controlPointsLayer->startEditing();
+
+    for (int i=0;i<controlPointsLayer->featureCount();i++)
+    {
+        QgsPointXY myP=controlPointsLayer->getFeature(i+1).geometry().asPoint();
+        myP.setX(myP.x()+0.1);
+        myP.setY(myP.y()+0.1);
+        QgsGeometry g =QgsGeometry::fromPointXY(myP);
+        controlPointsLayer->changeGeometry(i+1,g);
+    }
+
     controlPointsLayer->commitChanges();
 }
+
+void QGSController::go_rend(){
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &QGSController::go);
+    timer->start(50);
+}
+
+
