@@ -108,11 +108,12 @@ void MainWindow::on_DataBaseButton_clicked(){
 }
 
 void MainWindow::on_addFromTreeButton_clicked(){
-
     if(!ui->DockWidgetForTree->isVisible()){
         ui->DockWidgetForTree->show();
-        //ui->DockWidgetForTree->raise();
+        ui->DockWidgetForTree->raise();
     }
-    else
+    else{
+        ui->DockWidgetForTree->lower();
         ui->DockWidgetForTree->close();
+    }
 }
