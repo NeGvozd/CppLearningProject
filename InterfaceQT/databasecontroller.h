@@ -20,6 +20,7 @@ public:
     int connection();
     int closing();
     int select(Table table,int id);//where and what
+    QVector<InfoAboutElement> select_all(Table table);
 private:
     QSqlDatabase db;//database//how to make *??
     AirplansTable* airplanTable; //table with Airplans

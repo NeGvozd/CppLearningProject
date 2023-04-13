@@ -7,6 +7,7 @@
 #include <QDockWidget>
 #include <QMessageBox>
 #include <typeinfo>
+#include "datawindow.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -18,12 +19,16 @@ class MyTreeItem : public QTreeWidgetItem
 {
 
 public:
-    int type;
+    int id;
+    QString name;
+    int speed;
+    int mass;
 
-    MyTreeItem(MyTreeItem *parent = nullptr, int type = 0);
-    MyTreeItem(QTreeWidget *parent = nullptr, int type = 0);
 
-    void get_type();
+    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
+    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
+
+    void get_info();
 };
 
 class MainWindow : public QMainWindow
@@ -35,6 +40,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void test();
 
     void on_actionauthors_triggered();
     void on_actionExit_triggered();
@@ -42,10 +48,14 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_DataBaseButton_clicked();
-
+    void fillTreeFromDb();
 
 private:
     Ui::MainWindow *ui;
+    DataWindow *dbWindow;
+
+public slots:
+    void slot();
 
 };
 #endif // MAINWINDOW_H

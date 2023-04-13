@@ -8,8 +8,13 @@ DataWindow::DataWindow(QWidget *parent) :
     ui->setupUi(this);
 
     dbController.connection();
-    dbController.select(AIRPLANS,0);//test
-    dbController.select(ZRK,1);//test
+  //  QVector<InfoAboutElement> v = dbController.select_all(AIRPLANS);
+   // for(int i = 0; i < v.size(); i++){
+    //    qInfo() << v[i].name;
+  //  }
+
+    //dbController.select(AIRPLANS,0);//test
+    //dbController.select(ZRK,1);//test
 }
 
 DataWindow::~DataWindow()
@@ -51,4 +56,11 @@ void DataWindow::on_deleteButton_clicked()
 void DataWindow::on_tableView_clicked(const QModelIndex &index)
 {
     currentRow = index.row();
+}
+
+
+
+void DataWindow::on_zalupa_clicked()
+{
+    emit signal();
 }

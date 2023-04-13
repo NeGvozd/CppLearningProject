@@ -7,7 +7,7 @@ DatabaseController::DatabaseController()
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("/root/CppLearningProject/database/tth.db");
+    db.setDatabaseName("/home/ilya/CppLearningProject/database/tth.db");
 
 
     if (db.open())
@@ -35,6 +35,20 @@ int DatabaseController::select(Table table,int id)
         zrkTable->select(id);
     }
     return 0;
+}
+
+QVector<InfoAboutElement> DatabaseController::select_all(Table table)
+{
+    QVector<InfoAboutElement> ans;
+    if(table == AIRPLANS)
+    {
+        ans = airplanTable->select_all();
+    }
+    else if(table == ZRK)
+    {
+        ans = zrkTable->select_all();
+    }
+    return ans;
 }
 
 QSqlDatabase DatabaseController::return_db()

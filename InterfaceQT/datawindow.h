@@ -16,7 +16,6 @@ public:
     explicit DataWindow(QWidget *parent = nullptr);
     ~DataWindow();
 
-
 private slots:
     void on_planeButton_clicked();
     void on_zrkButton_clicked();
@@ -26,8 +25,15 @@ private slots:
 
     void on_tableView_clicked(const QModelIndex &index);
 
-private:
+    void on_zalupa_clicked();
+
+signals:
+    void signal();
+
+public:
     Ui::DataWindow *ui;
+
+public:
     DatabaseController dbController;
     int currentRow;
 };
