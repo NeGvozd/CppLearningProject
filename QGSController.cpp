@@ -24,6 +24,15 @@ QGSController::QGSController(QWidget* Map){
     controlPointsLayer->commitChanges();
 
     canvas =new QgsMapCanvas(this->Map);
+
+    canvas->enableAntiAliasing(true);
+    canvas->setMapSettingsFlags(canvas->mapSettings().flags() | QgsMapSettings::RenderPreviewJob);
+    canvas->setParallelRenderingEnabled(true);
+    canvas->setCachingEnabled(true);
+    canvas->setPreviewJobsEnabled(true);
+    canvas->setMapUpdateInterval(500); //ToDO::check possible values
+
+
     layers.push_back(controlPointsLayer);
     canvas->setLayers(layers);
     QGridLayout* gl =new QGridLayout(this->Map);

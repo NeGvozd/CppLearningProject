@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     Map=ui->Map;
 
+
+
     QGridLayout* g = new QGridLayout(ui->Center);
     g->addWidget(Map);
 
@@ -50,6 +52,7 @@ MainWindow::~MainWindow(){
 
 void MainWindow:: show(){
     this->QMainWindow::show();
+    ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
 }
 
@@ -108,9 +111,9 @@ void MainWindow::on_DataBaseButton_clicked(){
 }
 
 void MainWindow::on_addFromTreeButton_clicked(){
-    if(!ui->DockWidgetForTree->isVisible()){
+
+    if (!(ui->DockWidgetForTree->isVisible())){
         ui->DockWidgetForTree->show();
-        ui->DockWidgetForTree->raise();
     }
     else{
         ui->DockWidgetForTree->lower();
