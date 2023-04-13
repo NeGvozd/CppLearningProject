@@ -37,6 +37,20 @@ int DatabaseController::select(Table table,int id)
     return 0;
 }
 
+QVector<InfoAboutElement> DatabaseController::select_all(Table table)
+{
+    QVector<InfoAboutElement> ans;
+    if(table == AIRPLANS)
+    {
+        ans = airplanTable->select_all();
+    }
+    else if(table == ZRK)
+    {
+        ans = zrkTable->select_all();
+    }
+    return ans;
+}
+
 QSqlDatabase DatabaseController::return_db()
 {
     return db;

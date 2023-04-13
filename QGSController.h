@@ -18,6 +18,7 @@
 #include <qgsfield.h>
 #include <qgsmaptoolemitpoint.h>
 
+
 class QGSController:public QObject{
 public:
     QGSController(QWidget* Map);

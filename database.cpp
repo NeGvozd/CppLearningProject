@@ -20,6 +20,30 @@ int AirplansTable::select(int id)
 
 }
 
+QVector<InfoAboutElement> AirplansTable::select_all()
+{
+    QVector<InfoAboutElement> vec;
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM AIRPLANS");
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    while(my_query.next())
+    {
+        int id = my_query.value(rec.indexOf("id")).toInt();
+        QString name = my_query.value(rec.indexOf("Name")).toString();
+        int speed = my_query.value(rec.indexOf("Speed")).toInt();
+        int mass = my_query.value(rec.indexOf("Mass")).toInt();
+
+
+        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
+        struct InfoAboutElement plane = {id, name, speed, mass};
+        vec.append(plane);
+    }
+
+    return vec;
+}
+
 int ZRKTable::select(int id)
 {
     QSqlQuery my_query;
@@ -38,4 +62,29 @@ int ZRKTable::select(int id)
 
     return 0;
 
+}
+
+
+QVector<InfoAboutElement> ZRKTable::select_all()
+{
+    QVector<InfoAboutElement> vec;
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM ZRK");
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    while(my_query.next())
+    {
+        int id = my_query.value(rec.indexOf("id")).toInt();
+        QString name = my_query.value(rec.indexOf("Name")).toString();
+        int speed = my_query.value(rec.indexOf("Speed")).toInt();
+        int mass = my_query.value(rec.indexOf("Mass")).toInt();
+
+
+        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
+        struct InfoAboutElement zrk = {id, name, speed, mass};
+        vec.append(zrk);
+    }
+
+    return vec;
 }

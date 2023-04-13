@@ -12,6 +12,8 @@
 
 #include <QAbstractButton>
 
+
+#include "datawindow.h"
 #include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,12 +25,16 @@ class MyTreeItem : public QTreeWidgetItem
 {
 
 public:
-    int type;
-    MyTreeItem(MyTreeItem *parent = nullptr, int type = 0);
-    MyTreeItem(QTreeWidget *parent = nullptr, int type = 0);
+    int id;
+    QString name;
+    int speed;
+    int mass;
+
+    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
+    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
 
     int get_type();
-    void selected();
+    void get_info();
 };
 
 
@@ -44,24 +50,27 @@ public:
     virtual void show();
 private slots:
     void on_addFromTreeButton_clicked();
-
-private slots:
-
+    //void test();
 
     void on_actionNew_triggered();
-    void on_actionauthors_triggered();
     void on_actionExit_triggered();
-    void on_pushButton_2_clicked();
+
+    void on_actionauthors_triggered();
 
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
 
     void on_DataBaseButton_clicked();
+
+    void fillTreeFromDb();
 private:
     //if you don't have QGS comment bottom line
     QGSController* QgsController;
 
     Ui::MainWindow *ui;
+    DataWindow *dbWindow;
 
+//public slots:
+    //void slot();
 };
 
 #endif // MAINWINDOW_H
