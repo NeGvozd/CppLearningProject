@@ -7,7 +7,7 @@ DataWindow::DataWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    dbController.connection();
+
     //dbController.select(AIRPLANS,0);//test
     //dbController.select(ZRK,1);//test
 }

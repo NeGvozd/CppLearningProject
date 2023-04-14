@@ -29,11 +29,12 @@ public:
     QString name;
     int speed;
     int mass;
+    Table type;
 
-    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
-    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0);
+    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
+    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
 
-    int get_type();
+    Table get_type();
     void get_info();
 };
 

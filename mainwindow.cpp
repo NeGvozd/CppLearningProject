@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    dbWindow = new DataWindow(this);
+    dbWindow->dbController.connection();
+
 
     QFileSystemModel *model = new QFileSystemModel;
     model->setRootPath(QDir::currentPath());
@@ -73,26 +76,28 @@ void MainWindow::on_actionExit_triggered(){
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
-    int type=dynamic_cast<MyTreeItem*>(item)->get_type();
-    if (type == 0)
+    Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
+    if (type == ZRK)
         QgsController->activateSelectingSquare();
-    if (type == 1)
+    if (type == AIRPLANS)
         QgsController->activateSelectingPoint();
 }
 
-MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass) : QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
     this->id=id;
     this->name = name;
     this->speed = speed;
     this->mass = mass;
+    this->type=type;
     this->setText(0, name);
 }
 
-MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name, int speed, int mass): QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name, int speed, int mass, Table type): QTreeWidgetItem(parent){
     this->id=id;
     this->name = name;
     this->speed = speed;
     this->mass = mass;
+    this->type=type;
     this->setText(0, name);
 }
 
@@ -104,15 +109,15 @@ void MyTreeItem::get_info()
     qInfo() << mass;
 }
 
-int MyTreeItem::get_type(){
-    return id;
+Table MyTreeItem::get_type(){
+    return type;
 }
 
 
 void MainWindow::on_DataBaseButton_clicked(){
-    dbWindow = new DataWindow(this);
     dbWindow->show();
-    fillTreeFromDb();
+    if(ui->TreeAddedItems->topLevelItemCount()==0)
+        fillTreeFromDb();
 
     //connect(dbWindow, &DataWindow::signal, this, &MainWindow::slot);
 }
@@ -142,13 +147,13 @@ void MainWindow::fillTreeFromDb()
         //massOfZRK[i]->setText(0, zrks[i].name);
    }*/
 
-    MyTreeItem *firstZrk = new MyTreeItem(zrk, zrks[0].id, zrks[0].name, zrks[0].speed, zrks[0].mass);
-    MyTreeItem *secondZrk = new MyTreeItem(zrk, zrks[1].id, zrks[1].name, zrks[1].speed, zrks[1].mass);
-    MyTreeItem *thirdZrk = new MyTreeItem(zrk, zrks[2].id, zrks[2].name, zrks[2].speed, zrks[2].mass);
+    MyTreeItem *firstZrk = new MyTreeItem(zrk, zrks[0].id, zrks[0].name, zrks[0].speed, zrks[0].mass,zrks[0].type);
+    MyTreeItem *secondZrk = new MyTreeItem(zrk, zrks[1].id, zrks[1].name, zrks[1].speed, zrks[1].mass,zrks[1].type);
+    MyTreeItem *thirdZrk = new MyTreeItem(zrk, zrks[2].id, zrks[2].name, zrks[2].speed, zrks[2].mass,zrks[2].type);
 
-    MyTreeItem *firstPlane = new MyTreeItem(plane, planes[0].id, planes[0].name, planes[0].speed, planes[0].mass);
-    MyTreeItem *secondPlane = new MyTreeItem(plane, planes[1].id, planes[1].name, planes[1].speed, planes[1].mass);
-    MyTreeItem *thirdPlane = new MyTreeItem(plane, planes[2].id, planes[2].name, planes[2].speed, planes[2].mass);
+    MyTreeItem *firstPlane = new MyTreeItem(plane, planes[0].id, planes[0].name, planes[0].speed, planes[0].mass,planes[0].type);
+    MyTreeItem *secondPlane = new MyTreeItem(plane, planes[1].id, planes[1].name, planes[1].speed, planes[1].mass,planes[1].type);
+    MyTreeItem *thirdPlane = new MyTreeItem(plane, planes[2].id, planes[2].name, planes[2].speed, planes[2].mass,planes[2].type);
 
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);
 

@@ -7,6 +7,8 @@
 #include <QtSql>
 #include <QVector>
 
+enum Table{AIRPLANS,ZRK};//will be more tables
+
 
 struct InfoAboutElement
 {
@@ -15,6 +17,7 @@ public:
     QString name;
     int speed;
     int mass;
+    Table type;
 /*
     InfoAboutElement(int id, QString name, int speed, int mass){
         this->id = id;

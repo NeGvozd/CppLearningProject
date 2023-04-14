@@ -8,7 +8,6 @@
 #include <QSqlTableModel>
 #include <database.h>
 
-enum Table{AIRPLANS,ZRK};//will be more tables
 
 
 
