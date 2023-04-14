@@ -24,7 +24,7 @@ QT_END_NAMESPACE
 class MyTreeItem : public QTreeWidgetItem
 {
 
-public:
+public: //ToDO: transfer to private
     int id;
     QString name;
     int speed;
@@ -34,7 +34,7 @@ public:
     MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
     MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
 
-    Table get_type();
+    Table get_type() const;
     void get_info();
 };
 
@@ -48,7 +48,7 @@ public:
     ~MainWindow();
     QWidget *Map;
 
-    virtual void show();
+    void show();
 private slots:
     void on_addFromTreeButton_clicked();
     //void test();

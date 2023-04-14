@@ -53,6 +53,7 @@ else()
     datawindow.cpp
     datawindow.h
     datawindow.ui
+    object.h
     resource.qrc
   )
 endif()

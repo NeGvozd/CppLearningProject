@@ -37,7 +37,7 @@ QVector<InfoAboutElement> AirplansTable::select_all()
 
 
         qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        struct InfoAboutElement plane = {id, name, speed, mass,AIRPLANS};
+        InfoAboutElement plane = {id, name, speed, mass,AIRPLANS};
         vec.append(plane);
     }
 
@@ -82,7 +82,7 @@ QVector<InfoAboutElement> ZRKTable::select_all()
 
 
         qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        struct InfoAboutElement zrk = {id, name, speed, mass,ZRK};
+        InfoAboutElement zrk = {id, name, speed, mass,ZRK};
         vec.append(zrk);
     }
 

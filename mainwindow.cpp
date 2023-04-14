@@ -52,7 +52,7 @@ MainWindow::~MainWindow(){
 
 
 void MainWindow:: show(){
-    this->QMainWindow::show();
+    QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
 }
@@ -109,7 +109,7 @@ void MyTreeItem::get_info()
     qInfo() << mass;
 }
 
-Table MyTreeItem::get_type(){
+Table MyTreeItem::get_type() const{
     return type;
 }
 
@@ -136,9 +136,9 @@ void MainWindow::fillTreeFromDb()
     gyro->setIcon(0, QIcon(":/rec/img/gyrocopter.png"));
 
     //childs
-/*
+
     int sizeZrks = zrks.size();
-    QVector<MyTreeItem> massOfZRK;
+    /*QVector<MyTreeItem> massOfZRK;
     for(int i = 0; i < sizeZrks; i++)
     {
         //MyTreeItem pl(zrk, zrks[i].id, zrks[i].name, zrks[i].speed, zrks[i].mass);
@@ -147,7 +147,7 @@ void MainWindow::fillTreeFromDb()
         //massOfZRK[i]->setText(0, zrks[i].name);
    }*/
 
-    MyTreeItem *firstZrk = new MyTreeItem(zrk, zrks[0].id, zrks[0].name, zrks[0].speed, zrks[0].mass,zrks[0].type);
+    MyTreeItem *firstZrk = new MyTreeItem(zrk, zrks[0].id, zrks[0].name, zrks[0].speed, zrks[0].mass,zrks[0].type); //toDO:: create ctr from InfoElements
     MyTreeItem *secondZrk = new MyTreeItem(zrk, zrks[1].id, zrks[1].name, zrks[1].speed, zrks[1].mass,zrks[1].type);
     MyTreeItem *thirdZrk = new MyTreeItem(zrk, zrks[2].id, zrks[2].name, zrks[2].speed, zrks[2].mass,zrks[2].type);
 

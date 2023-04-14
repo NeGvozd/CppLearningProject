@@ -53,7 +53,7 @@ private:
 };
 
 
-class DamageableObject : Object
+class DamageableObject : public Object //to do public inh
 {
 public:
     DamageableObject(float x, float y, float speed, float health)
@@ -71,7 +71,7 @@ private:
 };
 
 
-class DamagingObject : Object
+class DamagingObject : public Object
 {
 public:
     DamagingObject(float x, float y, float speed, float damage)
@@ -90,7 +90,7 @@ private:
 };
 
 
-class Plane : DamageableObject
+class Plane : public DamageableObject
 {
 public:
     Plane(float x, float y, float speed, float health)
@@ -102,7 +102,7 @@ public:
 };
 
 
-class Missile : DamagingObject
+class Missile : public DamagingObject
 {
 public:
     Missile(float x, float y, float speed, float damage)

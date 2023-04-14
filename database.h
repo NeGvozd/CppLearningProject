@@ -28,7 +28,7 @@ public:
 
 };
 
-
+// class Table() toDO:: create base class
 class AirplansTable
 {
 public:
