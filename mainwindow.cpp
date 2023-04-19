@@ -9,10 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //dbWindow = new DataWindow(this);
-    //dbWindow->dbController.connection();
-
-
+    
     QFileSystemModel *model = new QFileSystemModel;
     model->setRootPath(QDir::currentPath());
 
@@ -22,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     g->addWidget(Map);
 
     //if you don't have QGS comment bottom line
-    //QgsController = new QGSController(Map);
+    QgsController = new QGSController(Map);
     ui->TreeAddedItems->clear();
 
 }
@@ -40,7 +37,7 @@ void MainWindow:: show(){
 
 void MainWindow::on_actionNew_triggered(){
     //if you don't have QGS comment bottom line
-   // QgsController->addLayer();
+    QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
@@ -57,11 +54,11 @@ void MainWindow::on_actionExit_triggered(){
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
-//    Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
-//    if (type == ZRK)
-//        QgsController->activateSelectingSquare();
-//    if (type == AIRPLANS)
-//        QgsController->activateSelectingPoint();
+    Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
+    if (type == ZRK)
+        QgsController->activateSelectingSquare();
+    if (type == AIRPLANS)
+        QgsController->activateSelectingPoint();
 }
 
 MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
@@ -130,7 +127,7 @@ void MainWindow::fillTreeFromDb()
 
 void MainWindow::on_addFromTreeButton_clicked(){
 
-    if ((ui->DockWidgetForTree->isVisible()))
+    if ((!ui->DockWidgetForTree->isVisible()))
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();

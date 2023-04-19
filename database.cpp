@@ -36,7 +36,7 @@ QVector<InfoAboutElement> AirplansTable::select_all()
         int mass = my_query.value(rec.indexOf("Mass")).toInt();
 
 
-        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
+        //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
         InfoAboutElement plane = {id, name, speed, mass,AIRPLANS};
         vec.append(plane);
     }
