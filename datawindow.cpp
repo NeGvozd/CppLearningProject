@@ -19,7 +19,7 @@ void DataWindow::on_planeButton_clicked()
     ui->planeButton->setEnabled(false);
     ui->zrkButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    emit sig_typeTable_clicked(0);
+    emit sig_typeTable_clicked(AIRPLANS);
 }
 
 void DataWindow::on_zrkButton_clicked()
@@ -27,7 +27,7 @@ void DataWindow::on_zrkButton_clicked()
     ui->zrkButton->setEnabled(false);
     ui->planeButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    emit sig_typeTable_clicked(1);
+    emit sig_typeTable_clicked(ZRK);
 }
 
 void DataWindow::on_addButton_clicked()

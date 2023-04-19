@@ -5,7 +5,7 @@ DatabaseController::DatabaseController()
     this->connection();
     dbWindow = new DataWindow;
 
-     connect(dbWindow, SIGNAL(sig_typeTable_clicked(int)), this,SLOT(slot_typeTable_clicked(int)));
+     connect(dbWindow, SIGNAL(sig_typeTable_clicked(Table)), this,SLOT(slot_typeTable_clicked(Table)));
      connect(this, SIGNAL(sig_table(QSqlTableModel *)), dbWindow,SLOT(slot_table(QSqlTableModel *)));
      connect(dbWindow, SIGNAL(sig_addButton_clicked()), this,SLOT(slot_addButton_clicked()));
      connect(dbWindow, SIGNAL(sig_deleteButton_clicked()), this,SLOT(slot_deleteButton_clicked()));
@@ -68,14 +68,14 @@ void DatabaseController::dataWindow_show()
 
 
 
-void DatabaseController::slot_typeTable_clicked(int table)
+void DatabaseController::slot_typeTable_clicked(Table table)
 {
     switch (table)
     {
-        case 0://???
+        case AIRPLANS://???
             model->setTable("AIRPLANS");
             break;
-        case 1:
+        case ZRK:
             model->setTable("ZRK");
             break;
 

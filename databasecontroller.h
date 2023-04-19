@@ -29,7 +29,7 @@ signals:
     void sig_table(QSqlTableModel *model);
 
 public slots:
-    void slot_typeTable_clicked(int table);
+    void slot_typeTable_clicked(Table table);
     void slot_addButton_clicked();
     void slot_deleteButton_clicked();
     void slot_tableView_clicked(const QModelIndex &index);

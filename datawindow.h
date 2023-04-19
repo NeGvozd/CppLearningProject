@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlTableModel>
 
+#include <database.h>
 
 namespace Ui {
 class DataWindow;
@@ -18,7 +19,7 @@ public:
     ~DataWindow();
 
 signals:
-    void sig_typeTable_clicked(int table);
+    void sig_typeTable_clicked(Table table);
     void sig_addButton_clicked();
     void sig_deleteButton_clicked();
     void sig_tableView_clicked(const QModelIndex &index);
