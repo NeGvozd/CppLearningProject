@@ -9,22 +9,40 @@
 #include <qgsgeometry.h>
 #include <qgssinglesymbolrenderer.h>
 #include <qgsmarkersymbollayer.h>
-#include <qgsfields.h>
+#include <qgsmaptoolpan.h>
 #include <qgsvectorfilewriter.h>
 #include <qgslabeling.h>
 #include <qgsvectorlayerlabeling.h>
 #include <qgspallabeling.h>
 #include <qgsrulebasedrenderer.h>
+#include <qgsfield.h>
+#include <qgsmaptoolemitpoint.h>
 
-class QGSController{
+
+class QGSController:public QObject{
 public:
     QGSController(QWidget* Map);
     ~QGSController();
     void addLayer();
+    void startLayer();
+    void setCrs();
+    void activateSelectingPoint();
+    void activateSelectingSquare();
+    void go_rend();
+private slots:
+    void addPoint(const QgsPointXY &point, Qt::MouseButton button);
+    void addSquare(const QgsPointXY &point, Qt::MouseButton button);
+
+    void go();
 private:
+
+
     QgsMapCanvas* canvas;
     QWidget* Map;
 
-    int flag=0;
+    QgsCoordinateReferenceSystem crs;
     QList<QgsMapLayer *> layers;
+
+    QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
+    QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points", "memory");
 };

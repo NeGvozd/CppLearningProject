@@ -3,23 +3,17 @@
 DatabaseController::DatabaseController()
 {
     this->connection();
-    dataWindow = new DataWindow;
+    dbWindow = new DataWindow;
 
-    QObject::connect(dataWindow, SIGNAL(sig_planeButton_clicked()), this,SLOT(slot_planeButton_clicked()));
-    //QObject::connect(dataWindow->ui->zalupa, SLOT(clicked()), this,&DatabaseController::slot_planeButton_clicked);
-//    QObject::connect(dataWindow, &DataWindow::sig_zrkButton_clicked, this, &DatabaseController::slot_zrkButton_clicked);
-//    QObject::connect(dataWindow, &DataWindow::sig_return_model, this,&DatabaseController::return_model);
-
-    //QObject::connect(dataWindow, &DataWindow::sig_connection, this, &DatabaseController::connection);
-
-//    QObject::connect(dataWindow, &DataWindow::sig_addButton_clicked, this, &DatabaseController::slot_addButton_clicked);
-//    QObject::connect(dataWindow, &DataWindow::sig_deleteButton_clicked, this, &DatabaseController::slot_deleteButton_clicked);
-//    QObject::connect(dataWindow, &DataWindow::sig_tableView_clicked, this, &DatabaseController::slot_tableView_clicked);
+     connect(dbWindow, SIGNAL(sig_typeTable_clicked(int)), this,SLOT(slot_typeTable_clicked(int)));
+     connect(this, SIGNAL(sig_table(QSqlTableModel *)), dbWindow,SLOT(slot_table(QSqlTableModel *)));
+     connect(dbWindow, SIGNAL(sig_addButton_clicked()), this,SLOT(slot_addButton_clicked()));
+     connect(dbWindow, SIGNAL(sig_deleteButton_clicked()), this,SLOT(slot_deleteButton_clicked()));
+     connect(dbWindow, SIGNAL(sig_tableView_clicked(const QModelIndex &)), this,SLOT(slot_tableView_clicked(const QModelIndex &)));
 
 }
 
-
-void DatabaseController::connection()
+int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("../CppLearningProject/database/tth.db");
@@ -29,9 +23,11 @@ void DatabaseController::connection()
     {
         qInfo() << "Database is open!";
         model = new QSqlTableModel(NULL,db);
+        return 0;
     }
     else {
         qInfo() << "Can not open database! "<<db.lastError().databaseText();
+        return -1;
     }
 
 
@@ -51,47 +47,71 @@ int DatabaseController::select(Table table,int id)
 }
 
 
-void DatabaseController::slot_planeButton_clicked()
+QVector<InfoAboutElement> DatabaseController::select_all(Table table)
 {
-    qInfo() << "HEllo!";
-//    model->setTable("AIRPLANS");
-//    model->select();
+    QVector<InfoAboutElement> ans;
+    if(table == AIRPLANS)
+    {
+        ans = airplanTable->select_all();
+    }
+    else if(table == ZRK)
+    {
+        ans = zrkTable->select_all();
+    }
+    return ans;
 }
 
-//void DatabaseController::slot_zrkButton_clicked()
-//{
-//    model->setTable("ZRK");
-//    model->select();
-//}
+void DatabaseController::dataWindow_show()
+{
+    dbWindow->show();
+}
 
-//void DatabaseController::return_model()
-//{
-//     qInfo() << "I am here!";
-//}
 
-//QSqlDatabase DatabaseController::return_db()
-//{
-//    return db;
-//}
 
-//int DatabaseController::closing()
-//{
-//     db.close();
-//     qInfo() << "Database is closed!";
+void DatabaseController::slot_typeTable_clicked(int table)
+{
+    switch (table)
+    {
+        case 0://???
+            model->setTable("AIRPLANS");
+            break;
+        case 1:
+            model->setTable("ZRK");
+            break;
 
-//     return 0;
-//}
+        default:
+            break;
+    }
 
-//void DatabaseController::slot_addButton_clicked()
-//{
-//    model->insertRow(model->rowCount());
-//}
-//void DatabaseController::slot_deleteButton_clicked()
-//{
-//    model->removeRow(currentRow);
-//    model->select();
-//}
-//void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
-//{
-//    currentRow = index.row();
-//}
+    model->select();
+    emit sig_table(model);
+}
+
+void DatabaseController::slot_addButton_clicked()
+{
+    model->insertRow(model->rowCount());
+}
+
+void DatabaseController::slot_deleteButton_clicked()
+{
+        model->removeRow(currentRow);
+        model->select();
+}
+
+void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
+{
+    currentRow = index.row();
+}
+
+QSqlDatabase DatabaseController::return_db()
+{
+    return db;
+}
+
+int DatabaseController::closing()
+{
+     db.close();
+     qInfo() << "Database is closed!";
+
+     return 0;
+}

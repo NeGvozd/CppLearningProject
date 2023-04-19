@@ -46,7 +46,9 @@ add_executable(Zrk_Interface
     datawindow.cpp
     datawindow.h
     datawindow.ui
-    resource.qrc)
+    object.h
+    resource.qrc
+  )
 
 
 target_include_directories(Zrk_Interface PRIVATE

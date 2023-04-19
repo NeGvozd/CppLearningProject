@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QSqlTableModel>
 
+
 namespace Ui {
 class DataWindow;
 }
@@ -16,6 +17,11 @@ public:
     explicit DataWindow(QWidget *parent = nullptr);
     ~DataWindow();
 
+signals:
+    void sig_typeTable_clicked(int table);
+    void sig_addButton_clicked();
+    void sig_deleteButton_clicked();
+    void sig_tableView_clicked(const QModelIndex &index);
 
 private slots:
     void on_planeButton_clicked();
@@ -24,17 +30,10 @@ private slots:
     void on_deleteButton_clicked();
     void on_tableView_clicked(const QModelIndex &index);
 
-    void on_zalupa_clicked();
+    void slot_table(QSqlTableModel *model);
 
-signals:
-    void sig_planeButton_clicked();
-//    void sig_zrkButton_clicked();
-//    void sig_return_model();
-//    void sig_addButton_clicked();
-//    void sig_deleteButton_clicked();
-//    void sig_tableView_clicked(const QModelIndex &index);
 
-private:
+public:
     Ui::DataWindow *ui;
 };
 

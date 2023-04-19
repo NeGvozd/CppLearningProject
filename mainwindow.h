@@ -11,7 +11,10 @@
 #include <memory>
 
 #include <QAbstractButton>
-#include <databasecontroller.h>
+
+#include <database.h>
+#include "datawindow.h"
+#include "databasecontroller.h"
 //#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
@@ -22,13 +25,18 @@ QT_END_NAMESPACE
 class MyTreeItem : public QTreeWidgetItem
 {
 
-public:
-    int type;
-    MyTreeItem(MyTreeItem *parent = nullptr, int type = 0);
-    MyTreeItem(QTreeWidget *parent = nullptr, int type = 0);
+public: //ToDO: transfer to private
+    int id;
+    QString name;
+    int speed;
+    int mass;
+    Table type;
 
-    void get_type();
-    void selected();
+    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
+    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
+
+    Table get_type() const;
+    void get_info();
 };
 
 
@@ -40,25 +48,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *Map;
+    void show();
 
-    virtual void show();
 private slots:
     void on_addFromTreeButton_clicked();
-
-private slots:
     void on_actionNew_triggered();
-    void on_actionauthors_triggered();
     void on_actionExit_triggered();
-
+    void on_actionauthors_triggered();
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
-
     void on_DataBaseButton_clicked();
+    void fillTreeFromDb();
+
 private:
     //if you don't have QGS comment bottom line
     //QGSController* QgsController;
-    DatabaseController dbController;
-    Ui::MainWindow *ui;
 
+    Ui::MainWindow *ui;
+    DatabaseController dbController;
 };
 
 #endif // MAINWINDOW_H
