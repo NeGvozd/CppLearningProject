@@ -2,12 +2,21 @@
 
 DatabaseController::DatabaseController()
 {
+    this->connection();
+    dbWindow = new DataWindow;
+
+     connect(dbWindow, SIGNAL(sig_typeTable_clicked(Table)), this,SLOT(slot_typeTable_clicked(Table)));
+     connect(this, SIGNAL(sig_table(QSqlTableModel *)), dbWindow,SLOT(slot_table(QSqlTableModel *)));
+     connect(dbWindow, SIGNAL(sig_addButton_clicked()), this,SLOT(slot_addButton_clicked()));
+     connect(dbWindow, SIGNAL(sig_deleteButton_clicked()), this,SLOT(slot_deleteButton_clicked()));
+     connect(dbWindow, SIGNAL(sig_tableView_clicked(const QModelIndex &)), this,SLOT(slot_tableView_clicked(const QModelIndex &)));
+
 }
 
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../CppLearningProject/database/tth.db");
+    db.setDatabaseName("../database/tth.db");
 
 
     if (db.open())
@@ -37,6 +46,7 @@ int DatabaseController::select(Table table,int id)
     return 0;
 }
 
+
 QVector<InfoAboutElement> DatabaseController::select_all(Table table)
 {
     QVector<InfoAboutElement> ans;
@@ -49,6 +59,48 @@ QVector<InfoAboutElement> DatabaseController::select_all(Table table)
         ans = zrkTable->select_all();
     }
     return ans;
+}
+
+void DatabaseController::dataWindow_show()
+{
+    dbWindow->show();
+}
+
+
+
+void DatabaseController::slot_typeTable_clicked(Table table)
+{
+    switch (table)
+    {
+        case AIRPLANS://???
+            model->setTable("AIRPLANS");
+            break;
+        case ZRK:
+            model->setTable("ZRK");
+            break;
+
+        default:
+            break;
+    }
+
+    model->select();
+    emit sig_table(model);
+}
+
+void DatabaseController::slot_addButton_clicked()
+{
+    model->insertRow(model->rowCount());
+}
+
+void DatabaseController::slot_deleteButton_clicked()
+{
+        model->removeRow(currentRow);
+        model->select();
+}
+
+void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
+{
+    currentRow = index.row();
 }
 
 QSqlDatabase DatabaseController::return_db()

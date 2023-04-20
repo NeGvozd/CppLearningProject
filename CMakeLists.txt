@@ -31,15 +31,8 @@ link_directories(${QGIS_PATH}/lib)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-if(ANDROID)
-  add_library(Zrk_Interface SHARED
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
-  )
-else()
-  add_executable(Zrk_Interface
+
+add_executable(Zrk_Interface
     main.cpp
     mainwindow.cpp
     mainwindow.h
@@ -56,7 +49,7 @@ else()
     object.h
     resource.qrc
   )
-endif()
+
 
 target_include_directories(Zrk_Interface PRIVATE
                                     ${QGIS_PATH}/include/qgis

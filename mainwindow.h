@@ -12,8 +12,9 @@
 
 #include <QAbstractButton>
 
-
+#include <database.h>
 #include "datawindow.h"
+#include "databasecontroller.h"
 #include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
@@ -47,31 +48,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QWidget *Map;
-
     void show();
+
 private slots:
     void on_addFromTreeButton_clicked();
-    //void test();
-
     void on_actionNew_triggered();
     void on_actionExit_triggered();
-
     void on_actionauthors_triggered();
-
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
-
     void on_DataBaseButton_clicked();
-
     void fillTreeFromDb();
+
 private:
     //if you don't have QGS comment bottom line
     QGSController* QgsController;
 
     Ui::MainWindow *ui;
-    DataWindow *dbWindow;
-
-//public slots:
-    //void slot();
+    DatabaseController dbController;
 };
 
 #endif // MAINWINDOW_H
