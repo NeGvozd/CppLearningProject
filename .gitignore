@@ -52,3 +52,6 @@ compile_commands.json
 *creator.user*
 .vscode/
 build/
+
+# Ignore trash image file
+img/add_icon.pngZone.Identifier
