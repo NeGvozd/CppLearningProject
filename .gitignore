@@ -54,4 +54,4 @@ compile_commands.json
 build/
 
 # Ignore trash image file
-img/add_icon.pngZone.Identifier
+img/add_icon.png:Zone.Identifier
