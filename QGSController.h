@@ -17,6 +17,9 @@
 #include <qgsrulebasedrenderer.h>
 #include <qgsfield.h>
 #include <qgsmaptoolemitpoint.h>
+#include <qgsmaptoolpan.h>
+#include <qgsmaptoolidentifyfeature.h>
+
 
 
 class QGSController:public QObject{
@@ -28,14 +31,17 @@ public:
     void setCrs();
     void activateSelectingPoint();
     void activateSelectingSquare();
-    void go_rend();
+    void renderCycle();
+
+
+    void activatePanTool();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addSquare(const QgsPointXY &point, Qt::MouseButton button);
 
-    void go();
+    void moving();
 private:
-
+    QgsMapToolPan* panTool;
 
     QgsMapCanvas* canvas;
     QWidget* Map;

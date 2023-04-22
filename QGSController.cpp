@@ -24,7 +24,15 @@ QGSController::QGSController(QWidget* Map){
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
 
+    //fffff
+    panTool= new QgsMapToolPan(canvas);
+
 }
+
+void QGSController::activatePanTool() {
+    canvas->setMapTool(panTool);
+}
+
 
 QGSController::~QGSController(){
     delete Map;
@@ -125,7 +133,7 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
     controlPointsLayer->commitChanges();
 
     if(controlPointsLayer->featureCount()==1)
-        go_rend();
+        renderCycle();
 }
 
 void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
@@ -143,7 +151,7 @@ void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
 }
 
 
-void QGSController::go(){
+void QGSController::moving(){
     controlPointsLayer->startEditing();
 
     for (int i=0;i<controlPointsLayer->featureCount();i++)
@@ -158,9 +166,9 @@ void QGSController::go(){
     controlPointsLayer->commitChanges();
 }
 
-void QGSController::go_rend(){
+void QGSController::renderCycle(){
     QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &QGSController::go);
+    connect(timer, &QTimer::timeout, this, &QGSController::moving);
     timer->start(50);
 }
 

@@ -40,6 +40,7 @@ void MainWindow::on_actionNew_triggered(){
     QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
+    QgsController->activatePanTool();
     //TODO вынести в connect это
     //QgsController->activateSelectingPoint();
     //QMessageBox *msg = new QMessageBox;
