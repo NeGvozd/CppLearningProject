@@ -26,7 +26,32 @@ QGSController::QGSController(QWidget* Map){
 
     //fffff
     panTool= new QgsMapToolPan(canvas);
+    
+    
+    /*
+    //Здесь код для вставления картинки
+    controlPointsLayer->startEditing();
 
+    QgsFeatureRenderer * layerRenderer= controlPointsLayer->renderer();
+    QgsSingleSymbolRenderer *mSingleRenderer = QgsSingleSymbolRenderer::convertFromRenderer(layerRenderer);
+    QgsMarkerSymbol* symbol = new  QgsMarkerSymbol();
+    QVariantMap mp;
+       // mp[QString("fill")]= QString("red");
+    mp[QString("name")]= QString("26562.svg");
+    mp[QString("size")]= QString("6");
+      //  mp[QString("outline")]=QString("black");
+     //   mp[QString("outline-width")]=QString("6.8");
+    QgsSvgMarkerSymbolLayer* planeLayer = new QgsSvgMarkerSymbolLayer("/26562.svg");
+    planeLayer->setPath("./26562.svg");
+    qInfo() << planeLayer->path();
+    //planeLayer->setColor(QColor(1, 1, 0));
+    QgsSymbolLayer* svgsymbol=planeLayer->create(mp);
+    auto newsym=symbol->createSimple(mp);
+    newsym->changeSymbolLayer(0,svgsymbol);
+    mSingleRenderer->setSymbol(newsym);
+    controlPointsLayer->setRenderer(mSingleRenderer);
+    controlPointsLayer->triggerRepaint();
+    controlPointsLayer->commitChanges();*/
 }
 
 void QGSController::activatePanTool() {
