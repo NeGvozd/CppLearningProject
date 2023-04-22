@@ -51,6 +51,9 @@ public:
     void show();
 
 private slots:
+    void on_actionHand_triggered();
+
+private slots:
     void on_addFromTreeButton_clicked();
     void on_actionNew_triggered();
     void on_actionExit_triggered();

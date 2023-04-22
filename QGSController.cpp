@@ -55,7 +55,11 @@ QGSController::QGSController(QWidget* Map){
 }
 
 void QGSController::activatePanTool() {
-    canvas->setMapTool(panTool);
+    if(!panTool->isActive())
+        canvas->setMapTool(panTool);
+    else{
+        canvas->unsetMapTool(panTool);
+    }
 }
 
 

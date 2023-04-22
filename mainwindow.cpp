@@ -40,7 +40,6 @@ void MainWindow::on_actionNew_triggered(){
     QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
-    QgsController->activatePanTool();
     //TODO вынести в connect это
     //QgsController->activateSelectingPoint();
     //QMessageBox *msg = new QMessageBox;
@@ -127,9 +126,12 @@ void MainWindow::fillTreeFromDb()
 
 
 void MainWindow::on_addFromTreeButton_clicked(){
-
     if ((!ui->DockWidgetForTree->isVisible()))
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();
+}
+
+void MainWindow::on_actionHand_triggered(){
+    QgsController->activatePanTool();
 }

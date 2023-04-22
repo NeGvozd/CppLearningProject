@@ -291,10 +291,17 @@
     </property>
     <addaction name="actionauthors"/>
    </widget>
+   <widget class="QMenu" name="menuHand">
+    <property name="title">
+     <string>Hand</string>
+    </property>
+    <addaction name="actionHand"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
    <addaction name="menuInfo"/>
+   <addaction name="menuHand"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
@@ -337,6 +344,11 @@
   <action name="actionNETU">
    <property name="text">
     <string>NETU</string>
+   </property>
+  </action>
+  <action name="actionHand">
+   <property name="text">
+    <string>Hand</string>
    </property>
   </action>
  </widget>
