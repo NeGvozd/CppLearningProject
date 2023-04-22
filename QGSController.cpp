@@ -138,10 +138,10 @@ void QGSController::setCrs()
 }
 
 void QGSController::activateSelectingPoint(){
-    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
-    canvas->setMapTool(emitPointTool);
+    PointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(PointTool);
     //TODO как-то перенести в MainWindow
-    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
+    connect(PointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
 }
 
 
@@ -166,7 +166,12 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
     controlPointsLayer->commitChanges();
 
     if(controlPointsLayer->featureCount()==1)
+        if(tempLineId == -1)
         renderCycle();
+        else{
+        canvas->unsetMapTool(PointTool);
+        renderCycleLine();
+        }
 }
 
 void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
@@ -197,8 +202,8 @@ void QGSController::addLine(bool checked){
         feat.setGeometry(geom);
         linePoints->clear();
         controlLineLayer->addFeature(feat);
-
         controlLineLayer->commitChanges();
+        //controlLinePointsLayer->removeSelection();надо как-то удалить все точки
     }
 }
 
@@ -244,4 +249,54 @@ void QGSController::selectionPoints(){
     //TODO как-то перенести в MainWindow
     connect(selectionPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
     //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
+}
+
+void QGSController::getLineId(int id){
+    this->tempLineId = id;
+    activateSelectingPoint();
+};
+
+QPair<double, double> QGSController::calculatingLineVector(double x, double y){
+    return {x/sqrt(x*x+y*y), y/sqrt(x*x+y*y)};
+}
+
+void QGSController::lineFollow(){
+    if(isMoving){
+        controlPointsLayer->startEditing();
+
+        QgsPointXY myP=controlPointsLayer->getFeature(controlPointsLayer->featureCount()).geometry().asPoint();
+        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(tempLineId).geometry().asMultiPolyline();
+        if(tempNumberOfLine==-1){
+            myP.set(followLines[0][0].x(), followLines[0][0].y());
+            tempNumberOfLine++;
+            QgsGeometry g =QgsGeometry::fromPointXY(myP);
+            controlPointsLayer->changeGeometry(tempLineId,g);
+
+            controlPointsLayer->commitChanges();
+            return;
+        }
+        QVector<QgsPointXY> curLine = followLines[0];
+        QPair<double, double> pointVec = calculatingLineVector(curLine[tempNumberOfLine+1].x()-curLine[tempNumberOfLine].x(), curLine[tempNumberOfLine+1].y()-curLine[tempNumberOfLine].y());
+        while(abs(myP.x()+0.3*pointVec.first-curLine[tempNumberOfLine].x())>abs(curLine[tempNumberOfLine+1].x()-curLine[tempNumberOfLine].x())){
+            tempNumberOfLine+=1;
+            if(tempNumberOfLine==curLine.size()-1){
+                isMoving = false;
+                return;
+                }
+            myP.set(curLine[tempNumberOfLine].x(), curLine[tempNumberOfLine].y());
+            return;
+        }
+        myP.setX(myP.x()+0.1*pointVec.first);
+        myP.setY(myP.y()+0.1*pointVec.second);
+        QgsGeometry g =QgsGeometry::fromPointXY(myP);
+        controlPointsLayer->changeGeometry(tempLineId,g);
+
+        controlPointsLayer->commitChanges();
+    }
+}
+
+void QGSController::renderCycleLine(){
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &QGSController::lineFollow);
+    timer->start(50);
 }

@@ -24,6 +24,8 @@
 #include <qgslinestring.h>
 #include <qgswkbtypes.h>
 
+#include <QTreeWidget>
+
 #pragma once
 
 class QGSController:public QObject{
@@ -41,6 +43,9 @@ public:
     void selectionPoints();
 
     void activatePanTool();
+    void getLineId(int id);
+    void renderCycleLine();
+    QPair<double, double> calculatingLineVector(double x, double y);
 signals:
     void sendLine(int id, QString name);
 public slots:
@@ -51,9 +56,12 @@ private slots:
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
 
     void moving();
+
+    void lineFollow();
 private:
     QgsMapToolPan* panTool;
     QgsMapCanvas* canvas;
+    
 
     QWidget* Map;
 
@@ -64,10 +72,15 @@ private:
     QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
 
 
-    QgsVectorLayer* controlLineLayer = new QgsVectorLayer("Linestring", "Points3", "memory");
+    QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");
     QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
+
+    int tempLineId = -1;
+    int tempNumberOfLine = -1;
+    QgsMapToolEmitPoint* PointTool;
+    bool isMoving = true;
 public:
     QgsMapToolEmitPoint* selectionPointTool;
 };

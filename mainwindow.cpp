@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
     SetLine->hide();
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
     LinesWidgetInit();
+    connect(ui->TreeLinesWidget, &QTreeWidget::itemClicked, this, &MainWindow::getLineId);
     connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
 }
 
@@ -183,5 +184,8 @@ void MainWindow::LinesWidgetInit(){
 void MainWindow::addLine(int id, QString name){
     LineTreeItem *line = new LineTreeItem(lines, id, name);
     line->setFlags(line->flags() | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-    
 }
+
+void MainWindow::getLineId(QTreeWidgetItem *item, int column){
+    QgsController->getLineId(dynamic_cast<LineTreeItem*>(item)->id);
+};

@@ -41,9 +41,9 @@ public: //ToDO: transfer to private
 };
 
 class LineTreeItem : public QTreeWidgetItem{
+public:
     int id;
     QString name;
-public:
     LineTreeItem(LineTreeItem * parent, int id, QString name);
     LineTreeItem(QTreeWidget * parent, int id, QString name);
 };
@@ -76,6 +76,7 @@ private slots:
     void fillTreeFromDb();
     void showLinesListWidget();
     void addLine(int id, QString name);
+    void getLineId(QTreeWidgetItem *item, int column);
 
 private:
     //if you don't have QGS comment bottom line
