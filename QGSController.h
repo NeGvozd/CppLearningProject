@@ -53,8 +53,8 @@ private slots:
     void moving();
 private:
     QgsMapToolPan* panTool;
-
     QgsMapCanvas* canvas;
+
     QWidget* Map;
 
     QgsCoordinateReferenceSystem crs;
@@ -68,5 +68,6 @@ private:
     QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
-
+public:
+    QgsMapToolEmitPoint* selectionPointTool;
 };

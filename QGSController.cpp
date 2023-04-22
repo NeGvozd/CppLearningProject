@@ -239,9 +239,9 @@ void QGSController::renderCycle(){
 }
 
 void QGSController::selectionPoints(){
-    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
-    canvas->setMapTool(emitPointTool);
+    selectionPointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(selectionPointTool);
     //TODO как-то перенести в MainWindow
-    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
+    connect(selectionPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
     //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
 }

@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent)
     SetLine = ui->SetLine;
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
     SetLine->hide();
-    connect(SetLine, &QPushButton::released, this, &MainWindow::setLineHide);
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
     LinesWidgetInit();
     connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
@@ -148,6 +147,8 @@ void MainWindow::on_actionLine_triggered(){
     SetLine->show();
     SetLine->raise();
     QgsController->selectionPoints();
+    connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
+    //приходится курсор доставать
 }
 void MainWindow::setLineHide(){
     SetLine->hide();
@@ -181,4 +182,6 @@ void MainWindow::LinesWidgetInit(){
 
 void MainWindow::addLine(int id, QString name){
     LineTreeItem *line = new LineTreeItem(lines, id, name);
+    line->setFlags(line->flags() | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    
 }
