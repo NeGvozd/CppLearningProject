@@ -20,7 +20,9 @@
 #include <qgsmaptoolpan.h>
 #include <qgsmaptoolidentifyfeature.h>
 
-
+#include <QVector>
+#include <qgslinestring.h>
+#include <qgswkbtypes.h>
 
 class QGSController:public QObject{
 public:
@@ -33,11 +35,15 @@ public:
     void activateSelectingSquare();
     void renderCycle();
 
+    void selectionPoints();
 
     void activatePanTool();
+public slots:
+    void addLine(bool checked);
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addSquare(const QgsPointXY &point, Qt::MouseButton button);
+    void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
 
     void moving();
 private:
@@ -50,5 +56,12 @@ private:
     QList<QgsMapLayer *> layers;
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-    QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points", "memory");
+    QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
+
+
+    QgsVectorLayer* controlLineLayer = new QgsVectorLayer("Linestring", "Points3", "memory");
+    QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
+
+    QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
+
 };

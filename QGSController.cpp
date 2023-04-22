@@ -52,6 +52,8 @@ QGSController::QGSController(QWidget* Map){
     controlPointsLayer->setRenderer(mSingleRenderer);
     controlPointsLayer->triggerRepaint();
     controlPointsLayer->commitChanges();*/
+    
+
 }
 
 void QGSController::activatePanTool() {
@@ -125,6 +127,8 @@ void QGSController::startLayer()
 
     layers.push_back(controlPointsLayer);
     layers.push_back(controlSquareLayer);
+    layers.push_back(controlLineLayer);
+    layers.push_back(controlLinePointsLayer);
 }
 
 void QGSController::setCrs()
@@ -179,6 +183,40 @@ void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
     controlSquareLayer->commitChanges();
 }
 
+void QGSController::addLine(bool checked){
+
+    if(!linePoints->isEmpty()){
+        qInfo() << "work";
+        controlLineLayer->startEditing();
+
+        QgsFeature feat;
+        feat.setFields(controlLineLayer->fields(), true);
+        feat.setAttribute("fid",int(controlLineLayer->featureCount())+1);
+        //QgsLineString line = QgsLineString(*linePoints);
+        QgsGeometry geom = QgsGeometry();
+        geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
+        feat.setGeometry(geom);
+        linePoints->clear();
+        controlLineLayer->addFeature(feat);
+
+        controlLineLayer->commitChanges();
+    }
+}
+
+void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button){
+
+    controlLinePointsLayer->startEditing();
+
+    QgsFeature feat;
+    feat.setFields(controlLinePointsLayer->fields(), true);
+    feat.setAttribute("fid",int(controlLinePointsLayer->featureCount())+1);
+    feat.setGeometry(QgsGeometry::fromPointXY(point));
+
+    controlLinePointsLayer->addFeature(feat);
+    linePoints->push_back(point);
+
+    controlLinePointsLayer->commitChanges();
+}
 
 void QGSController::moving(){
     controlPointsLayer->startEditing();
@@ -201,4 +239,11 @@ void QGSController::renderCycle(){
     timer->start(50);
 }
 
+void QGSController::selectionPoints(){
+    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(emitPointTool);
+    //TODO как-то перенести в MainWindow
+    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
+    //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
+}
 

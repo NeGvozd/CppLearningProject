@@ -21,6 +21,10 @@ MainWindow::MainWindow(QWidget *parent)
     //if you don't have QGS comment bottom line
     QgsController = new QGSController(Map);
     ui->TreeAddedItems->clear();
+    
+    QPushButton* SetLine = ui->SetLine;
+    connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
+    SetLine->raise();
 
 }
 
@@ -134,4 +138,8 @@ void MainWindow::on_addFromTreeButton_clicked(){
 
 void MainWindow::on_actionHand_triggered(){
     QgsController->activatePanTool();
+}
+
+void MainWindow::on_actionLine_triggered(){
+    QgsController->selectionPoints();
 }

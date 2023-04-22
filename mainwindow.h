@@ -11,6 +11,7 @@
 #include <memory>
 
 #include <QAbstractButton>
+#include <QPushButton>
 
 #include <database.h>
 #include "datawindow.h"
@@ -49,6 +50,9 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
+
+private slots:
+    void on_actionLine_triggered();
 
 private slots:
     void on_actionHand_triggered();

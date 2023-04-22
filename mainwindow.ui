@@ -166,6 +166,19 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </widget>
+       <widget class="QPushButton" name="SetLine">
+        <property name="geometry">
+         <rect>
+          <x>1050</x>
+          <y>500</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SetLine</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -296,6 +309,7 @@
      <string>Hand</string>
     </property>
     <addaction name="actionHand"/>
+    <addaction name="actionLine"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
@@ -349,6 +363,11 @@
   <action name="actionHand">
    <property name="text">
     <string>Hand</string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="text">
+    <string>Line</string>
    </property>
   </action>
  </widget>
