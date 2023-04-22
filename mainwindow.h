@@ -40,6 +40,13 @@ public: //ToDO: transfer to private
     void get_info();
 };
 
+class LineTreeItem : public QTreeWidgetItem{
+    int id;
+    QString name;
+public:
+    LineTreeItem(LineTreeItem * parent, int id, QString name);
+    LineTreeItem(QTreeWidget * parent, int id, QString name);
+};
 
 class MainWindow : public QMainWindow
 {
@@ -50,12 +57,14 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
+    void LinesWidgetInit();
 
 private slots:
     void on_actionLine_triggered();
 
 private slots:
     void on_actionHand_triggered();
+    void setLineHide();
 
 private slots:
     void on_addFromTreeButton_clicked();
@@ -65,6 +74,8 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
+    void showLinesListWidget();
+    void addLine(int id, QString name);
 
 private:
     //if you don't have QGS comment bottom line
@@ -72,6 +83,10 @@ private:
 
     Ui::MainWindow *ui;
     DatabaseController dbController;
+
+    QPushButton* SetLine;
+
+    LineTreeItem *lines;
 };
 
 #endif // MAINWINDOW_H

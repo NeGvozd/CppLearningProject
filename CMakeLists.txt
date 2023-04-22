@@ -33,23 +33,24 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 
 add_executable(Zrk_Interface
+    database.h
+    databasecontroller.h
+    datawindow.h
+    QGSController.h
+    mainwindow.h
     main.cpp
     mainwindow.cpp
-    mainwindow.h
     mainwindow.ui
     QGSController.cpp
-    QGSController.h
     database.cpp
-    database.h
     databasecontroller.cpp
-    databasecontroller.h
     datawindow.cpp
-    datawindow.h
     datawindow.ui
     object.h
     resource.qrc
   )
 
+include_directories(${Qt5_INCLUDE_DIR})
 
 target_include_directories(Zrk_Interface PRIVATE
                                     ${QGIS_PATH}/include/qgis

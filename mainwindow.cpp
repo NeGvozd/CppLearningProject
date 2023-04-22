@@ -22,10 +22,13 @@ MainWindow::MainWindow(QWidget *parent)
     QgsController = new QGSController(Map);
     ui->TreeAddedItems->clear();
     
-    QPushButton* SetLine = ui->SetLine;
+    SetLine = ui->SetLine;
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
-    SetLine->raise();
-
+    SetLine->hide();
+    connect(SetLine, &QPushButton::released, this, &MainWindow::setLineHide);
+    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
+    LinesWidgetInit();
+    connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
 }
 
 MainWindow::~MainWindow(){
@@ -33,10 +36,11 @@ MainWindow::~MainWindow(){
 }
 
 
-void MainWindow:: show(){
+void MainWindow::show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
+    ui->TreeLinesWidget->hide();
 }
 
 void MainWindow::on_actionNew_triggered(){
@@ -141,5 +145,40 @@ void MainWindow::on_actionHand_triggered(){
 }
 
 void MainWindow::on_actionLine_triggered(){
+    SetLine->show();
+    SetLine->raise();
     QgsController->selectionPoints();
+}
+void MainWindow::setLineHide(){
+    SetLine->hide();
+}
+void MainWindow::showLinesListWidget(){
+    if ((!ui->TreeLinesWidget->isVisible())){
+        ui->TreeLinesWidget->show();
+        ui->TreeLinesWidget->raise();
+    }
+    else
+        ui->TreeLinesWidget->hide();
+}
+
+
+LineTreeItem::LineTreeItem(LineTreeItem *parent, int id, QString name) : QTreeWidgetItem(parent){
+    this->id=id;
+    this->name = name;
+    this->setText(0, name);
+}
+
+LineTreeItem::LineTreeItem(QTreeWidget *parent, int id, QString name): QTreeWidgetItem(parent){
+    this->id=id;
+    this->name = name;
+    this->setText(0, name);
+}
+
+void MainWindow::LinesWidgetInit(){
+    lines = new LineTreeItem(ui->TreeLinesWidget, 0, "Линии");
+    lines->setIcon(0, QIcon(":/rec/img/line.png"));
+}
+
+void MainWindow::addLine(int id, QString name){
+    LineTreeItem *line = new LineTreeItem(lines, id, name);
 }

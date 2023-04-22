@@ -24,7 +24,10 @@
 #include <qgslinestring.h>
 #include <qgswkbtypes.h>
 
+#pragma once
+
 class QGSController:public QObject{
+    Q_OBJECT
 public:
     QGSController(QWidget* Map);
     ~QGSController();
@@ -38,6 +41,8 @@ public:
     void selectionPoints();
 
     void activatePanTool();
+signals:
+    void sendLine(int id, QString name);
 public slots:
     void addLine(bool checked);
 private slots:

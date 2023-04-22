@@ -186,13 +186,12 @@ void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
 void QGSController::addLine(bool checked){
 
     if(!linePoints->isEmpty()){
-        qInfo() << "work";
         controlLineLayer->startEditing();
 
         QgsFeature feat;
         feat.setFields(controlLineLayer->fields(), true);
+        emit sendLine(int(controlLineLayer->featureCount())+1, QString::number(int(controlLineLayer->featureCount())+1));
         feat.setAttribute("fid",int(controlLineLayer->featureCount())+1);
-        //QgsLineString line = QgsLineString(*linePoints);
         QgsGeometry geom = QgsGeometry();
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
         feat.setGeometry(geom);
@@ -246,4 +245,3 @@ void QGSController::selectionPoints(){
     connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
     //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
 }
-

@@ -179,6 +179,30 @@
          <string>SetLine</string>
         </property>
        </widget>
+       <widget class="QTreeWidget" name="TreeLinesWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>410</y>
+          <width>301</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="headerMinimumSectionSize">
+         <number>3</number>
+        </attribute>
+        <attribute name="headerDefaultSectionSize">
+         <number>3</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -262,6 +286,23 @@
          <width>50</width>
          <height>50</height>
         </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="LinesButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>100</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>img/line.png</normaloff>img/line.png</iconset>
        </property>
       </widget>
      </widget>
