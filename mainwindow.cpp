@@ -23,12 +23,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TreeAddedItems->clear();
     
     SetLine = ui->SetLine;
+    RadarBtn = ui->RadarButton;
+    RadarWidget = ui->Radar;
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
     SetLine->hide();
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
     LinesWidgetInit();
     connect(ui->TreeLinesWidget, &QTreeWidget::itemClicked, this, &MainWindow::getLineId);
     connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
+    connect(RadarBtn, &QPushButton::clicked, this, &MainWindow::showRadarWidget);
+    RadarWidget->hide();
+    initRadarWidget();
 }
 
 MainWindow::~MainWindow(){
@@ -189,3 +194,33 @@ void MainWindow::addLine(int id, QString name){
 void MainWindow::getLineId(QTreeWidgetItem *item, int column){
     QgsController->getLineId(dynamic_cast<LineTreeItem*>(item)->id);
 };
+
+void MainWindow::showRadarWidget(){
+    if ((!RadarWidget->isVisible())){
+        RadarWidget->show();
+        RadarWidget->raise();
+    }
+    else
+        RadarWidget->hide();
+}
+
+void MainWindow::initRadarWidget(){
+//    RadarLayout = new QVBoxLayout(RadarWidget);
+    QLabel* drawingLabel = new QLabel("Radar", RadarWidget);
+    drawingLabel->setAlignment(Qt::AlignCenter);
+    QPicture* pic = new QPicture();
+    QPainter* painter = new QPainter(pic);
+    QPen* pen = new QPen();
+    pen->setWidth(3);
+    pen->setBrush(Qt::SolidPattern);
+    pen->setColor(QColor(84, 64, 237, 100));
+    painter->setPen(*pen);
+    //painter->setRenderHint(QPainter::Antialiasing);
+    painter->drawEllipse(0, 0, 1, 1);//for start point
+    painter->drawEllipse(85, 65, 100, 100);
+    painter->drawEllipse(0, 0, 200, 200);
+    painter->drawEllipse(0, 0, 50, 50);
+    painter->end();
+
+    drawingLabel->setPicture(*pic);    
+}

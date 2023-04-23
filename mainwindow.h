@@ -12,11 +12,15 @@
 
 #include <QAbstractButton>
 #include <QPushButton>
+#include <QPainter>
+#include <QLabel>
+#include <QPicture>
 
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
 #include "QGSController.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -77,6 +81,8 @@ private slots:
     void showLinesListWidget();
     void addLine(int id, QString name);
     void getLineId(QTreeWidgetItem *item, int column);
+    void showRadarWidget();
+    void initRadarWidget();
 
 private:
     //if you don't have QGS comment bottom line
@@ -86,6 +92,8 @@ private:
     DatabaseController dbController;
 
     QPushButton* SetLine;
+    QPushButton* RadarBtn;
+    QFrame* RadarWidget;
 
     LineTreeItem *lines;
 };

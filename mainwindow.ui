@@ -203,6 +203,28 @@
          </property>
         </column>
        </widget>
+       <widget class="QFrame" name="Radar">
+        <property name="geometry">
+         <rect>
+          <x>920</x>
+          <y>0</y>
+          <width>281</width>
+          <height>241</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Sunken</enum>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -298,11 +320,20 @@
         </rect>
        </property>
        <property name="text">
-        <string/>
+        <string>Lines</string>
        </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>img/line.png</normaloff>img/line.png</iconset>
+      </widget>
+      <widget class="QPushButton" name="RadarButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>150</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Radar</string>
        </property>
       </widget>
      </widget>
