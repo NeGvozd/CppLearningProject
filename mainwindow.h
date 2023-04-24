@@ -81,8 +81,8 @@ private slots:
     void showLinesListWidget();
     void addLine(int id, QString name);
     void getLineId(QTreeWidgetItem *item, int column);
-    void showRadarWidget();
-    void initRadarWidget();
+//    void showRadarWidget();
+//    void initRadarWidget();
 
 private:
     //if you don't have QGS comment bottom line
@@ -92,8 +92,8 @@ private:
     DatabaseController dbController;
 
     QPushButton* SetLine;
-    QPushButton* RadarBtn;
-    QFrame* RadarWidget;
+//    QPushButton* RadarBtn;
+//    QFrame* RadarWidget;
 
     LineTreeItem *lines;
 };

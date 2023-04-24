@@ -25,6 +25,7 @@
 #include <qgswkbtypes.h>
 
 #include <QTreeWidget>
+#include <qgscircle.h>
 
 #pragma once
 
@@ -52,7 +53,7 @@ public slots:
     void addLine(bool checked);
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
-    void addSquare(const QgsPointXY &point, Qt::MouseButton button);
+    void addRadar(const QgsPointXY &point, Qt::MouseButton button);
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
 
     void moving();
@@ -74,6 +75,8 @@ private:
 
     QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");
     QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
+
+    QgsVectorLayer* radarCirclesLayer = new QgsVectorLayer("multilinestring", "Circles", "memory");
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
 

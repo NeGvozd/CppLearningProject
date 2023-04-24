@@ -124,7 +124,7 @@ void QGSController::startLayer()
 
 
     setCrs();
-
+    layers.push_back(radarCirclesLayer);
     layers.push_back(controlPointsLayer);
     layers.push_back(controlSquareLayer);
     layers.push_back(controlLineLayer);
@@ -149,7 +149,7 @@ void QGSController::activateSelectingSquare(){
     QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(emitPointTool);
     //TODO как-то перенести в MainWindow
-    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addSquare);
+    connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addRadar);
 }
 
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
@@ -174,16 +174,25 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
         }
 }
 
-void QGSController::addSquare(const QgsPointXY &point, Qt::MouseButton button){
+void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
     controlSquareLayer->startEditing();
+    radarCirclesLayer->startEditing();
 
-    QgsFeature feat;
-    feat.setFields(controlSquareLayer->fields(), true);
+    QgsFeature feat, feat2;
+/*    feat.setFields(controlSquareLayer->fields(), true);
     feat.setAttribute("fid",int(controlSquareLayer->featureCount())+1);
     feat.setGeometry(QgsGeometry::fromRect(QgsRectangle(point,point+QgsVector(1,1))));
+*/
+    feat2.setFields(radarCirclesLayer->fields(), true);
+    feat2.setAttribute("fid",int(radarCirclesLayer->featureCount())+1);
+    QgsCircle* circle = new QgsCircle(QgsPoint(point), 10.0);
+    feat2.setGeometry(QgsGeometry::fromPolylineXY({point, QgsPoint(point.x()+1., point.y()+1.), QgsPoint(point.x()+2, point.y()+1.5)}));
 
-    controlSquareLayer->addFeature(feat);
+
+//    controlSquareLayer->addFeature(feat);
+    radarCirclesLayer->addFeature(feat2);
+    radarCirclesLayer->commitChanges();
 
     controlSquareLayer->commitChanges();
 }

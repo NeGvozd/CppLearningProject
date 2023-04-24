@@ -23,17 +23,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->TreeAddedItems->clear();
     
     SetLine = ui->SetLine;
-    RadarBtn = ui->RadarButton;
-    RadarWidget = ui->Radar;
+//   RadarBtn = ui->RadarButton;
+//    RadarWidget = ui->Radar;
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
     SetLine->hide();
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
     LinesWidgetInit();
     connect(ui->TreeLinesWidget, &QTreeWidget::itemClicked, this, &MainWindow::getLineId);
     connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
-    connect(RadarBtn, &QPushButton::clicked, this, &MainWindow::showRadarWidget);
-    RadarWidget->hide();
-    initRadarWidget();
+//    connect(RadarBtn, &QPushButton::clicked, this, &MainWindow::showRadarWidget);
+//    RadarWidget->hide();
+//   initRadarWidget();
 }
 
 MainWindow::~MainWindow(){
@@ -195,7 +195,7 @@ void MainWindow::getLineId(QTreeWidgetItem *item, int column){
     QgsController->getLineId(dynamic_cast<LineTreeItem*>(item)->id);
 };
 
-void MainWindow::showRadarWidget(){
+/*void MainWindow::showRadarWidget(){
     if ((!RadarWidget->isVisible())){
         RadarWidget->show();
         RadarWidget->raise();
@@ -223,4 +223,4 @@ void MainWindow::initRadarWidget(){
     painter->end();
 
     drawingLabel->setPicture(*pic);    
-}
+}*/
