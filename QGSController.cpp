@@ -187,9 +187,7 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
     feat2.setFields(radarCirclesLayer->fields(), true);
     feat2.setAttribute("fid",int(radarCirclesLayer->featureCount())+1);
     QgsCircle* circle = new QgsCircle(QgsPoint(point), 10.0);
-    feat2.setGeometry(QgsGeometry::fromPolylineXY({point, QgsPoint(point.x()+1., point.y()+1.), QgsPoint(point.x()+2, point.y()+1.5)}));
-
-
+    feat2.setGeometry(QgsGeometry::fromWkt(circle->toCircularString()->asWkt()));
 //    controlSquareLayer->addFeature(feat);
     radarCirclesLayer->addFeature(feat2);
     radarCirclesLayer->commitChanges();
