@@ -47,10 +47,15 @@ public:
     void getLineId(int id);
     void renderCycleLine();
     QPair<double, double> calculatingLineVector(double x, double y);
+
+    void addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius);
+    void addLineToLayer(QgsVectorLayer* layer, const QgsPointXY &point1, const QgsPointXY &point2);
+    void addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size);
 signals:
     void sendLine(int id, QString name);
 public slots:
     void addLine(bool checked);
+    void showRadarZones();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);

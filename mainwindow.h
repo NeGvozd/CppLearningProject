@@ -92,8 +92,7 @@ private:
     DatabaseController dbController;
 
     QPushButton* SetLine;
-//    QPushButton* RadarBtn;
-//    QFrame* RadarWidget;
+    QPushButton* RadarBtn;
 
     LineTreeItem *lines;
 };
