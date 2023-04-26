@@ -234,7 +234,13 @@ void QGSController::showRadarZones(){
         layers.removeOne(radarCirclesLayer);
     else
         layers.push_back(radarCirclesLayer);
-    canvas->refresh();//doesnt work somehow
+    crs=layers.at(layers.size()-1)->crs();
+
+    canvas->setLayers(layers);
+    for(int i=2;i<layers.length();i++)
+        canvas->setExtent(layers[i]->extent());
+
+    canvas->refresh();
 }
 
 void QGSController::addLine(bool checked){
