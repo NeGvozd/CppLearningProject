@@ -38,8 +38,12 @@ void ChooseLine::closeWindow(){
 }
 
 void ChooseLine::changeName(QListWidgetItem *item){
-    LineListItem* listItem =  dynamic_cast<LineListItem*>(item);
-    emit itemNameChange(listItem->id, listItem->name);
+//    qInfo() << "where";
+    if(!listWidget->selectedItems().isEmpty()){
+        LineListItem* listItem = dynamic_cast<LineListItem*>(item);
+        listItem->name = item->text();
+        emit itemNameChange(listItem->id, listItem->name);
+    }
 }
 
 LineListItem::LineListItem(LineListItem *parent, int id, QString name) : QListWidgetItem(*parent){

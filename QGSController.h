@@ -50,6 +50,7 @@ public:
     void addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius);
     void addLineToLayer(QgsVectorLayer* layer, const QgsPointXY &point1, const QgsPointXY &point2);
     void addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size);
+    void deletePointsForLine();
 signals:
     void sendLine(int id, QString name);
 public slots:

@@ -219,14 +219,14 @@ void QGSController::addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &po
 
 void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
-    QGSController::addSquareToLayer(controlSquareLayer, point, 1.);
+    addSquareToLayer(controlSquareLayer, point, 1.);
 
-    QGSController::addCircleToLayer(radarCirclesLayer, point, 2.);
-    QGSController::addCircleToLayer(radarCirclesLayer, point, 4.);
-    QGSController::addCircleToLayer(radarCirclesLayer, point, 6.);
+    addCircleToLayer(radarCirclesLayer, point, 2.);
+    addCircleToLayer(radarCirclesLayer, point, 4.);
+    addCircleToLayer(radarCirclesLayer, point, 6.);
 
-    QGSController::addLineToLayer(radarCirclesLayer, point+QgsVector(-6.,0.), point+QgsVector(6., 0.));
-    QGSController::addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-6.), point+QgsVector(0., 6.));
+    addLineToLayer(radarCirclesLayer, point+QgsVector(-6.,0.), point+QgsVector(6., 0.));
+    addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-6.), point+QgsVector(0., 6.));
 }
 
 void QGSController::showRadarZones(){
@@ -234,7 +234,7 @@ void QGSController::showRadarZones(){
         layers.removeOne(radarCirclesLayer);
     else
         layers.push_back(radarCirclesLayer);
-    canvas->refresh();
+    canvas->refresh();//doesnt work somehow
 }
 
 void QGSController::addLine(bool checked){
@@ -252,8 +252,14 @@ void QGSController::addLine(bool checked){
         linePoints->clear();
         controlLineLayer->addFeature(feat);
         controlLineLayer->commitChanges();
-        //controlLinePointsLayer->removeSelection();надо как-то удалить все точки
+        deletePointsForLine();
     }
+}
+
+void QGSController::deletePointsForLine(){
+    controlLinePointsLayer->startEditing();
+    controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
+    controlLinePointsLayer->commitChanges();
 }
 
 void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button){
@@ -306,10 +312,13 @@ void QGSController::getLineId(int id){
 };
 
 void QGSController::lineChangeName(int id, QString name){
-    qInfo() << "what";
+
     controlLineLayer->startEditing();
-    controlLineLayer->getFeature(id).deleteAttribute("fid");
-    controlLineLayer->getFeature(id).setAttribute("fid", name);
+    QgsFeature feat = controlLineLayer->getFeature(id);
+    controlLineLayer->deleteFeature(feat.id());
+    feat.deleteAttribute("fid");
+    feat.setAttribute("fid", QVariant(name));
+    controlLineLayer->addFeature(feat);//работает, но ему не нравится если писать не номер в имя??
     controlLineLayer->commitChanges();
 }
 

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QListWidget>
 #include <QPushButton>
+#include <QDebug>
 
 class LineListItem : public QListWidgetItem{
 public:
