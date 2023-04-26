@@ -72,10 +72,6 @@ private slots:
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
     void showLinesDialog();
-//  void addLine(int id, QString name);
-//    void getLineId(QTreeWidgetItem *item, int column);
-//    void showRadarWidget();
-//    void initRadarWidget();
 
 private:
     //if you don't have QGS comment bottom line
@@ -87,7 +83,6 @@ private:
     QPushButton* SetLine;
     QPushButton* RadarBtn;
 
-//    LineTreeItem *lines;
     ChooseLine* lineDialog;
 };
 

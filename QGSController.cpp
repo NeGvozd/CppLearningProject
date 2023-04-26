@@ -238,12 +238,12 @@ void QGSController::showRadarZones(){
 }
 
 void QGSController::addLine(bool checked){
-
     if(!linePoints->isEmpty()){
         controlLineLayer->startEditing();
 
         QgsFeature feat;
         feat.setFields(controlLineLayer->fields(), true);
+//        qInfo() << "where"; ПОНЯТЬ КАКОГО ХРЕНА EMIT СНИЗУ ВЫЗЫВАЕТ CHANGE LINE NAME (а, хотя мб ведь элементы меняются :/)
         emit sendLine(int(controlLineLayer->featureCount())+1, QString::number(int(controlLineLayer->featureCount())+1));
         feat.setAttribute("fid",int(controlLineLayer->featureCount())+1);
         QgsGeometry geom = QgsGeometry();
@@ -305,10 +305,12 @@ void QGSController::getLineId(int id){
     activateSelectingPoint();
 };
 
-void QGSController::changeNameOfLine(int id, QString name){
-/*    controlLineLayer->startEditing();
+void QGSController::lineChangeName(int id, QString name){
+    qInfo() << "what";
+    controlLineLayer->startEditing();
+    controlLineLayer->getFeature(id).deleteAttribute("fid");
     controlLineLayer->getFeature(id).setAttribute("fid", name);
-    controlLineLayer->commitChanges();*/
+    controlLineLayer->commitChanges();
 }
 
 QPair<double, double> QGSController::calculatingLineVector(double x, double y){

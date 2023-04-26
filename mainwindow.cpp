@@ -28,9 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
     SetLine->hide();
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
-//    LinesWidgetInit();
+
     connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
-    connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::changeNameOfLine);
+    connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
 
@@ -45,7 +45,6 @@ void MainWindow::show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
-//    ui->TreeLinesWidget->hide();
 }
 
 void MainWindow::on_actionNew_triggered(){
@@ -160,47 +159,5 @@ void MainWindow::setLineHide(){
     SetLine->hide();
 }
 void MainWindow::showLinesDialog(){
-    /*if ((!ui->TreeLinesWidget->isVisible())){
-        ui->TreeLinesWidget->show();
-        ui->TreeLinesWidget->raise();
-    }
-    else
-        ui->TreeLinesWidget->hide();*/
     lineDialog->show();
 }
-/*
-void MainWindow::LinesWidgetInit(){
-    lines = new LineTreeItem(ui->TreeLinesWidget, 0, "Линии");
-    lines->setIcon(0, QIcon(":/rec/img/line.png"));
-}*/
-
-
-/*void MainWindow::showRadarWidget(){
-    if ((!RadarWidget->isVisible())){
-        RadarWidget->show();
-        RadarWidget->raise();
-    }
-    else
-        RadarWidget->hide();
-}
-
-void MainWindow::initRadarWidget(){
-//    RadarLayout = new QVBoxLayout(RadarWidget);
-    QLabel* drawingLabel = new QLabel("Radar", RadarWidget);
-    drawingLabel->setAlignment(Qt::AlignCenter);
-    QPicture* pic = new QPicture();
-    QPainter* painter = new QPainter(pic);
-    QPen* pen = new QPen();
-    pen->setWidth(3);
-    pen->setBrush(Qt::SolidPattern);
-    pen->setColor(QColor(84, 64, 237, 100));
-    painter->setPen(*pen);
-    //painter->setRenderHint(QPainter::Antialiasing);
-    painter->drawEllipse(0, 0, 1, 1);//for start point
-    painter->drawEllipse(85, 65, 100, 100);
-    painter->drawEllipse(0, 0, 200, 200);
-    painter->drawEllipse(0, 0, 50, 50);
-    painter->end();
-
-    drawingLabel->setPicture(*pic);    
-}*/
