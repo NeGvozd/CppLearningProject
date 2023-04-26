@@ -96,44 +96,25 @@ void QGSController::addLayer(){
     }
 }
 
-void QGSController::startLayer()
-{
-    controlPointsLayer->startEditing();
-    controlPointsLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-    controlPointsLayer->updateFields();
+void QGSController::initVectorLayer(QgsVectorLayer* layer){
+    layer->startEditing();
+    layer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    layer->updateFields();
 
-    controlPointsLayer->setLabelsEnabled(true);
+    layer->setLabelsEnabled(true);
     QgsPalLayerSettings pls;
     pls.fieldName = "fid";
     pls.placement = QgsPalLayerSettings::Placement::Line;
     QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-    controlPointsLayer->setLabeling(simple_label);
-    controlPointsLayer->commitChanges();
+    layer->setLabeling(simple_label);
+    layer->commitChanges();
+}
 
-    controlSquareLayer->startEditing();
-    controlSquareLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-    controlSquareLayer->updateFields();
-
-    controlSquareLayer->setLabelsEnabled(true);
-    QgsPalLayerSettings pls2;
-    pls2.fieldName = "fid";
-    pls2.placement = QgsPalLayerSettings::Placement::Line;
-    QgsVectorLayerSimpleLabeling* simple_label2 = new QgsVectorLayerSimpleLabeling(pls2);
-    controlSquareLayer->setLabeling(simple_label2);
-    controlSquareLayer->commitChanges();
-
-    controlLineLayer->startEditing();
-    controlLineLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
-    controlLineLayer->updateFields();
-
-    controlLineLayer->setLabelsEnabled(true);
-    QgsPalLayerSettings pls3;
-    pls3.fieldName = "fid";
-    pls3.placement = QgsPalLayerSettings::Placement::Line;
-    QgsVectorLayerSimpleLabeling* simple_label3 = new QgsVectorLayerSimpleLabeling(pls3);
-    controlLineLayer->setLabeling(simple_label3);
-    controlLineLayer->commitChanges();
-
+void QGSController::startLayer()
+{
+    initVectorLayer(controlPointsLayer);
+    initVectorLayer(controlSquareLayer);
+    initVectorLayer(controlLineLayer);
 
     setCrs();
     layers.push_back(radarCirclesLayer);
@@ -164,57 +145,40 @@ void QGSController::activateSelectingSquare(){
     connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addRadar);
 }
 
+void QGSController::addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom){
+    layer->startEditing();
+    QgsFeature feat;
+    feat.setFields(layer->fields(), true);
+    feat.setAttribute("fid", int(layer->featureCount())+1);
+    feat.setGeometry(geom);
+    layer->addFeature(feat);
+    layer->commitChanges();
+}
+
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
 
-    controlPointsLayer->startEditing();
-
-    QgsFeature feat;
-    feat.setFields(controlPointsLayer->fields(), true);
-    feat.setAttribute("fid",int(controlPointsLayer->featureCount())+1);
-    feat.setGeometry(QgsGeometry::fromPointXY(point));
-
-    controlPointsLayer->addFeature(feat);
-
-    controlPointsLayer->commitChanges();
+    addElementToLayer(controlPointsLayer, QgsGeometry::fromPointXY(point)); //правильно ли так созданные объекты передавать не по указателю
 
     if(controlPointsLayer->featureCount()==1)
-        if(tempLineId == -1)
+        if(tempLineId == -1){
         renderCycle();
-        else{
+        } else {
         canvas->unsetMapTool(PointTool);
         renderCycleLine();
         }
 }
 
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
-    layer->startEditing();
-    QgsFeature feat;
-    feat.setFields(layer->fields(), true);
-    feat.setAttribute("fid", int(layer->featureCount())+1);
     QgsCircle* circle = new QgsCircle(QgsPoint(point), radius);
-    feat.setGeometry(QgsGeometry::fromWkt(circle->toCircularString()->asWkt()));
-    layer->addFeature(feat);
-    layer->commitChanges();
+    addElementToLayer(layer, QgsGeometry::fromWkt(circle->toCircularString()->asWkt()));
 }
 
 void QGSController::addLineToLayer(QgsVectorLayer* layer, const QgsPointXY &point1, const QgsPointXY &point2){
-    layer->startEditing();
-    QgsFeature feat;
-    feat.setFields(layer->fields(), true);
-    feat.setAttribute("fid", int(layer->featureCount())+1);
-    feat.setGeometry(QgsGeometry::fromPolylineXY({point1, point2}));
-    layer->addFeature(feat);
-    layer->commitChanges();
+    addElementToLayer(layer, QgsGeometry::fromPolylineXY({point1, point2}));
 }
 
 void QGSController::addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size){
-    layer->startEditing();
-    QgsFeature feat;
-    feat.setFields(layer->fields(), true);
-    feat.setAttribute("fid", int(layer->featureCount())+1);
-    feat.setGeometry(QgsGeometry::fromRect(QgsRectangle(point+QgsVector(-size/2,-size/2),point+QgsVector(size/2,size/2))));
-    layer->addFeature(feat);
-    layer->commitChanges();
+    addElementToLayer(layer, QgsGeometry::fromRect(QgsRectangle(point+QgsVector(-size/2,-size/2),point+QgsVector(size/2,size/2))));
 }
 
 void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
@@ -245,19 +209,11 @@ void QGSController::showRadarZones(){
 
 void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
-        controlLineLayer->startEditing();
-
-        QgsFeature feat;
-        feat.setFields(controlLineLayer->fields(), true);
-//        qInfo() << "where"; ПОНЯТЬ КАКОГО ХРЕНА EMIT СНИЗУ ВЫЗЫВАЕТ CHANGE LINE NAME (а, хотя мб ведь элементы меняются :/)
         emit sendLine(int(controlLineLayer->featureCount())+1, QString::number(int(controlLineLayer->featureCount())+1));
-        feat.setAttribute("fid",int(controlLineLayer->featureCount())+1);
         QgsGeometry geom = QgsGeometry();
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
-        feat.setGeometry(geom);
+        addElementToLayer(controlLineLayer, geom);
         linePoints->clear();
-        controlLineLayer->addFeature(feat);
-        controlLineLayer->commitChanges();
         deletePointsForLine();
     }
 }
@@ -269,18 +225,8 @@ void QGSController::deletePointsForLine(){
 }
 
 void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button){
-
-    controlLinePointsLayer->startEditing();
-
-    QgsFeature feat;
-    feat.setFields(controlLinePointsLayer->fields(), true);
-    feat.setAttribute("fid",int(controlLinePointsLayer->featureCount())+1);
-    feat.setGeometry(QgsGeometry::fromPointXY(point));
-
-    controlLinePointsLayer->addFeature(feat);
+    addElementToLayer(controlLinePointsLayer, QgsGeometry::fromPointXY(point));
     linePoints->push_back(point);
-
-    controlLinePointsLayer->commitChanges();
 }
 
 void QGSController::moving(){
