@@ -134,7 +134,7 @@ void MainWindow::fillTreeFromDb()
 
 void MainWindow::on_addFromTreeButton_clicked(){
 
-    if ((ui->DockWidgetForTree->isVisible()))//maybe you must write ! (on macOS it does not work)
+    if ((!ui->DockWidgetForTree->isVisible()))//maybe you must write ! (on macOS it does not work)
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();

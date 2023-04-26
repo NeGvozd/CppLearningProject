@@ -46,7 +46,16 @@ add_executable(Zrk_Interface
     datawindow.cpp
     datawindow.h
     datawindow.ui
-    #object.h
+    objects/ObjectFactory.h
+    objects/ObjectFactory.cpp
+    objects/plane.h
+    objects/plane.cpp
+    objects/point.h
+    objects/point.cpp
+    objects/rocket.h
+    objects/rocket.cpp
+    objects/sam.h
+    objects/sam.cpp
     resource.qrc
   )
 
