@@ -9,17 +9,18 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    
-    QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath(QDir::currentPath());
-
     Map=ui->Map;
+    dbController = new DatabaseController;
 
+    QFileSystemModel *model = new QFileSystemModel;
     QGridLayout* g = new QGridLayout(ui->Center);
     g->addWidget(Map);
 
+    model->setRootPath(QDir::currentPath());
+
     //if you don't have QGS comment bottom line
-    QgsController = new QGSController(Map);
+    //QgsController = new QGSController(Map);
+
     ui->TreeAddedItems->clear();
 
 }
@@ -55,10 +56,18 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     if (item->childCount()!=0)
         return;
     Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
-    if (type == ZRK)
-        QgsController->activateSelectingSquare();
-    if (type == AIRPLANS)
-        QgsController->activateSelectingPoint();
+
+    switch (type) {
+    case ZRK:
+        qInfo() << "zrk";
+        //QgsController->activateSelectingSquare();
+        break;
+    case AIRPLANS:
+        //QgsController->activateSelectingPoint();
+        break;
+    default:
+        break;
+    }
 }
 
 MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
@@ -94,8 +103,6 @@ Table MyTreeItem::get_type() const{
 
 void MainWindow::on_DataBaseButton_clicked(){
     dbController.dataWindow_show();
-    if(ui->TreeAddedItems->topLevelItemCount()==0)
-        fillTreeFromDb();
 }
 
 void MainWindow::fillTreeFromDb()
@@ -127,8 +134,11 @@ void MainWindow::fillTreeFromDb()
 
 void MainWindow::on_addFromTreeButton_clicked(){
 
-    if ((!ui->DockWidgetForTree->isVisible()))
+    if ((ui->DockWidgetForTree->isVisible()))//maybe you must write ! (on macOS it does not work)
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();
+
+    if(ui->TreeAddedItems->topLevelItemCount()==0)
+        fillTreeFromDb();
 }
