@@ -44,7 +44,6 @@ public:
     void selectionPoints();
 
     void activatePanTool();
-    void getLineId(int id);
     void renderCycleLine();
     QPair<double, double> calculatingLineVector(double x, double y);
 
@@ -56,6 +55,8 @@ signals:
 public slots:
     void addLine(bool checked);
     void showRadarZones();
+    void getLineId(int id);
+    void changeNameOfLine(int id, QString name);
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);

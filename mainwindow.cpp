@@ -24,13 +24,16 @@ MainWindow::MainWindow(QWidget *parent)
     
     SetLine = ui->SetLine;
     RadarBtn = ui->RadarButton;
+    lineDialog = new ChooseLine(this);
     connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
     SetLine->hide();
-    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesListWidget);
-    LinesWidgetInit();
-    connect(ui->TreeLinesWidget, &QTreeWidget::itemClicked, this, &MainWindow::getLineId);
-    connect(QgsController, &QGSController::sendLine, this, &MainWindow::addLine);
+    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
+//    LinesWidgetInit();
+    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
+    connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::changeNameOfLine);
+    connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
+
 }
 
 MainWindow::~MainWindow(){
@@ -42,7 +45,7 @@ void MainWindow::show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
-    ui->TreeLinesWidget->hide();
+//    ui->TreeLinesWidget->hide();
 }
 
 void MainWindow::on_actionNew_triggered(){
@@ -156,41 +159,21 @@ void MainWindow::on_actionLine_triggered(){
 void MainWindow::setLineHide(){
     SetLine->hide();
 }
-void MainWindow::showLinesListWidget(){
-    if ((!ui->TreeLinesWidget->isVisible())){
+void MainWindow::showLinesDialog(){
+    /*if ((!ui->TreeLinesWidget->isVisible())){
         ui->TreeLinesWidget->show();
         ui->TreeLinesWidget->raise();
     }
     else
-        ui->TreeLinesWidget->hide();
+        ui->TreeLinesWidget->hide();*/
+    lineDialog->show();
 }
-
-
-LineTreeItem::LineTreeItem(LineTreeItem *parent, int id, QString name) : QTreeWidgetItem(parent){
-    this->id=id;
-    this->name = name;
-    this->setText(0, name);
-}
-
-LineTreeItem::LineTreeItem(QTreeWidget *parent, int id, QString name): QTreeWidgetItem(parent){
-    this->id=id;
-    this->name = name;
-    this->setText(0, name);
-}
-
+/*
 void MainWindow::LinesWidgetInit(){
     lines = new LineTreeItem(ui->TreeLinesWidget, 0, "Линии");
     lines->setIcon(0, QIcon(":/rec/img/line.png"));
-}
+}*/
 
-void MainWindow::addLine(int id, QString name){
-    LineTreeItem *line = new LineTreeItem(lines, id, name);
-    line->setFlags(line->flags() | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-}
-
-void MainWindow::getLineId(QTreeWidgetItem *item, int column){
-    QgsController->getLineId(dynamic_cast<LineTreeItem*>(item)->id);
-};
 
 /*void MainWindow::showRadarWidget(){
     if ((!RadarWidget->isVisible())){

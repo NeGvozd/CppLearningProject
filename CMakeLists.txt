@@ -46,6 +46,9 @@ add_executable(Zrk_Interface
     databasecontroller.cpp
     datawindow.cpp
     datawindow.ui
+    chooseline.h
+    chooseline.ui
+    chooseline.cpp
     object.h
     resource.qrc
   )

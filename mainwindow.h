@@ -20,6 +20,7 @@
 #include "datawindow.h"
 #include "databasecontroller.h"
 #include "QGSController.h"
+#include "chooseline.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -44,14 +45,6 @@ public: //ToDO: transfer to private
     void get_info();
 };
 
-class LineTreeItem : public QTreeWidgetItem{
-public:
-    int id;
-    QString name;
-    LineTreeItem(LineTreeItem * parent, int id, QString name);
-    LineTreeItem(QTreeWidget * parent, int id, QString name);
-};
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -61,7 +54,7 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
-    void LinesWidgetInit();
+//    void LinesWidgetInit();
 
 private slots:
     void on_actionLine_triggered();
@@ -78,9 +71,9 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
-    void showLinesListWidget();
-    void addLine(int id, QString name);
-    void getLineId(QTreeWidgetItem *item, int column);
+    void showLinesDialog();
+//  void addLine(int id, QString name);
+//    void getLineId(QTreeWidgetItem *item, int column);
 //    void showRadarWidget();
 //    void initRadarWidget();
 
@@ -94,7 +87,8 @@ private:
     QPushButton* SetLine;
     QPushButton* RadarBtn;
 
-    LineTreeItem *lines;
+//    LineTreeItem *lines;
+    ChooseLine* lineDialog;
 };
 
 #endif // MAINWINDOW_H

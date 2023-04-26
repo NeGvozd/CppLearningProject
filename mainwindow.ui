@@ -179,30 +179,6 @@
          <string>SetLine</string>
         </property>
        </widget>
-       <widget class="QTreeWidget" name="TreeLinesWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>410</y>
-          <width>301</width>
-          <height>131</height>
-         </rect>
-        </property>
-        <attribute name="headerVisible">
-         <bool>false</bool>
-        </attribute>
-        <attribute name="headerMinimumSectionSize">
-         <number>3</number>
-        </attribute>
-        <attribute name="headerDefaultSectionSize">
-         <number>3</number>
-        </attribute>
-        <column>
-         <property name="text">
-          <string notr="true">1</string>
-         </property>
-        </column>
-       </widget>
       </widget>
      </widget>
     </item>

@@ -122,6 +122,18 @@ void QGSController::startLayer()
     controlSquareLayer->setLabeling(simple_label2);
     controlSquareLayer->commitChanges();
 
+    controlLineLayer->startEditing();
+    controlLineLayer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    controlLineLayer->updateFields();
+
+    controlLineLayer->setLabelsEnabled(true);
+    QgsPalLayerSettings pls3;
+    pls3.fieldName = "fid";
+    pls3.placement = QgsPalLayerSettings::Placement::Line;
+    QgsVectorLayerSimpleLabeling* simple_label3 = new QgsVectorLayerSimpleLabeling(pls3);
+    controlLineLayer->setLabeling(simple_label3);
+    controlLineLayer->commitChanges();
+
 
     setCrs();
     layers.push_back(radarCirclesLayer);
@@ -292,6 +304,12 @@ void QGSController::getLineId(int id){
     this->tempLineId = id;
     activateSelectingPoint();
 };
+
+void QGSController::changeNameOfLine(int id, QString name){
+/*    controlLineLayer->startEditing();
+    controlLineLayer->getFeature(id).setAttribute("fid", name);
+    controlLineLayer->commitChanges();*/
+}
 
 QPair<double, double> QGSController::calculatingLineVector(double x, double y){
     return {x/sqrt(x*x+y*y), y/sqrt(x*x+y*y)};
