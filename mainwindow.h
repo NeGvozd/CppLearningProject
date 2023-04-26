@@ -15,7 +15,7 @@
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
-#include "QGSController.h"
+//#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -61,10 +61,10 @@ private slots:
 
 private:
     //if you don't have QGS comment bottom line
-    QGSController* QgsController;
+    //QGSController* QgsController;
 
     Ui::MainWindow *ui;
-    DatabaseController dbController;
+    DatabaseController *dbController;
 };
 
 #endif // MAINWINDOW_H

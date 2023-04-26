@@ -38,7 +38,7 @@ void MainWindow:: show(){
 
 void MainWindow::on_actionNew_triggered(){
     //if you don't have QGS comment bottom line
-    QgsController->addLayer();
+    //QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
@@ -102,13 +102,13 @@ Table MyTreeItem::get_type() const{
 
 
 void MainWindow::on_DataBaseButton_clicked(){
-    dbController.dataWindow_show();
+    dbController->dataWindow_show();
 }
 
 void MainWindow::fillTreeFromDb()
 {
-    QVector<InfoAboutElement> planes = dbController.select_all(AIRPLANS);
-    QVector<InfoAboutElement> zrks = dbController.select_all(ZRK);
+    QVector<InfoAboutElement> planes = dbController->select_all(AIRPLANS);
+    QVector<InfoAboutElement> zrks = dbController->select_all(ZRK);
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0, "ЗРК");
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1, "Самолеты");
     MyTreeItem *gyro = new MyTreeItem(ui->TreeAddedItems, 2, "Вертолеты");
