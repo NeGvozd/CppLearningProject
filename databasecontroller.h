@@ -21,7 +21,7 @@ public:
     QSqlDatabase return_db();
     int connection();
     int closing();
-    int select(Table table,int id);//where and what
+    InfoAboutElement select(Table table,int id);//where and what
     QVector<InfoAboutElement> select_all(Table table);
     void dataWindow_show();
 

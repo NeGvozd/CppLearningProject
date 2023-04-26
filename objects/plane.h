@@ -1,7 +1,7 @@
 #ifndef PLANE_H
 #define PLANE_H
 
-#include <string>
+#include <QDebug>
 #include <vector>
 
 class Point;
@@ -9,7 +9,7 @@ class Rocket;
 
 class Plane {
 public:
-    Plane(float health, float speed, const std::string& model);
+    Plane(float health, float speed, const QString& model);
     virtual ~Plane() = default;
     virtual void Move(const std::vector<Point*>& Points) const;
     virtual void Fire(Point* Point) const;
@@ -17,7 +17,7 @@ public:
 protected:
     float health;
     float speed;
-    std::string model;
+    QString model;
 };
 
-#endif // PLANE_H
+#endif

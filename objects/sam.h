@@ -1,20 +1,20 @@
 #ifndef SAM_H
 #define SAM_H
 
-#include <string>
+#include <QDebug>
 // #include <vector>
 
 class Rocket;
 
 class SAM {
 public:
-    SAM(float health, const std::string& model);
+    SAM(float health, const QString& model);
     virtual ~SAM() = default;
     virtual void Fire() const;
 
 protected:
     float health;
-    std::string model;
+    QString model;
 };
 
 #endif // SAM_H

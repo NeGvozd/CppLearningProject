@@ -15,6 +15,7 @@
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
+#include "objects/ObjectFactory.h"
 //#include "QGSController.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,8 +36,10 @@ public: //ToDO: transfer to private
     MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
     MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
 
+    int get_id() const;
     Table get_type() const;
     void get_info();
+
 };
 
 
@@ -58,6 +61,7 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
+    void create_new_object(int id,Table type);
 
 private:
     //if you don't have QGS comment bottom line
@@ -65,6 +69,8 @@ private:
 
     Ui::MainWindow *ui;
     DatabaseController *dbController;
+    //ObjectFactory *objFactory;
+
 };
 
 #endif // MAINWINDOW_H

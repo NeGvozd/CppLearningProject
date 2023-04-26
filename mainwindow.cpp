@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QFileSystemModel *model = new QFileSystemModel;
     QGridLayout* g = new QGridLayout(ui->Center);
+    //objFactory = new ObjectFactory;
     g->addWidget(Map);
 
     model->setRootPath(QDir::currentPath());
@@ -55,11 +56,12 @@ void MainWindow::on_actionExit_triggered(){
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
-    Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
-
+    Table type = dynamic_cast<MyTreeItem*>(item)->get_type();
+    int id = dynamic_cast<MyTreeItem*>(item)->get_id();
+    //dynamic_cast<MyTreeItem*>(item)->get_info();
+    this->create_new_object(id,type);
     switch (type) {
     case ZRK:
-        qInfo() << "zrk";
         //QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
@@ -96,6 +98,9 @@ void MyTreeItem::get_info()
     qInfo() << mass;
 }
 
+int MyTreeItem::get_id() const{
+    return id;
+}
 Table MyTreeItem::get_type() const{
     return type;
 }
@@ -131,10 +136,34 @@ void MainWindow::fillTreeFromDb()
 
 }
 
+void MainWindow::create_new_object(int id,Table type)//временное создание объектов(потом переделать) то есть сделать это по клику
+{
+    InfoAboutElement element = dbController->select(type,id);
+    switch (type)
+    {
+        case AIRPLANS:
+            {
+                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+            }
+        break;
+        case ZRK:
+            {
+                auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+            }
+        break;
+        default:
+            break;
+    }
+//    if(type == AIRPLANS)
+//        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+//    else if(type == ZRK)
+//        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+}
+
 
 void MainWindow::on_addFromTreeButton_clicked(){
 
-    if ((!ui->DockWidgetForTree->isVisible()))//maybe you must write ! (on macOS it does not work)
+    if ((!ui->DockWidgetForTree->isVisible()))//maybe you must write '!' (on macOS it does not work)
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();

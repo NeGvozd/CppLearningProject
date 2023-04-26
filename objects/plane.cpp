@@ -2,7 +2,7 @@
 #include "Rocket.h"
 #include "Point.h"
 
-Plane::Plane(float health, float speed, const std::string& model) :
+Plane::Plane(float health, float speed, const QString& model) :
     health(health), speed(speed), model(model) {}
 
 void Plane::Move(const std::vector<Point*>& points) const 

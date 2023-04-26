@@ -1,7 +1,7 @@
 #include "SAM.h"
 #include "Rocket.h"
 
-SAM::SAM(float health, const std::string& model) :
+SAM::SAM(float health, const QString& model) :
     health(health), model(model) {}
 
 void SAM::Fire() const {

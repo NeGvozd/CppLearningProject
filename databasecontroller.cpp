@@ -33,17 +33,17 @@ int DatabaseController::connection()
 
 }
 
-int DatabaseController::select(Table table,int id)
+InfoAboutElement DatabaseController::select(Table table,int id)
 {
     if(table == AIRPLANS)
     {
-        airplanTable->select(id);
+        return airplanTable->select(id);
     }
     else if(table == ZRK)
     {
-        zrkTable->select(id);
+        return zrkTable->select(id);
     }
-    return 0;
+
 }
 
 
@@ -72,7 +72,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 {
     switch (table)
     {
-        case AIRPLANS://???
+        case AIRPLANS:
             model->setTable("AIRPLANS");
             break;
         case ZRK:
