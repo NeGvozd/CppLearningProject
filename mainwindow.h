@@ -22,6 +22,7 @@
 #include "QGSController.h"
 #include "chooseline.h"
 
+#include "objects/ObjectFactory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,8 +42,10 @@ public: //ToDO: transfer to private
     MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
     MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
 
+    int get_id() const;
     Table get_type() const;
     void get_info();
+
 };
 
 class MainWindow : public QMainWindow
@@ -72,18 +75,22 @@ private slots:
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
     void showLinesDialog();
+    void create_new_object(int id,Table type);
 
 private:
     //if you don't have QGS comment bottom line
-    QGSController* QgsController;
+    //QGSController* QgsController;
 
     Ui::MainWindow *ui;
-    DatabaseController dbController;
+    //DatabaseController dbController;
 
     QPushButton* SetLine;
     QPushButton* RadarBtn;
 
     ChooseLine* lineDialog;
+    DatabaseController *dbController;
+    //ObjectFactory *objFactory;
+
 };
 
 #endif // MAINWINDOW_H

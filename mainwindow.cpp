@@ -9,17 +9,19 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    
-    QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath(QDir::currentPath());
-
     Map=ui->Map;
+    dbController = new DatabaseController;
 
+    QFileSystemModel *model = new QFileSystemModel;
     QGridLayout* g = new QGridLayout(ui->Center);
+    //objFactory = new ObjectFactory;
     g->addWidget(Map);
 
+    model->setRootPath(QDir::currentPath());
+
     //if you don't have QGS comment bottom line
-    QgsController = new QGSController(Map);
+    //QgsController = new QGSController(Map);
+
     ui->TreeAddedItems->clear();
     
     SetLine = ui->SetLine;
@@ -49,7 +51,7 @@ void MainWindow::show(){
 
 void MainWindow::on_actionNew_triggered(){
     //if you don't have QGS comment bottom line
-    QgsController->addLayer();
+    //QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
@@ -66,11 +68,20 @@ void MainWindow::on_actionExit_triggered(){
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
-    Table type=dynamic_cast<MyTreeItem*>(item)->get_type();
-    if (type == ZRK)
-        QgsController->activateSelectingSquare();
-    if (type == AIRPLANS)
-        QgsController->activateSelectingPoint();
+    Table type = dynamic_cast<MyTreeItem*>(item)->get_type();
+    int id = dynamic_cast<MyTreeItem*>(item)->get_id();
+    //dynamic_cast<MyTreeItem*>(item)->get_info();
+    this->create_new_object(id,type);
+    switch (type) {
+    case ZRK:
+        //QgsController->activateSelectingSquare();
+        break;
+    case AIRPLANS:
+        //QgsController->activateSelectingPoint();
+        break;
+    default:
+        break;
+    }
 }
 
 MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
@@ -99,21 +110,22 @@ void MyTreeItem::get_info()
     qInfo() << mass;
 }
 
+int MyTreeItem::get_id() const{
+    return id;
+}
 Table MyTreeItem::get_type() const{
     return type;
 }
 
 
 void MainWindow::on_DataBaseButton_clicked(){
-    dbController.dataWindow_show();
-    if(ui->TreeAddedItems->topLevelItemCount()==0)
-        fillTreeFromDb();
+    dbController->dataWindow_show();
 }
 
 void MainWindow::fillTreeFromDb()
 {
-    QVector<InfoAboutElement> planes = dbController.select_all(AIRPLANS);
-    QVector<InfoAboutElement> zrks = dbController.select_all(ZRK);
+    QVector<InfoAboutElement> planes = dbController->select_all(AIRPLANS);
+    QVector<InfoAboutElement> zrks = dbController->select_all(ZRK);
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0, "ЗРК");
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1, "Самолеты");
     MyTreeItem *gyro = new MyTreeItem(ui->TreeAddedItems, 2, "Вертолеты");
@@ -136,12 +148,40 @@ void MainWindow::fillTreeFromDb()
 
 }
 
+void MainWindow::create_new_object(int id,Table type)//временное создание объектов(потом переделать) то есть сделать это по клику
+{
+    InfoAboutElement element = dbController->select(type,id);
+    switch (type)
+    {
+        case AIRPLANS:
+            {
+                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+            }
+        break;
+        case ZRK:
+            {
+                auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+            }
+        break;
+        default:
+            break;
+    }
+//    if(type == AIRPLANS)
+//        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+//    else if(type == ZRK)
+//        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+}
+
 
 void MainWindow::on_addFromTreeButton_clicked(){
-    if ((!ui->DockWidgetForTree->isVisible()))
+
+    if ((!ui->DockWidgetForTree->isVisible()))//maybe you must write '!' (on macOS it does not work)
         ui->DockWidgetForTree->show();
     else
         ui->DockWidgetForTree->close();
+
+    if(ui->TreeAddedItems->topLevelItemCount()==0)
+        fillTreeFromDb();
 }
 
 void MainWindow::on_actionHand_triggered(){
