@@ -1,6 +1,6 @@
-#include "Plane.h"
-#include "Rocket.h"
-#include "Point.h"
+#include "plane.h"
+#include "rocket.h"
+#include "point.h"
 
 Plane::Plane(float health, float speed, const QString& model) :
     health(health), speed(speed), model(model) {}
