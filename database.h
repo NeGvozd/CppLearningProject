@@ -7,39 +7,37 @@
 #include <QtSql>
 #include <QVector>
 
-struct InfoAboutElement
+enum Table{AIRPLANS,ZRK};//will be more tables
+
+
+class InfoAboutElement
 {
 public:
     int id;
+    Table type;
     QString name;
     int speed;
     int mass;
-/*
-    InfoAboutElement(int id, QString name, int speed, int mass){
-        this->id = id;
-        this->name = name;
-        this->speed = speed;
-        this->mass = mass;
-    }*/
-
+    int distance;
+    int damage;
 };
 
+// class Table() toDO:: create base class
 class AirplansTable
 {
 public:
     AirplansTable();
-    int select(int id);
+    InfoAboutElement select(int id);
     QVector<InfoAboutElement> select_all();
-
 };
 
 class ZRKTable
 {
 public:
     ZRKTable();
-    int select(int id);
+    InfoAboutElement select(int id);
     QVector<InfoAboutElement> select_all();
-
 };
+
 
 #endif // DATABASE_H

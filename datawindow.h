@@ -2,7 +2,9 @@
 #define DATAWINDOW_H
 
 #include <QDialog>
-#include "databasecontroller.h"
+#include <QSqlTableModel>
+
+#include <database.h>
 
 namespace Ui {
 class DataWindow;
@@ -16,26 +18,24 @@ public:
     explicit DataWindow(QWidget *parent = nullptr);
     ~DataWindow();
 
+signals:
+    void sig_typeTable_clicked(Table table);
+    void sig_addButton_clicked();
+    void sig_deleteButton_clicked();
+    void sig_tableView_clicked(const QModelIndex &index);
+
 private slots:
     void on_planeButton_clicked();
     void on_zrkButton_clicked();
-
     void on_addButton_clicked();
     void on_deleteButton_clicked();
-
     void on_tableView_clicked(const QModelIndex &index);
 
-    void on_zalupa_clicked();
+    void slot_table(QSqlTableModel *model);
 
-signals:
-    void signal();
 
 public:
     Ui::DataWindow *ui;
-
-public:
-    DatabaseController dbController;
-    int currentRow;
 };
 
 #endif // DATAWINDOW_H

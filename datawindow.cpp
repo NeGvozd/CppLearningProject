@@ -7,14 +7,6 @@ DataWindow::DataWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    dbController.connection();
-  //  QVector<InfoAboutElement> v = dbController.select_all(AIRPLANS);
-   // for(int i = 0; i < v.size(); i++){
-    //    qInfo() << v[i].name;
-  //  }
-
-    //dbController.select(AIRPLANS,0);//test
-    //dbController.select(ZRK,1);//test
 }
 
 DataWindow::~DataWindow()
@@ -26,41 +18,28 @@ void DataWindow::on_planeButton_clicked()
 {
     ui->planeButton->setEnabled(false);
     ui->zrkButton->setEnabled(true);
-    dbController.model->setTable("AIRPLANS");
-    dbController.model->select();
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->tableView->setModel(dbController.model);
+    emit sig_typeTable_clicked(AIRPLANS);
 }
 
 void DataWindow::on_zrkButton_clicked()
 {
     ui->zrkButton->setEnabled(false);
     ui->planeButton->setEnabled(true);
-    dbController.model->setTable("ZRK");
-    dbController.model->select();
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    ui->tableView->setModel(dbController.model);
+    emit sig_typeTable_clicked(ZRK);
 }
 
 void DataWindow::on_addButton_clicked()
-{
-    dbController.model->insertRow(dbController.model->rowCount());
-}
+{emit sig_addButton_clicked();}
 
 void DataWindow::on_deleteButton_clicked()
-{
-    dbController.model->removeRow(currentRow);
-    dbController.model->select();
-}
+{emit sig_deleteButton_clicked();}
 
 void DataWindow::on_tableView_clicked(const QModelIndex &index)
+{emit sig_tableView_clicked(index);}
+
+void DataWindow::slot_table(QSqlTableModel *model)
 {
-    currentRow = index.row();
-}
-
-
-
-void DataWindow::on_zalupa_clicked()
-{
-    emit signal();
+    ui->tableView->setModel(model);
 }
