@@ -5,6 +5,7 @@
         <file>img/zrk.png</file>
         <file>img/sql_icon.png</file>
         <file>img/add_icon.png</file>
+        <file>img/location_icon.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

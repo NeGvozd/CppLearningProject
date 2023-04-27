@@ -63,6 +63,9 @@ private slots:
     void fillTreeFromDb();
     void create_new_object(int id,Table type);
 
+public slots:
+    void addedToDb();
+
 private:
     //if you don't have QGS comment bottom line
     //QGSController* QgsController;
