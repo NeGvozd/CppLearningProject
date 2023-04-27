@@ -204,7 +204,6 @@ void QGSController::showRadarZones(){
         layers.removeOne(radarCirclesLayer);
     else
         layers.push_back(radarCirclesLayer);
-    crs=layers.at(layers.size()-1)->crs();
 
     canvas->setLayers(layers);
     for(int i=2;i<layers.length();i++)

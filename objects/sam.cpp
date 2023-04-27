@@ -1,5 +1,5 @@
-#include "SAM.h"
-#include "Rocket.h"
+#include "sam.h"
+#include "rocket.h"
 
 SAM::SAM(float health, const QString& model) :
     health(health), model(model) {}

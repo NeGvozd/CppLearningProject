@@ -2,9 +2,9 @@
 #define OBJECT_FACTORY_H
 
 #include <memory>
-#include "Point.h"
-#include "Plane.h"
-#include "SAM.h"
+#include "point.h"
+#include "plane.h"
+#include "sam.h"
 #include <QDebug>
 
 class Point;

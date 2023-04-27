@@ -26,7 +26,7 @@
 
 #include <qgscircle.h>
 
-#include <qgssvgcache.h>
+//#include <qgssvgcache.h> //мб для svg
 #include <qgscategorizedsymbolrenderer.h>
 
 #pragma once

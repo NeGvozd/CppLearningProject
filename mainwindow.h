@@ -79,7 +79,7 @@ private slots:
 
 private:
     //if you don't have QGS comment bottom line
-    //QGSController* QgsController;
+    QGSController* QgsController;
 
     Ui::MainWindow *ui;
     //DatabaseController dbController;

@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     model->setRootPath(QDir::currentPath());
 
     //if you don't have QGS comment bottom line
-    //QgsController = new QGSController(Map);
+    QgsController = new QGSController(Map);
 
     ui->TreeAddedItems->clear();
     
@@ -51,7 +51,7 @@ void MainWindow::show(){
 
 void MainWindow::on_actionNew_triggered(){
     //if you don't have QGS comment bottom line
-    //QgsController->addLayer();
+    QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
@@ -74,10 +74,8 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     this->create_new_object(id,type);
     switch (type) {
     case ZRK:
-        //QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
-        //QgsController->activateSelectingPoint();
         break;
     default:
         break;
@@ -155,12 +153,15 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
     {
         case AIRPLANS:
             {
-                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);     
+                QgsController->activateSelectingPoint();
+
             }
         break;
         case ZRK:
             {
                 auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+                QgsController->activateSelectingSquare();
             }
         break;
         default:
