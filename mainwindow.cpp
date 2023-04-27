@@ -72,31 +72,29 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     }
 }
 
-MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, Table type, QString name, int speed, int mass, int distance, int damage) : QTreeWidgetItem(parent){
     this->id=id;
+    this->type=type;
     this->name = name;
     this->speed = speed;
     this->mass = mass;
-    this->type=type;
+    this->distance = distance;
+    this->damage = damage;
     this->setText(0, name);
 }
 
-MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name, int speed, int mass, Table type): QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name) : QTreeWidgetItem(parent){
     this->id=id;
+    //this->type=type;
     this->name = name;
-    this->speed = speed;
-    this->mass = mass;
-    this->type=type;
+    //this->speed = speed;
+    //this->mass = mass;
+    //this->distance = distance;
+    //this->damage = damage;
     this->setText(0, name);
 }
 
-void MyTreeItem::get_info()
-{
-    qInfo() << id;
-    qInfo() << name;
-    qInfo() << speed;
-    qInfo() << mass;
-}
+
 
 int MyTreeItem::get_id() const{
     return id;
@@ -114,9 +112,9 @@ void MainWindow::fillTreeFromDb()
 {
     QVector<InfoAboutElement> planes = dbController->select_all(AIRPLANS);
     QVector<InfoAboutElement> zrks = dbController->select_all(ZRK);
-    MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0, "ЗРК");
+    MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0,  "ЗРК");
     MyTreeItem *plane = new MyTreeItem(ui->TreeAddedItems, 1, "Самолеты");
-    MyTreeItem *gyro = new MyTreeItem(ui->TreeAddedItems, 2, "Вертолеты");
+    MyTreeItem *gyro = new MyTreeItem(ui->TreeAddedItems, 2,  "Вертолеты");
 
     zrk->setIcon(0, QIcon(":/rec/img/zrk.png"));
     plane->setIcon(0, QIcon(":/rec/img/plane.png"));
@@ -124,19 +122,15 @@ void MainWindow::fillTreeFromDb()
 
     //childs
     int sizeOfplanes = planes.size();
-    QVector<MyTreeItem*> mass;
     for(int i = 0; i<sizeOfplanes ;i++){
-        MyTreeItem *pl = new MyTreeItem(plane, planes[i].id, planes[i].name, planes[i].speed, planes[i].mass,planes[i].type);
+        MyTreeItem *pl = new MyTreeItem(plane, planes[i].id, planes[i].type, planes[i].name, planes[i].speed, planes[i].mass, 0 , 0);
     }
 
 
-    MyTreeItem *firstZrk = new MyTreeItem(zrk, zrks[0].id, zrks[0].name, zrks[0].speed, zrks[0].mass,zrks[0].type); //toDO:: create ctr from InfoElements
-    MyTreeItem *secondZrk = new MyTreeItem(zrk, zrks[1].id, zrks[1].name, zrks[1].speed, zrks[1].mass,zrks[1].type);
-    MyTreeItem *thirdZrk = new MyTreeItem(zrk, zrks[2].id, zrks[2].name, zrks[2].speed, zrks[2].mass,zrks[2].type);
-
-    //MyTreeItem *firstPlane = new MyTreeItem(plane, planes[0].id, planes[0].name, planes[0].speed, planes[0].mass,planes[0].type);
-    //MyTreeItem *secondPlane = new MyTreeItem(plane, planes[1].id, planes[1].name, planes[1].speed, planes[1].mass,planes[1].type);
-    //MyTreeItem *thirdPlane = new MyTreeItem(plane, planes[2].id, planes[2].name, planes[2].speed, planes[2].mass,planes[2].type);
+    int sizeOfzrks = zrks.size();
+    for(int i = 0; i<sizeOfzrks ;i++){
+        MyTreeItem *sam = new MyTreeItem(zrk, zrks[i].id, zrks[i].type, zrks[i].name, 0, 0, zrks[i].distance, zrks[i].damage);
+    }
 
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);
 

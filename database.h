@@ -14,14 +14,12 @@ class InfoAboutElement
 {
 public:
     int id;
+    Table type;
     QString name;
     int speed;
     int mass;
-    Table type;
-
-    //InfoAboutElement(int id, QString name, int speed, int mass,Table type);
-
-
+    int distance;
+    int damage;
 };
 
 // class Table() toDO:: create base class

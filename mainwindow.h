@@ -28,18 +28,18 @@ class MyTreeItem : public QTreeWidgetItem
 
 public: //ToDO: transfer to private
     int id;
+    Table type;
     QString name;
     int speed;
     int mass;
-    Table type;
+    int distance;
+    int damage;
 
-    MyTreeItem(MyTreeItem *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
-    MyTreeItem(QTreeWidget *parent = nullptr, int id = 0, QString name = "none", int speed = 0, int mass = 0, Table type=AIRPLANS);
+    MyTreeItem(MyTreeItem *parent=nullptr, int id=0, Table type=AIRPLANS, QString name="none", int speed=0, int mass=0, int distance=0, int damage=0);
+    MyTreeItem(QTreeWidget *parent=nullptr, int id=0, QString name="none");
 
     int get_id() const;
     Table get_type() const;
-    void get_info();
-
 };
 
 
