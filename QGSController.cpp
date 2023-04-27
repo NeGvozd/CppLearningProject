@@ -19,6 +19,8 @@ QGSController::QGSController(QWidget* Map){
     canvas->setPreviewJobsEnabled(true);
     canvas->setMapUpdateInterval(500); //ToDO::check possible values
 
+    //qInfo() << QgsSvgCache().getImageData("26562.svg");
+
     startLayer();
 
     QGridLayout* gl =new QGridLayout(this->Map);
@@ -28,9 +30,8 @@ QGSController::QGSController(QWidget* Map){
     panTool= new QgsMapToolPan(canvas);
     
     
-    /*
     //Здесь код для вставления картинки
-    controlPointsLayer->startEditing();
+/*    controlPointsLayer->startEditing();
 
     QgsFeatureRenderer * layerRenderer= controlPointsLayer->renderer();
     QgsSingleSymbolRenderer *mSingleRenderer = QgsSingleSymbolRenderer::convertFromRenderer(layerRenderer);
@@ -41,15 +42,21 @@ QGSController::QGSController(QWidget* Map){
     mp[QString("size")]= QString("6");
       //  mp[QString("outline")]=QString("black");
      //   mp[QString("outline-width")]=QString("6.8");
-    QgsSvgMarkerSymbolLayer* planeLayer = new QgsSvgMarkerSymbolLayer("/26562.svg");
-    planeLayer->setPath("./26562.svg");
-    qInfo() << planeLayer->path();
+    QgsSvgMarkerSymbolLayer* planeLayer = new QgsSvgMarkerSymbolLayer("26562.svg");
+    //planeLayer->setPath("26562.svg");
+    //qInfo() << planeLayer->path();
     //planeLayer->setColor(QColor(1, 1, 0));
     QgsSymbolLayer* svgsymbol=planeLayer->create(mp);
-    auto newsym=symbol->createSimple(mp);
-    newsym->changeSymbolLayer(0,svgsymbol);
-    mSingleRenderer->setSymbol(newsym);
-    controlPointsLayer->setRenderer(mSingleRenderer);
+//    QgsMarkerSymbol* newsym=symbol->createSimple(mp);
+    QgsSymbol* newsym = QgsSymbol::defaultSymbol(controlPointsLayer->geometryType());
+    newsym->deleteSymbolLayer(0);
+    newsym->insertSymbolLayer(0, svgsymbol);
+    QList<QgsRendererCategory> Categories;
+    QgsRendererCategory MyCategorie = QgsRendererCategory(QVariant("1"),newsym,"26562.svg");
+    Categories.append(MyCategorie);
+    QgsCategorizedSymbolRenderer* lrenderer = new QgsCategorizedSymbolRenderer("RVER",Categories);
+    controlPointsLayer->setRenderer(lrenderer);
+//    controlPointsLayer->setRenderer(mSingleRenderer);
     controlPointsLayer->triggerRepaint();
     controlPointsLayer->commitChanges();*/
     
@@ -133,7 +140,7 @@ void QGSController::setCrs()
 void QGSController::activateSelectingPoint(){
     PointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(PointTool);
-    //TODO как-то перенести в MainWindow
+    //TODO как-то перенести в MainWindow?
     connect(PointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
 }
 
@@ -141,7 +148,6 @@ void QGSController::activateSelectingPoint(){
 void QGSController::activateSelectingSquare(){
     QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(emitPointTool);
-    //TODO как-то перенести в MainWindow
     connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addRadar);
 }
 

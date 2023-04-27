@@ -24,6 +24,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         Xml
         Sql
+        Network
         REQUIRED)
 
 link_directories(/usr/lib)
@@ -66,6 +67,7 @@ target_link_libraries(Zrk_Interface
         Qt5::Widgets
         Qt5::Xml
         Qt5::Sql
+        Qt5::Network
         qgis_native
         qgis_core
         qgis_app

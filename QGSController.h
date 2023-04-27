@@ -24,8 +24,10 @@
 #include <qgslinestring.h>
 #include <qgswkbtypes.h>
 
-#include <QTreeWidget>
 #include <qgscircle.h>
+
+#include <qgssvgcache.h>
+#include <qgscategorizedsymbolrenderer.h>
 
 #pragma once
 
