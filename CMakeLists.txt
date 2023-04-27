@@ -64,6 +64,8 @@ target_include_directories(Zrk_Interface PRIVATE
                                     ${QGIS_PATH}/include/qgis
                                     /usr/include/gdal)
 
+add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/tth.db $<TARGET_FILE_DIR:Zrk_Interface>/tth.db)
+
 target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
 target_link_libraries(Zrk_Interface
         Qt5::Core
@@ -77,3 +79,4 @@ target_link_libraries(Zrk_Interface
 #        qgis_gui
 #        gdal
         )
+
