@@ -9,6 +9,6 @@ std::unique_ptr<Plane> ObjectFactory::CreatePlane(float health, float speed, con
     return std::make_unique<Plane>(health, speed, model);
 }
 
-std::unique_ptr<SAM> ObjectFactory::CreateSAM(float health, const QString& model) {
-    return std::make_unique<SAM>(health, model);
+std::unique_ptr<SAM> ObjectFactory::CreateSAM(float health, const QString& model, float distance, Point coord) {
+    return std::make_unique<SAM>(health, model, distance, coord);
 }

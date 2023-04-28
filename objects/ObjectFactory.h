@@ -15,7 +15,7 @@ class ObjectFactory {
 public:
     static std::unique_ptr<Point> CreateTarget(float x, float y);
     static std::unique_ptr<Plane> CreatePlane(float health, float speed, const QString& model);
-    static std::unique_ptr<SAM> CreateSAM(float health, const QString& model);
+    static std::unique_ptr<SAM> CreateSAM(float health, const QString& model, float distance, Point coord);
 };
 
 #endif // OBJECT_FACTORY_H

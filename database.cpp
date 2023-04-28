@@ -16,7 +16,7 @@ InfoAboutElement AirplansTable::select(int id)
     int speed = my_query.value(rec.indexOf("Speed")).toInt();
     int mass = my_query.value(rec.indexOf("Mass")).toInt();
     qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-    InfoAboutElement plane = {id, name, speed, mass,AIRPLANS};
+    InfoAboutElement plane = {id, AIRPLANS, name, speed, mass, 0 , 0};
     return plane;
 }
 
@@ -37,7 +37,7 @@ QVector<InfoAboutElement> AirplansTable::select_all()
 
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        InfoAboutElement plane = {id, name, speed, mass,AIRPLANS};
+        InfoAboutElement plane = {id, AIRPLANS, name, speed, mass, 0 , 0};
         vec.append(plane);
     }
 
@@ -61,7 +61,7 @@ InfoAboutElement ZRKTable::select(int id)
 
     qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Distance ="<< distance <<"Damage ="<< damage;
 
-    InfoAboutElement zrk = {id, name, distance, damage,ZRK};
+    InfoAboutElement zrk = {id, ZRK, name, 0, 0, distance , damage};
     return zrk;
 
 }
@@ -84,7 +84,7 @@ QVector<InfoAboutElement> ZRKTable::select_all()
 
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        InfoAboutElement zrk = {id, name, distance, damage,ZRK};
+        InfoAboutElement zrk = {id, ZRK, name, 0, 0, distance , damage};
         vec.append(zrk);
     }
 

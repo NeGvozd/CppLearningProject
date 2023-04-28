@@ -1,6 +1,5 @@
 #include "rocket.h"
 #include "point.h"
-
 Rocket::Rocket(float damage, float speed, float range, Point* target) :
     damage(damage), speed(speed), range(range), target(target) {}
 

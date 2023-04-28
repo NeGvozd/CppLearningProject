@@ -27,6 +27,7 @@ public:
 
 signals:
     void sig_table(QSqlTableModel *model);
+    void sig_addedToDb();
 
 public slots:
     void slot_typeTable_clicked(Table table);

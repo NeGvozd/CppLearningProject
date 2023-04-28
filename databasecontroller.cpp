@@ -16,7 +16,7 @@ DatabaseController::DatabaseController()
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../database/tth.db");
+    db.setDatabaseName("tth.db");
 
 
     if (db.open())
@@ -90,6 +90,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
+    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()
