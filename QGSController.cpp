@@ -60,6 +60,8 @@ QGSController::QGSController(QWidget* Map){
     controlPointsLayer->triggerRepaint();
     controlPointsLayer->commitChanges();*/
     
+    connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
+    connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
 
 }
 
@@ -322,4 +324,12 @@ void QGSController::renderCycleLine(){
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &QGSController::lineFollow);
     timer->start(50);
+}
+
+void QGSController::mouseMoved(const QgsPointXY &p ){
+    emit coordChanged(p.x(), p.y()); //ПРАВИЛЬНО ЛИ ДЕЛАТЬ ПЕРЕБРОСКУ ПРОМЕЖУТОЧНОГО СИГНАЛА? ПРИ ТОМ, ЧТО КАНВАС - ПРИВАТНЫЙ
+};
+
+void QGSController::mapScaled( double s ){
+    emit scaleChanged(s);
 }

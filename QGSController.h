@@ -58,6 +58,8 @@ private:
     void addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom);
 signals:
     void sendLine(int id, QString name);
+    void coordChanged(double x, double y);
+    void scaleChanged(double s);
 public slots:
     void addLine(bool checked);
     void showRadarZones();
@@ -67,6 +69,8 @@ private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
+    void mouseMoved(const QgsPointXY &p );
+    void mapScaled( double s );
 
     void moving();
 

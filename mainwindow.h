@@ -80,6 +80,8 @@ private slots:
 
 public slots:
     void addedToDb();
+    void updateMapCoord(double x, double y);
+    void updateMapScale(double s);
 
 private:
     //if you don't have QGS comment bottom line

@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
+    connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
+    connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
 
 }
 
@@ -63,6 +65,14 @@ void MainWindow::show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
+}
+
+void MainWindow::updateMapCoord(double x, double y){
+    ui->labelForCoord->setText(QString("%1 : %2").arg(x).arg(y));
+}
+
+void MainWindow::updateMapScale(double s){
+    ui->labelForScale->setText(QString("%1").arg(s));
 }
 
 void MainWindow::on_actionNew_triggered(){
