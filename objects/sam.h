@@ -3,10 +3,7 @@
 
 #include <QDebug>
 // #include <vector>
-<<<<<<< HEAD
-=======
 #include "point.h"
->>>>>>> Interface
 
 class Rocket;
 

@@ -276,17 +276,6 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </widget>
-       <widget class="QPushButton" name="SetLine">
-        <property name="geometry">
-         <rect>
-          <x>1050</x>
-          <y>500</y>
-          <width>80</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>SetLine</string>
        <widget class="QLabel" name="labelForText">
         <property name="geometry">
          <rect>
@@ -368,6 +357,19 @@
         </property>
         <property name="text">
          <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="SetLine">
+        <property name="geometry">
+         <rect>
+          <x>1070</x>
+          <y>450</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SetLine</string>
         </property>
        </widget>
       </widget>

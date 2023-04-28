@@ -98,30 +98,21 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     }
 }
 
-MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, QString name, int speed, int mass, Table type) : QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, Table type, QString name, int speed, int mass, int distance, int damage) : QTreeWidgetItem(parent){
     this->id=id;
+    this->type=type;
     this->name = name;
     this->speed = speed;
     this->mass = mass;
-    this->type=type;
+    this->distance = distance;
+    this->damage = damage;
     this->setText(0, name);
 }
 
-MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name, int speed, int mass, Table type): QTreeWidgetItem(parent){
+MyTreeItem::MyTreeItem(QTreeWidget *parent, int id, QString name) : QTreeWidgetItem(parent){
     this->id=id;
     this->name = name;
-    this->speed = speed;
-    this->mass = mass;
-    this->type=type;
     this->setText(0, name);
-}
-
-void MyTreeItem::get_info()
-{
-    qInfo() << id;
-    qInfo() << name;
-    qInfo() << speed;
-    qInfo() << mass;
 }
 
 int MyTreeItem::get_id() const{
@@ -173,15 +164,12 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
     {
         case AIRPLANS:
             {
-                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);     
-                QgsController->activateSelectingPoint();
-
+                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
             }
         break;
         case ZRK:
             {
-                auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
-                QgsController->activateSelectingSquare();
+        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name, element.distance, Point(0,0));
             }
         break;
         default:
@@ -190,7 +178,7 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
 //    if(type == AIRPLANS)
 //        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
 //    else if(type == ZRK)
-//        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
+    //        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
 }
 
 
