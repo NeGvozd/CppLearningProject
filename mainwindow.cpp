@@ -53,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
     connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
-
 }
 
 MainWindow::~MainWindow(){
@@ -100,8 +99,10 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     this->create_new_object(id,type);
     switch (type) {
     case ZRK:
+        QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
+        QgsController->activateSelectingPoint();
         break;
     default:
         break;
