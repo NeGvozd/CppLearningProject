@@ -53,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
     connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
-
 }
 
 MainWindow::~MainWindow(){
