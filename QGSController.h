@@ -77,6 +77,8 @@ private slots:
     void lineFollow();
 private:
     QgsMapToolPan* panTool;
+    QgsMapToolEmitPoint* pointTool;
+
     QgsMapCanvas* canvas;
     
 
@@ -98,7 +100,6 @@ private:
 
     int tempLineId = -1;
     int tempNumberOfLine = -1;
-    QgsMapToolEmitPoint* PointTool;
     bool isMoving = true;
 public:
     QgsMapToolEmitPoint* selectionPointTool;

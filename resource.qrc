@@ -6,6 +6,9 @@
         <file>img/sql_icon.png</file>
         <file>img/add_icon.png</file>
         <file>img/location_icon.png</file>
+        <file>img/grab.png</file>
+        <file>img/play.png</file>
+        <file>img/pause.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

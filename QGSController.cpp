@@ -26,10 +26,9 @@ QGSController::QGSController(QWidget* Map){
     QGridLayout* gl =new QGridLayout(this->Map);
     gl->addWidget(canvas);
 
-    //fffff
+    //Tools
     panTool= new QgsMapToolPan(canvas);
-    
-    
+
     //Здесь код для вставления картинки
 /*    controlPointsLayer->startEditing();
 
@@ -107,13 +106,20 @@ void QGSController::addLayer(){
 
 void QGSController::initVectorLayer(QgsVectorLayer* layer){
     layer->startEditing();
-    layer->dataProvider()->addAttributes({QgsField("fid", QVariant::Int)});
+    layer->dataProvider()->addAttributes({QgsField("name", QVariant::String)});
     layer->updateFields();
 
+    //Комментарии принадлежат к коду ниже
+    //Устанавливает, должны ли быть включены метки для слоя.
     layer->setLabelsEnabled(true);
+    //Contains settings for how a map layer will be labeled.
     QgsPalLayerSettings pls;
-    pls.fieldName = "fid";
+    pls.fieldName = "name";
+
+    //Так и нужно(для понимания стоит перейти в изначальный класс)
     pls.placement = QgsPalLayerSettings::Placement::Line;
+
+    //Basic implementation of the labeling interface.
     QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
     layer->setLabeling(simple_label);
     layer->commitChanges();
@@ -140,15 +146,15 @@ void QGSController::setCrs()
 }
 
 void QGSController::activateSelectingPoint(){
-    PointTool = new QgsMapToolEmitPoint(canvas);
-    canvas->setMapTool(PointTool);
+    pointTool = new QgsMapToolEmitPoint(canvas);
+    canvas->setMapTool(pointTool);
     //TODO как-то перенести в MainWindow?
-    connect(PointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
+    connect(pointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
 }
 
 
 void QGSController::activateSelectingSquare(){
-    QgsMapToolEmitPoint* emitPointTool = new QgsMapToolEmitPoint(canvas);
+    QgsMapToolEmitPoint* emitPointTool= new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(emitPointTool);
     connect(emitPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addRadar);
 }
@@ -156,8 +162,10 @@ void QGSController::activateSelectingSquare(){
 void QGSController::addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom){
     layer->startEditing();
     QgsFeature feat;
+    //Assigns a field map with the feature to allow attribute access by attribute name.
     feat.setFields(layer->fields(), true);
-    feat.setAttribute("fid", int(layer->featureCount())+1);
+
+    feat.setAttribute("name", QString::number(int(layer->featureCount())+1));
     feat.setGeometry(geom);
     layer->addFeature(feat);
     layer->commitChanges();
@@ -171,7 +179,7 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
         if(tempLineId == -1){
         renderCycle();
         } else {
-        canvas->unsetMapTool(PointTool);
+        canvas->unsetMapTool(pointTool);
         renderCycleLine();
         }
 }
@@ -217,7 +225,7 @@ void QGSController::showRadarZones(){
 void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
         emit sendLine(int(controlLineLayer->featureCount())+1, QString::number(int(controlLineLayer->featureCount())+1));
-        QgsGeometry geom = QgsGeometry();
+        QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
         addElementToLayer(controlLineLayer, geom);
         linePoints->clear();
@@ -268,16 +276,11 @@ void QGSController::selectionPoints(){
 void QGSController::getLineId(int id){
     this->tempLineId = id;
     activateSelectingPoint();
-};
+}
 
 void QGSController::lineChangeName(int id, QString name){
-
     controlLineLayer->startEditing();
-    QgsFeature feat = controlLineLayer->getFeature(id);
-    controlLineLayer->deleteFeature(feat.id());
-    feat.deleteAttribute("fid");
-    feat.setAttribute("fid", QVariant(name));
-    controlLineLayer->addFeature(feat);//работает, но ему не нравится если писать не номер в имя??
+    controlLineLayer->changeAttributeValue(id,0,name);
     controlLineLayer->commitChanges();
 }
 
@@ -328,7 +331,7 @@ void QGSController::renderCycleLine(){
 
 void QGSController::mouseMoved(const QgsPointXY &p ){
     emit coordChanged(p.x(), p.y()); //ПРАВИЛЬНО ЛИ ДЕЛАТЬ ПЕРЕБРОСКУ ПРОМЕЖУТОЧНОГО СИГНАЛА? ПРИ ТОМ, ЧТО КАНВАС - ПРИВАТНЫЙ
-};
+}
 
 void QGSController::mapScaled( double s ){
     emit scaleChanged(s);

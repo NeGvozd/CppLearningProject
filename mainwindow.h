@@ -64,7 +64,7 @@ private slots:
     void on_actionLine_triggered();
 
 private slots:
-    void on_actionHand_triggered();
+    void on_handButton_clicked();
     void setLineHide();
 
 private slots:
@@ -77,6 +77,12 @@ private slots:
     void fillTreeFromDb();
     void showLinesDialog();
     void create_new_object(int id,Table type);
+
+
+
+    //void on_playButton_clicked();
+
+    //void on_pauseButton_clicked();
 
 public slots:
     void addedToDb();

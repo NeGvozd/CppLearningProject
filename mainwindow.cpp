@@ -100,8 +100,10 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     this->create_new_object(id,type);
     switch (type) {
     case ZRK:
+        QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
+        QgsController->activateSelectingPoint();
         break;
     default:
         break;
@@ -209,9 +211,6 @@ void MainWindow::addedToDb()
     fillTreeFromDb();
 }
 
-void MainWindow::on_actionHand_triggered(){
-    QgsController->activatePanTool();
-}
 
 void MainWindow::on_actionLine_triggered(){
     SetLine->show();
@@ -226,3 +225,19 @@ void MainWindow::setLineHide(){
 void MainWindow::showLinesDialog(){
     lineDialog->show();
 }
+
+void MainWindow::on_handButton_clicked()
+{
+    QgsController->activatePanTool();
+}
+/*
+void MainWindow::on_playButton_clicked()
+{
+    QgsController->renderCycle();
+}
+
+void MainWindow::on_pauseButton_clicked()
+{
+    QgsController->stopRenderCycle()
+}
+*/
