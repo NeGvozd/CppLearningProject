@@ -20,6 +20,8 @@
 #include <qgsmaptoolpan.h>
 #include <qgsmaptoolidentifyfeature.h>
 
+#include <qmap.h>
+
 #include <QVector>
 #include <qgslinestring.h>
 #include <qgswkbtypes.h>
@@ -37,6 +39,7 @@ public:
     QGSController(QWidget* Map);
     ~QGSController();
     void addLayer();
+    void addPointToLine(int id);
     void startLayer();
     void setCrs();
     void activateSelectingPoint();
@@ -98,9 +101,11 @@ private:
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
 
-    int tempLineId = -1;
-    int tempNumberOfLine = -1;
-    bool isMoving = true;
+    QMap<int,int> lineFlags;
+
+    //int tempLineId = -1;
+    //int tempNumberOfLine = -1;
+    //bool isMoving = true;
 public:
     QgsMapToolEmitPoint* selectionPointTool;
 };

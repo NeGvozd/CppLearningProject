@@ -146,6 +146,7 @@ void QGSController::setCrs()
 }
 
 void QGSController::activateSelectingPoint(){
+
     pointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(pointTool);
     //TODO как-то перенести в MainWindow?
@@ -174,14 +175,14 @@ void QGSController::addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom){
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
 
     addElementToLayer(controlPointsLayer, QgsGeometry::fromPointXY(point)); //правильно ли так созданные объекты передавать не по указателю
-
+/*
     if(controlPointsLayer->featureCount()==1)
         if(tempLineId == -1){
         renderCycle();
         } else {
         canvas->unsetMapTool(pointTool);
         renderCycleLine();
-        }
+        }*/
 }
 
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
@@ -274,8 +275,17 @@ void QGSController::selectionPoints(){
 }
 
 void QGSController::getLineId(int id){
-    this->tempLineId = id;
-    activateSelectingPoint();
+    //this->tempLineId = id;
+    //activateSelectingPoint();
+    lineFlags.insert(id,0);
+    addPointToLine(id);
+}
+void QGSController::addPointToLine(int id){
+    QgsPointXY point(controlLineLayer->getFeature(id).geometry().asMultiPolyline()[0][0]);
+
+    addElementToLayer(controlPointsLayer,QgsGeometry::fromPointXY(point));
+
+    renderCycleLine();
 }
 
 void QGSController::lineChangeName(int id, QString name){
@@ -289,35 +299,36 @@ QPair<double, double> QGSController::calculatingLineVector(double x, double y){
 }
 
 void QGSController::lineFollow(){
-    if(isMoving){
+    for (auto flag=lineFlags.begin();flag!=lineFlags.end();flag++)
+    {
+        if (flag.value()==-1)
+            continue;
+
         controlPointsLayer->startEditing();
 
-        QgsPointXY myP=controlPointsLayer->getFeature(controlPointsLayer->featureCount()).geometry().asPoint();
-        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(tempLineId).geometry().asMultiPolyline();
-        if(tempNumberOfLine==-1){
-            myP.set(followLines[0][0].x(), followLines[0][0].y());
-            tempNumberOfLine++;
-            QgsGeometry g =QgsGeometry::fromPointXY(myP);
-            controlPointsLayer->changeGeometry(tempLineId,g);
+        QgsPointXY myP=controlPointsLayer->getFeature(flag.key()).geometry().asPoint();
+        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(flag.key()).geometry().asMultiPolyline();
 
-            controlPointsLayer->commitChanges();
-            return;
-        }
         QVector<QgsPointXY> curLine = followLines[0];
-        QPair<double, double> pointVec = calculatingLineVector(curLine[tempNumberOfLine+1].x()-curLine[tempNumberOfLine].x(), curLine[tempNumberOfLine+1].y()-curLine[tempNumberOfLine].y());
-        while(abs(myP.x()+0.3*pointVec.first-curLine[tempNumberOfLine].x())>abs(curLine[tempNumberOfLine+1].x()-curLine[tempNumberOfLine].x())){
-            tempNumberOfLine+=1;
-            if(tempNumberOfLine==curLine.size()-1){
-                isMoving = false;
-                return;
+
+        QPair<double, double> pointVec = calculatingLineVector(curLine[flag.value()+1].x()-curLine[flag.value()].x(),
+                curLine[flag.value()+1].y()-curLine[flag.value()].y());
+        while(abs(myP.x()+0.3*pointVec.first-curLine[flag.value()].x())>
+              abs(curLine[flag.value()+1].x()-curLine[flag.value()].x())){
+            lineFlags[flag.key()]+=1;
+            if(lineFlags[flag.key()]==curLine.size()-1){
+                lineFlags[flag.key()]= -1;
+                break;
                 }
-            myP.set(curLine[tempNumberOfLine].x(), curLine[tempNumberOfLine].y());
-            return;
+            myP.set(curLine[lineFlags[flag.key()]].x(), curLine[lineFlags[flag.key()]].y());
+            break;
         }
+        if (lineFlags[flag.key()]==-1)
+            continue;
         myP.setX(myP.x()+0.1*pointVec.first);
         myP.setY(myP.y()+0.1*pointVec.second);
         QgsGeometry g =QgsGeometry::fromPointXY(myP);
-        controlPointsLayer->changeGeometry(tempLineId,g);
+        controlPointsLayer->changeGeometry(flag.key(),g);
 
         controlPointsLayer->commitChanges();
     }
