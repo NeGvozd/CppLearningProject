@@ -80,9 +80,9 @@ private slots:
 
 
 
-    //void on_playButton_clicked();
+    void on_playButton_clicked();
 
-    //void on_pauseButton_clicked();
+    void on_pauseButton_clicked();
 
 public slots:
     void addedToDb();
@@ -95,6 +95,8 @@ private:
 
     Ui::MainWindow *ui;
     //DatabaseController dbController;
+
+    QLabel* msg;
 
     QPushButton* SetLine;
     QPushButton* RadarBtn;

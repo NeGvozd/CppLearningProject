@@ -44,17 +44,21 @@ public:
     void setCrs();
     void activateSelectingPoint();
     void activateSelectingSquare();
+
+
     void renderCycle();
+    void startRenderCycleLine();
+    void pauseRenderCycleLine();
 
     void selectionPoints();
 
     void activatePanTool();
-    void renderCycleLine();
     QPair<double, double> calculatingLineVector(double x, double y);
 
     void addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius);
     void addLineToLayer(QgsVectorLayer* layer, const QgsPointXY &point1, const QgsPointXY &point2);
     void addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size);
+
 private:
     void deletePointsForLine();
     void initVectorLayer(QgsVectorLayer* layer);
@@ -101,11 +105,14 @@ private:
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
 
-    QMap<int,int> lineFlags;
 
-    //int tempLineId = -1;
-    //int tempNumberOfLine = -1;
-    //bool isMoving = true;
+    QTimer* timerLine;
+
+    //QVector<QVector<int>> lineId-Point-Numberline;
+    QVector<QVector<int>> li_P_Nl;
+
+
+
 public:
     QgsMapToolEmitPoint* selectionPointTool;
 };

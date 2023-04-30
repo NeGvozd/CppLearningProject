@@ -27,6 +27,12 @@ MainWindow::MainWindow(QWidget *parent)
     float x = 543343334343.433;
     float y = 1.0;
     float scale = 135;
+
+    //bad...
+    msg=new QLabel();
+    ui->statusbar->addPermanentWidget(msg);
+
+
     QLabel *spacer = new QLabel(); // fake spacer
     ui->statusbar->addPermanentWidget(spacer, 1);
     ui->statusbar->addPermanentWidget(ui->labelForIcon);
@@ -36,7 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->statusbar->addPermanentWidget(ui->labelForTextScale);
     ui->statusbar->addPermanentWidget(ui->labelForScale);
     ui->labelForScale->setText(QString("%1").arg(scale));
-
 
     ui->TreeAddedItems->clear();
     
@@ -102,7 +107,7 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
         QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
-        QgsController->activateSelectingPoint();
+        lineDialog->exec();
         break;
     default:
         break;
@@ -215,28 +220,31 @@ void MainWindow::on_actionLine_triggered(){
     SetLine->show();
     SetLine->raise();
     QgsController->selectionPoints();
+    msg->setText("Если вы хотите создать линию нажмите ПКМ");
     connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
     //приходится курсор доставать
 }
 void MainWindow::setLineHide(){
     SetLine->hide();
+    msg->setText("");
 }
-void MainWindow::showLinesDialog(){
-    lineDialog->show();
+void MainWindow::showLinesDialog(){    
+    lineDialog->exec();
 }
 
 void MainWindow::on_handButton_clicked()
 {
     QgsController->activatePanTool();
 }
-/*
+
 void MainWindow::on_playButton_clicked()
 {
-    QgsController->renderCycle();
+    //QgsController->renderCycle();
+    QgsController->startRenderCycleLine();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
-    QgsController->stopRenderCycle()
+    QgsController->pauseRenderCycleLine();
 }
-*/
+
