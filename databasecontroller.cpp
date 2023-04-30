@@ -16,7 +16,7 @@ DatabaseController::DatabaseController()
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../database/tth.db");
+    db.setDatabaseName("tth.db");
 
 
     if (db.open())
@@ -33,17 +33,17 @@ int DatabaseController::connection()
 
 }
 
-int DatabaseController::select(Table table,int id)
+InfoAboutElement DatabaseController::select(Table table,int id)
 {
     if(table == AIRPLANS)
     {
-        airplanTable->select(id);
+        return airplanTable->select(id);
     }
     else if(table == ZRK)
     {
-        zrkTable->select(id);
+        return zrkTable->select(id);
     }
-    return 0;
+
 }
 
 
@@ -72,7 +72,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 {
     switch (table)
     {
-        case AIRPLANS://???
+        case AIRPLANS:
             model->setTable("AIRPLANS");
             break;
         case ZRK:
@@ -90,6 +90,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
+    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()

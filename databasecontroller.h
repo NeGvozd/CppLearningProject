@@ -21,12 +21,13 @@ public:
     QSqlDatabase return_db();
     int connection();
     int closing();
-    int select(Table table,int id);//where and what
+    InfoAboutElement select(Table table,int id);//where and what
     QVector<InfoAboutElement> select_all(Table table);
     void dataWindow_show();
 
 signals:
     void sig_table(QSqlTableModel *model);
+    void sig_addedToDb();
 
 public slots:
     void slot_typeTable_clicked(Table table);
