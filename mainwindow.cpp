@@ -174,14 +174,14 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
     switch (type)
     {
         case AIRPLANS:
-            {
-                auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-            }
+        {
+            auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
+        }
         break;
         case ZRK:
-            {
-        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name, element.distance, Point(0,0));
-            }
+        {
+            auto zrk = ObjectFactory::CreateSAM(element.mass,element.name, element.distance, Point(0,0));
+        }
         break;
         default:
             break;
