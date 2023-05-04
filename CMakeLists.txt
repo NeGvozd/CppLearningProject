@@ -51,7 +51,7 @@ add_executable(Zrk_Interface
     resource.qrc
   )
 
-add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/tth.db $<TARGET_FILE_DIR:Zrk_Interface>/tth.db)
+add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/TECHNICALFEATURES.db $<TARGET_FILE_DIR:Zrk_Interface>/TECHNICALFEATURES.db)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/objects)
 
