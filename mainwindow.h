@@ -20,9 +20,9 @@
 #include "datawindow.h"
 #include "databasecontroller.h"
 #include "QGSController/src/QGSController.h"
-#include "chooseline.h"
+#include "QGSController/src/chooseline.h"
 
-#include "objects/src/ObjectFactory.h"
+#include "Engine/src/engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -59,15 +59,14 @@ public:
     QWidget *Map;
     void show();
 //    void LinesWidgetInit();
-
+signals:
+    void createNewObject(InfoAboutElement element);
 private slots:
     void on_actionLine_triggered();
 
-private slots:
     void on_handButton_clicked();
     void setLineHide();
 
-private slots:
     void on_addFromTreeButton_clicked();
     void on_actionNew_triggered();
     void on_actionExit_triggered();
@@ -76,9 +75,6 @@ private slots:
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
     void showLinesDialog();
-    void create_new_object(int id,Table type);
-
-
 
     void on_playButton_clicked();
 
@@ -88,6 +84,7 @@ public slots:
     void addedToDb();
     void updateMapCoord(double x, double y);
     void updateMapScale(double s);
+    void planeCreated();
 
 private:
     //if you don't have QGS comment bottom line
@@ -104,7 +101,7 @@ private:
     ChooseLine* lineDialog;
     DatabaseController *dbController;
     //ObjectFactory *objFactory;
-
+    Engine* engine;
 };
 
 #endif // MAINWINDOW_H

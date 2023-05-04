@@ -12,7 +12,7 @@ if(NOT DEFINED ENV{QGIS_PATH})
 endif()
 message("QGIS_PATH is defined -- ${QGIS_PATH}")
 
-find_package(Qt5 COMPONENTS Core Gui Widgets)
+find_package(Qt5 COMPONENTS Core Gui Widgets Xml)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
 
@@ -22,6 +22,8 @@ link_directories(${QGIS_PATH}/lib)
 add_library(QGSController ${SOURCES})
 
 target_include_directories(QGSController PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src" ${QGIS_PATH}/include/qgis /usr/include/gdal)
+
+target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
 
 target_link_libraries(QGSController Qt5::Core Qt5::Xml Qt5::Gui Qt5::Widgets qgis_native qgis_core qgis_app qgis_gui gdal)
 

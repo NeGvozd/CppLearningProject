@@ -58,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
     connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
+    engine = new Engine();
+    connect(this, &MainWindow::createNewObject, engine, &Engine::createNewObject);
+    connect(engine, &Engine::planeCreated, this, &MainWindow::planeCreated);
+    connect(engine, &Engine::samCreated, QgsController, &QGSController::activateSelectingSquare);
 }
 
 MainWindow::~MainWindow(){
@@ -95,23 +99,17 @@ void MainWindow::on_actionExit_triggered(){
     close();
 }
 
+void MainWindow::planeCreated(){
+        lineDialog->exec();
+}
+
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
     Table type = dynamic_cast<MyTreeItem*>(item)->get_type();
     int id = dynamic_cast<MyTreeItem*>(item)->get_id();
     //dynamic_cast<MyTreeItem*>(item)->get_info();
-    this->create_new_object(id,type);
-    switch (type) {
-    case ZRK:
-        QgsController->activateSelectingSquare();
-        break;
-    case AIRPLANS:
-        lineDialog->exec();
-        break;
-    default:
-        break;
-    }
+    emit createNewObject(dbController->select(type,id));
 }
 
 MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, Table type, QString name, int speed, int mass, int distance, int damage) : QTreeWidgetItem(parent){
@@ -172,31 +170,6 @@ void MainWindow::fillTreeFromDb()
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);
 
 }
-
-void MainWindow::create_new_object(int id,Table type)//временное создание объектов(потом переделать) то есть сделать это по клику
-{
-    InfoAboutElement element = dbController->select(type,id);
-    switch (type)
-    {
-        case AIRPLANS:
-        {
-            auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-        }
-        break;
-        case ZRK:
-        {
-            auto zrk = ObjectFactory::CreateSAM(element.mass,element.name, element.distance, Point(0,0));
-        }
-        break;
-        default:
-            break;
-    }
-//    if(type == AIRPLANS)
-//        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-//    else if(type == ZRK)
-    //        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
-}
-
 
 void MainWindow::on_addFromTreeButton_clicked(){
 

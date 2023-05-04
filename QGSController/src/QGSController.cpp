@@ -94,6 +94,7 @@ void QGSController::addLayer(){
                 canvas->setExtent(layers[i]->extent());
 
             canvas->refresh();
+            qInfo() << canvas->size();
         }
     }
 }

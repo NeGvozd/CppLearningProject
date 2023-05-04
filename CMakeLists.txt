@@ -15,13 +15,8 @@ find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
-        Xml
         Sql
-#        Network
         REQUIRED)
-
-
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 
 add_executable(Zrk_Interface
@@ -36,9 +31,6 @@ add_executable(Zrk_Interface
     databasecontroller.cpp
     datawindow.cpp
     datawindow.ui
-    chooseline.h
-    chooseline.ui
-    chooseline.cpp
     resource.qrc
   )
 
@@ -48,21 +40,19 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/objects)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/QGSController)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
 include_directories(${Qt5_INCLUDE_DIR})
 
 target_include_directories(Zrk_Interface PRIVATE
-                                    objects/src
-                                    QGSController/src)
+                                    QGSController/src
+                                    Enigine/src)
 
-target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
 target_link_libraries(Zrk_Interface
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
-        Qt5::Xml
         Qt5::Sql
-#        Qt5::Network
-        objects
         QGSController
+        Engine
         )

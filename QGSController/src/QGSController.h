@@ -46,13 +46,12 @@ public:
     void addPointToLine(int id);
     void startLayer();
     void setCrs();
-    void activateSelectingPoint();
-    void activateSelectingSquare();
 
 
     void renderCycle();
     void startRenderCycleLine();
     void pauseRenderCycleLine();
+    void activateSelectingPoint();
 
     void selectionPoints();
 
@@ -75,6 +74,7 @@ public slots:
     void showRadarZones();
     void getLineId(int id);
     void lineChangeName(int id, QString name);
+    void activateSelectingSquare();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
