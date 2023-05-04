@@ -1,6 +1,6 @@
 #include "sam.h"
 #include "rocket.h"
-#include "cmath"
+#include <cmath>
 
 SAM::SAM(float health, const QString& model, float distance, Point coord) :
     health(health), model(model), distance(distance), coord(coord) {}
