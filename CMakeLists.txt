@@ -32,8 +32,8 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 
 add_executable(Zrk_Interface
-    database.h
-    databasecontroller.h
+#    database.h
+#    databasecontroller.h
     datawindow.h
 #    QGSController.h
     mainwindow.h
@@ -41,8 +41,8 @@ add_executable(Zrk_Interface
     mainwindow.cpp
     mainwindow.ui
 #    QGSController.cpp
-    database.cpp
-    databasecontroller.cpp
+#    database.cpp
+#    databasecontroller.cpp
     datawindow.cpp
     datawindow.ui
     chooseline.h
@@ -51,16 +51,17 @@ add_executable(Zrk_Interface
     resource.qrc
   )
 
-add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/tth.db $<TARGET_FILE_DIR:Zrk_Interface>/tth.db)
+add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/TECHNICALFEATURES.db $<TARGET_FILE_DIR:Zrk_Interface>/TECHNICALFEATURES.db)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/objects)
-
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/database)
 include_directories(${Qt5_INCLUDE_DIR})
 
 target_include_directories(Zrk_Interface PRIVATE
                                     ${QGIS_PATH}/include/qgis
                                     /usr/include/gdal
-                                    objects/src)
+                                    objects/src
+                                    database/src)
 
 target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
 target_link_libraries(Zrk_Interface
@@ -76,4 +77,5 @@ target_link_libraries(Zrk_Interface
 #        qgis_gui
 #        gdal
         objects
+        database
         )

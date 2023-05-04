@@ -19,7 +19,7 @@ DatabaseController::DatabaseController()
 int DatabaseController::connection()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("tth.db");
+    db.setDatabaseName("TECHNICALFEATURES.db");
 
 
     if (db.open())

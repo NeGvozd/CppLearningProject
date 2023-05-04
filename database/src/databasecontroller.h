@@ -7,7 +7,7 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 
-#include <datawindow.h>
+#include <../../datawindow.h>
 #include <database.h>
 
 
