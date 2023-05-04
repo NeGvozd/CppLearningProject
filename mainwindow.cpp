@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
 //    connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
 //    connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
+      connect(this, SIGNAL(sig_block_db()),dbController,SLOT(slot_block_db()));
+      connect(this, SIGNAL(sig_unblock_db()),dbController,SLOT(slot_unblock_db()));
 }
 
 MainWindow::~MainWindow(){
@@ -258,9 +260,26 @@ void MainWindow::on_handButton_clicked()
 void MainWindow::on_playButton_clicked()
 {
     //QgsController->startRenderCycleLine();
+    emit sig_block_db();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
     //QgsController->pauseRenderCycleLine();
+    emit sig_unblock_db();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

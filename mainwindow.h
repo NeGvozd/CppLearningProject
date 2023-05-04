@@ -61,7 +61,10 @@ public:
 
     void createStatusBar();
 //    void LinesWidgetInit();
-
+signals:
+    void sig_block_db();
+    void sig_unblock_db();
+    
 private slots:
     void on_actionLine_triggered();
 
@@ -115,3 +118,4 @@ private:
 };
 
 #endif // MAINWINDOW_H
+
