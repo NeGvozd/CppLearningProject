@@ -9,6 +9,8 @@
         <file>img/grab.png</file>
         <file>img/play.png</file>
         <file>img/pause.png</file>
+        <file>img/splash.png</file>
+        <file>img/SplashScreen.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
