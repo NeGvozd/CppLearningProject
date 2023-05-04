@@ -19,10 +19,10 @@
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
-#include "QGSController.h"
+#include "QGSController/src/QGSController.h"
 #include "chooseline.h"
 
-#include "objects/ObjectFactory.h"
+#include "objects/src/ObjectFactory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

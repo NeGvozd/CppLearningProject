@@ -1,10 +1,3 @@
-
-#include <QMessageBox>
-#include <QDebug>
-#include <QFileSystemModel>
-#include <QDockWidget>
-#include <QFileDialog>
-#include <QGridLayout>
 #include "QGSController.h"
 
 QGSController::QGSController(QWidget* Map){

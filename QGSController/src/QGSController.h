@@ -28,6 +28,10 @@
 
 #include <qgscircle.h>
 
+#include <QDebug>
+#include <QDialog>
+#include <QFileDialog>
+
 //#include <qgssvgcache.h> //мб для svg
 #include <qgscategorizedsymbolrenderer.h>
 
