@@ -8,7 +8,7 @@
 #include "../../objects/src/plane.h"
 #include "../../objects/src/sam.h"
 #include "../../objects/src/ObjectFactory.h"
-#include "../../database.h"
+#include "../../database/src/database.h"
 
 #pragma once
 

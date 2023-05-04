@@ -20,25 +20,23 @@ find_package(Qt5 COMPONENTS
 
 
 add_executable(Zrk_Interface
-    database.h
-    databasecontroller.h
     datawindow.h
     mainwindow.h
     main.cpp
     mainwindow.cpp
     mainwindow.ui
-    database.cpp
-    databasecontroller.cpp
     datawindow.cpp
     datawindow.ui
     resource.qrc
   )
 
-add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/tth.db $<TARGET_FILE_DIR:Zrk_Interface>/tth.db)
+add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/TECHNICALFEATURES.db $<TARGET_FILE_DIR:Zrk_Interface>/TECHNICALFEATURES.db)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/objects)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/QGSController)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/database)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
@@ -46,7 +44,8 @@ include_directories(${Qt5_INCLUDE_DIR})
 
 target_include_directories(Zrk_Interface PRIVATE
                                     QGSController/src
-                                    Enigine/src)
+                                    Enigine/src
+                                    database/src)
 
 target_link_libraries(Zrk_Interface
         Qt5::Core
@@ -55,4 +54,5 @@ target_link_libraries(Zrk_Interface
         Qt5::Sql
         QGSController
         Engine
+        database
         )

@@ -16,9 +16,9 @@
 #include <QLabel>
 #include <QPicture>
 
-#include <database.h>
+#include <database/src/database.h>
 #include "datawindow.h"
-#include "databasecontroller.h"
+#include "database/src/databasecontroller.h"
 #include "QGSController/src/QGSController.h"
 #include "QGSController/src/chooseline.h"
 
@@ -59,8 +59,12 @@ public:
     QWidget *Map;
     void show();
 //    void LinesWidgetInit();
+private: 
+    void createStatusBar();
 signals:
     void createNewObject(InfoAboutElement element);
+    void sig_block_db();
+    void sig_unblock_db();
 private slots:
     void on_actionLine_triggered();
 
@@ -94,6 +98,11 @@ private:
     //DatabaseController dbController;
 
     QLabel* msg;
+    QLabel* forIconCoord;
+    QLabel* forNameCoord;
+    QLabel* forValuesCoord;
+    QLabel* forNameScale;
+    QLabel* forValuesScale;
 
     QPushButton* SetLine;
     QPushButton* RadarBtn;

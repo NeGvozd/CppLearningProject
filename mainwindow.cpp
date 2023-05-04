@@ -23,28 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     QgsController = new QGSController(Map);
     
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
-
-    float x = 543343334343.433;
-    float y = 1.0;
-    float scale = 135;
-
-    //bad...
-    msg=new QLabel();
-    ui->statusbar->addPermanentWidget(msg);
-
-
-    QLabel *spacer = new QLabel(); // fake spacer
-    ui->statusbar->addPermanentWidget(spacer, 1);
-    ui->statusbar->addPermanentWidget(ui->labelForIcon);
-    ui->statusbar->addPermanentWidget(ui->labelForText);
-    ui->statusbar->addPermanentWidget(ui->labelForCoord);
-    ui->labelForCoord->setText(QString("%1 : %2").arg(x).arg(y));
-    ui->statusbar->addPermanentWidget(ui->labelForTextScale);
-    ui->statusbar->addPermanentWidget(ui->labelForScale);
-    ui->labelForScale->setText(QString("%1").arg(scale));
-
+    createStatusBar();
     ui->TreeAddedItems->clear();
-    
     SetLine = ui->SetLine;
     RadarBtn = ui->RadarButton;
     lineDialog = new ChooseLine(this);
@@ -71,6 +51,38 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
+void MainWindow::createStatusBar()
+{
+    float x = 543343334343.433;
+    float y = 1.0;
+    float scale = 135;
+
+    //bad...
+    msg=new QLabel();
+    ui->statusbar->addPermanentWidget(msg);
+
+
+    QLabel *spacer = new QLabel(); // fake spacer
+    forIconCoord = new QLabel();
+    forNameCoord = new QLabel("Coordinate : ");
+    forValuesCoord = new QLabel();
+    forNameScale = new QLabel("Scale : ");
+    forValuesScale = new QLabel();
+
+    QPixmap pix(":/rec/img/location_icon.png");
+    forIconCoord->setPixmap(pix);
+    forValuesCoord->setFrameShape(QFrame::StyledPanel);
+    forValuesScale->setFrameShape(QFrame::StyledPanel);
+
+    ui->statusbar->addPermanentWidget(spacer, 2);
+    ui->statusbar->addPermanentWidget(forIconCoord);
+    ui->statusbar->addPermanentWidget(forNameCoord);
+    ui->statusbar->addPermanentWidget(forValuesCoord, 1);
+    forValuesCoord->setText(QString("%1 : %2").arg(x).arg(y));
+    ui->statusbar->addPermanentWidget(forNameScale);
+    ui->statusbar->addPermanentWidget(forValuesScale, 1);
+    forValuesScale->setText(QString("%1").arg(scale));
+}
 
 void MainWindow::show(){
     QMainWindow::show();
@@ -214,11 +226,12 @@ void MainWindow::on_handButton_clicked()
 
 void MainWindow::on_playButton_clicked()
 {
-    //QgsController->renderCycle();
     QgsController->startRenderCycleLine();
+    emit sig_block_db();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
     QgsController->pauseRenderCycleLine();
+    emit sig_unblock_db();
 }
