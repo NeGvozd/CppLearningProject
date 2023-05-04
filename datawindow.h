@@ -27,8 +27,8 @@ signals:
     void sig_addButton_clicked();
     void sig_deleteButton_clicked();
     void sig_tableView_clicked(const QModelIndex &index);
-
     void sig_UserPressedEnterToSaveChanges();
+
 
 private slots:
     void on_planeButton_clicked();
@@ -36,8 +36,9 @@ private slots:
     void on_addButton_clicked();
     void on_deleteButton_clicked();
     void on_tableView_clicked(const QModelIndex &index);
-
     void slot_table(QSqlTableModel *model);
+    void slot_block_db();
+    void slot_unblock_db();
 
 
 public:
