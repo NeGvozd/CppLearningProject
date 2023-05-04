@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     model->setRootPath(QDir::currentPath());
 
     //if you don't have QGS comment bottom line
-    QgsController = new QGSController(Map);
+//    QgsController = new QGSController(Map);
     
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
 
@@ -48,16 +48,16 @@ MainWindow::MainWindow(QWidget *parent)
     SetLine = ui->SetLine;
     RadarBtn = ui->RadarButton;
     lineDialog = new ChooseLine(this);
-    connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
-    SetLine->hide();
-    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
+//    connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
+//    SetLine->hide();
+//    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
 
-    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
-    connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
-    connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
-    connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
-    connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
-    connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
+//    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
+//    connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
+//    connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
+//    connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
+//    connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
+//    connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
 }
 
 MainWindow::~MainWindow(){
@@ -80,8 +80,8 @@ void MainWindow::updateMapScale(double s){
 }
 
 void MainWindow::on_actionNew_triggered(){
-    //if you don't have QGS comment bottom line
-    QgsController->addLayer();
+//    //if you don't have QGS comment bottom line
+//    QgsController->addLayer();
 }
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
@@ -104,7 +104,7 @@ void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column
     this->create_new_object(id,type);
     switch (type) {
     case ZRK:
-        QgsController->activateSelectingSquare();
+        //QgsController->activateSelectingSquare();
         break;
     case AIRPLANS:
         lineDialog->exec();
@@ -217,12 +217,12 @@ void MainWindow::addedToDb()
 
 
 void MainWindow::on_actionLine_triggered(){
-    SetLine->show();
-    SetLine->raise();
-    QgsController->selectionPoints();
-    msg->setText("Если вы хотите создать линию нажмите ПКМ");
-    connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
-    //приходится курсор доставать
+//    SetLine->show();
+//    SetLine->raise();
+//    QgsController->selectionPoints();
+//    msg->setText("Если вы хотите создать линию нажмите ПКМ");
+//    connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
+//    //приходится курсор доставать
 }
 void MainWindow::setLineHide(){
     SetLine->hide();
@@ -234,16 +234,15 @@ void MainWindow::showLinesDialog(){
 
 void MainWindow::on_handButton_clicked()
 {
-    QgsController->activatePanTool();
+    //QgsController->activatePanTool();
 }
 
 void MainWindow::on_playButton_clicked()
 {
-    //QgsController->renderCycle();
-    QgsController->startRenderCycleLine();
+    //QgsController->startRenderCycleLine();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
-    QgsController->pauseRenderCycleLine();
+    //QgsController->pauseRenderCycleLine();
 }

@@ -35,12 +35,12 @@ add_executable(Zrk_Interface
     database.h
     databasecontroller.h
     datawindow.h
-    QGSController.h
+#    QGSController.h
     mainwindow.h
     main.cpp
     mainwindow.cpp
     mainwindow.ui
-    QGSController.cpp
+#    QGSController.cpp
     database.cpp
     databasecontroller.cpp
     datawindow.cpp
@@ -70,10 +70,10 @@ target_link_libraries(Zrk_Interface
         Qt5::Xml
         Qt5::Sql
 #        Qt5::Network
-        qgis_native
-        qgis_core
-        qgis_app
-        qgis_gui
-        gdal
+#        qgis_native
+#        qgis_core
+#        qgis_app
+#        qgis_gui
+#        gdal
         objects
         )

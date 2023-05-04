@@ -19,7 +19,7 @@
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
-#include "QGSController.h"
+//#include "QGSController.h"
 #include "chooseline.h"
 
 #include "objects/ObjectFactory.h"
@@ -91,7 +91,7 @@ public slots:
 
 private:
     //if you don't have QGS comment bottom line
-    QGSController* QgsController;
+//    QGSController* QgsController;
 
     Ui::MainWindow *ui;
     //DatabaseController dbController;
