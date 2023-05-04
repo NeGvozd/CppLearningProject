@@ -31,7 +31,6 @@ QT_END_NAMESPACE
 //MyTreeItem
 class MyTreeItem : public QTreeWidgetItem
 {
-
 public: //ToDO: transfer to private
     int id;
     Table type;
@@ -59,6 +58,9 @@ public:
     QWidget *Map;
     void show();
 //    void LinesWidgetInit();
+signals:
+    void sig_block_db();
+    void sig_unblock_db();
 
 private slots:
     void on_actionLine_triggered();

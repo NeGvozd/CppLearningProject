@@ -24,14 +24,16 @@ signals:
     void sig_deleteButton_clicked();
     void sig_tableView_clicked(const QModelIndex &index);
 
+
 private slots:
     void on_planeButton_clicked();
     void on_zrkButton_clicked();
     void on_addButton_clicked();
     void on_deleteButton_clicked();
     void on_tableView_clicked(const QModelIndex &index);
-
     void slot_table(QSqlTableModel *model);
+    void slot_block_db();
+    void slot_unblock_db();
 
 
 public:

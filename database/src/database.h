@@ -18,25 +18,36 @@ public:
     QString name;
     int speed;
     int mass;
+    int health;
     int distance;
     int damage;
+    int rocket;
+    int sprite_id;
+   // InfoAboutElement(int id,Table type,QString name,int speed,int mass,int health,int rocket = 0,int sprite_id = 0);
+//    InfoAboutElement(int id,Table type,QString name,int mass,int health,int distance,int damage,int rocket = 0,int sprite_id = 0);
+
 };
 
 // class Table() toDO:: create base class
-class AirplansTable
+class  BaseTable
 {
 public:
-    AirplansTable();
-    InfoAboutElement select(int id);
-    QVector<InfoAboutElement> select_all();
+    virtual InfoAboutElement select(int id)=0;
+    virtual QVector<InfoAboutElement> select_all()=0;
 };
 
-class ZRKTable
+class AirplansTable//:public BaseTable
 {
 public:
-    ZRKTable();
-    InfoAboutElement select(int id);
-    QVector<InfoAboutElement> select_all();
+    InfoAboutElement select(int id); //override;
+    QVector<InfoAboutElement> select_all(); //override;
+};
+
+class ZRKTable//:public BaseTable
+{
+public:
+    InfoAboutElement select(int id);// override;
+    QVector<InfoAboutElement> select_all();// override;
 };
 
 

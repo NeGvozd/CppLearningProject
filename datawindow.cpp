@@ -43,3 +43,15 @@ void DataWindow::slot_table(QSqlTableModel *model)
 {
     ui->tableView->setModel(model);
 }
+
+void DataWindow::slot_block_db()
+{
+    ui->addButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
+}
+
+void DataWindow::slot_unblock_db()
+{
+    ui->addButton->setEnabled(true);
+    ui->deleteButton->setEnabled(true);
+}
