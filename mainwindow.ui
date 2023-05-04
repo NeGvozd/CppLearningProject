@@ -64,6 +64,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -95,6 +98,9 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -117,6 +123,9 @@
          <width>51</width>
          <height>51</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#LinesButton{
@@ -159,6 +168,9 @@ font-family: 'Roboto Slab', serif;
          <width>51</width>
          <height>51</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#RadarButton{
@@ -218,6 +230,9 @@ QPushButton#RadarButton:before {
          <height>50</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -241,6 +256,9 @@ QPushButton#RadarButton:before {
          <height>50</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -256,6 +274,9 @@ QPushButton#RadarButton:before {
        </property>
       </widget>
       <widget class="QPushButton" name="pauseButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>660</x>
@@ -263,6 +284,9 @@ QPushButton#RadarButton:before {
          <width>50</width>
          <height>50</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="text">
         <string/>
@@ -514,7 +538,7 @@ QPushButton#RadarButton:before {
   </action>
   <action name="actionNETU">
    <property name="text">
-    <string>NETU</string>
+    <string>ChangeCursor</string>
    </property>
   </action>
   <action name="actionHand">
