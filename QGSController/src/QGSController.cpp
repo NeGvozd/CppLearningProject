@@ -10,7 +10,7 @@ QGSController::QGSController(QWidget* Map){
     canvas->setParallelRenderingEnabled(true);
     canvas->setCachingEnabled(true);
     canvas->setPreviewJobsEnabled(true);
-    canvas->setMapUpdateInterval(500); //ToDO::check possible values
+    canvas->setMapUpdateInterval(100); //ToDO::check possible values
 
     //qInfo() << QgsSvgCache().getImageData("26562.svg");
 

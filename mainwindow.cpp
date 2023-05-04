@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(QgsController, &QGSController::createLine, engine, &Engine::addLine);
     connect(QgsController, &QGSController::createSAM, engine, &Engine::addSAM);
     connect(lineDialog, &ChooseLine::itemClickSend, engine, &Engine::addPlane);
+    connect(this, SIGNAL(sig_block_db()),dbController,SLOT(slot_block_db()));
+    connect(this, SIGNAL(sig_unblock_db()),dbController,SLOT(slot_unblock_db()));
 }
 
 MainWindow::~MainWindow(){
