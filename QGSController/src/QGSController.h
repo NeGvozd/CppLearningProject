@@ -69,6 +69,8 @@ signals:
     void sendLine(int id, QString name);
     void coordChanged(double x, double y);
     void scaleChanged(double s);
+    void createLine(QVector<QPair<double, double>>* linePoints);
+    void createSAM(double x, double y);
 public slots:
     void addLine(bool checked);
     void showRadarZones();

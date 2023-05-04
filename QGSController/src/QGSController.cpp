@@ -194,6 +194,8 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
     addLineToLayer(radarCirclesLayer, point+QgsVector(-6.,0.), point+QgsVector(6., 0.));
     addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-6.), point+QgsVector(0., 6.));
+
+    emit createSAM(point.x(), point.y());
 }
 
 void QGSController::showRadarZones(){
@@ -222,7 +224,14 @@ void QGSController::addLine(bool checked){
 
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();
+    QgsFeatureIds featIds = controlLinePointsLayer->allFeatureIds(); 
+    QVector<QPair<double, double>>* linePoints = new QVector<QPair<double, double>>;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = controlLinePointsLayer->getFeature(*i).geometry().asPoint();
+        linePoints->push_back({point.x(), point.y()});
+    }
     controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
+    emit createLine(linePoints);
     controlLinePointsLayer->commitChanges();
 }
 

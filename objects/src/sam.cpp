@@ -12,6 +12,14 @@ void SAM::Fire() const {
     */
 }
 
+void SAM::setCoord(Point p){
+    coord = p;
+}
+
+Point SAM::getCoord(){
+    return coord;
+}
+
 void SAM::RLSWithPoint(Point p)
 {
     //calculating dist between point and zrk:

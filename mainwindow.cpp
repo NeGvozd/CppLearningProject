@@ -62,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::createNewObject, engine, &Engine::createNewObject);
     connect(engine, &Engine::planeCreated, this, &MainWindow::planeCreated);
     connect(engine, &Engine::samCreated, QgsController, &QGSController::activateSelectingSquare);
+    connect(QgsController, &QGSController::createLine, engine, &Engine::addLine);
+    connect(QgsController, &QGSController::createSAM, engine, &Engine::addSAM);
+    connect(lineDialog, &ChooseLine::itemClickSend, engine, &Engine::addPlane);
 }
 
 MainWindow::~MainWindow(){
@@ -182,8 +185,7 @@ void MainWindow::on_addFromTreeButton_clicked(){
         fillTreeFromDb();
 }
 
-void MainWindow::addedToDb()
-{
+void MainWindow::addedToDb(){
     qInfo() << "slot in main window" ;
     fillTreeFromDb();
 }
