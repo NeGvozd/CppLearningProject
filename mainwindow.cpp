@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     QFileSystemModel *model = new QFileSystemModel;
     QGridLayout* g = new QGridLayout(ui->Center);
-    //objFactory = new ObjectFactory;
     g->addWidget(Map);
 
     model->setRootPath(QDir::currentPath());
@@ -211,10 +210,6 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
         default:
             break;
     }
-//    if(type == AIRPLANS)
-//        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-//    else if(type == ZRK)
-    //        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
 }
 
 

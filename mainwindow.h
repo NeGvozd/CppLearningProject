@@ -82,11 +82,7 @@ private slots:
     void fillTreeFromDb();
     void showLinesDialog();
     void create_new_object(int id,Table type);
-
-
-
     void on_playButton_clicked();
-
     void on_pauseButton_clicked();
 
 public slots:
