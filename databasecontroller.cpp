@@ -30,7 +30,6 @@ int DatabaseController::connection()
         return -1;
     }
 
-
 }
 
 InfoAboutElement DatabaseController::select(Table table,int id)

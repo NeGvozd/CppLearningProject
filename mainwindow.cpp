@@ -247,4 +247,3 @@ void MainWindow::on_pauseButton_clicked()
 {
     QgsController->pauseRenderCycleLine();
 }
-
