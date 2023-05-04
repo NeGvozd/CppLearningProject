@@ -22,7 +22,7 @@
 //#include "QGSController.h"
 #include "chooseline.h"
 
-#include "objects/ObjectFactory.h"
+#include "objects/src/ObjectFactory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
