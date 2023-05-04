@@ -10,6 +10,7 @@
 #include <typeinfo>
 #include <memory>
 
+#include <QKeyEvent>
 #include <QAbstractButton>
 
 #include <database.h>
@@ -52,6 +53,9 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
+
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
 private slots:
     void on_addFromTreeButton_clicked();

@@ -35,6 +35,8 @@ public slots:
     void slot_deleteButton_clicked();
     void slot_tableView_clicked(const QModelIndex &index);
 
+    void slot_userAddedData();
+
 private:
     QSqlDatabase db;
     AirplansTable* airplanTable; //table with Airplans

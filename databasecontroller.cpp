@@ -12,6 +12,8 @@ DatabaseController::DatabaseController()
      connect(dbWindow, SIGNAL(sig_tableView_clicked(const QModelIndex &)), this,SLOT(slot_tableView_clicked(const QModelIndex &)));
 
 
+     connect(dbWindow, SIGNAL(sig_UserPressedEnterToSaveChanges()), this, SLOT(slot_userAddedData()));
+
 }
 
 int DatabaseController::connection()
@@ -91,7 +93,6 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
-    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()
@@ -103,6 +104,11 @@ void DatabaseController::slot_deleteButton_clicked()
 void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
 {
     currentRow = index.row();
+}
+
+void DatabaseController::slot_userAddedData()
+{
+    emit sig_addedToDb();
 }
 
 QSqlDatabase DatabaseController::return_db()

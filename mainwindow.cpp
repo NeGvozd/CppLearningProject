@@ -45,10 +45,18 @@ MainWindow::~MainWindow(){
 }
 
 
+
 void MainWindow:: show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if ( (e->key() == Qt::Key_Enter) || (e->key() == Qt::Key_Return)){
+        qInfo() << "lol, this is right";
+    }
 }
 
 void MainWindow::on_actionNew_triggered(){
@@ -173,7 +181,7 @@ void MainWindow::create_new_object(int id,Table type)//временное соз
 
 void MainWindow::addedToDb()
 {
-    qInfo() << "slot in main window" ;
+    qInfo() << "DataBase Updated" ;
     fillTreeFromDb();
 }
 
