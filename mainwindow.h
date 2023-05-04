@@ -10,14 +10,19 @@
 #include <typeinfo>
 #include <memory>
 
-#include <QKeyEvent>
 #include <QAbstractButton>
+#include <QPushButton>
+#include <QPainter>
+#include <QLabel>
+#include <QPicture>
 
 #include <database.h>
 #include "datawindow.h"
 #include "databasecontroller.h"
-#include "objects/ObjectFactory.h"
 //#include "QGSController.h"
+#include "chooseline.h"
+
+#include "objects/ObjectFactory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,8 +46,8 @@ public: //ToDO: transfer to private
 
     int get_id() const;
     Table get_type() const;
-};
 
+};
 
 class MainWindow : public QMainWindow
 {
@@ -53,9 +58,14 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
+//    void LinesWidgetInit();
 
-protected:
-    void keyPressEvent(QKeyEvent *e) override;
+private slots:
+    void on_actionLine_triggered();
+
+private slots:
+    void on_handButton_clicked();
+    void setLineHide();
 
 private slots:
     void on_addFromTreeButton_clicked();
@@ -65,16 +75,33 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
+    void showLinesDialog();
     void create_new_object(int id,Table type);
+
+
+
+    void on_playButton_clicked();
+
+    void on_pauseButton_clicked();
 
 public slots:
     void addedToDb();
+    void updateMapCoord(double x, double y);
+    void updateMapScale(double s);
 
 private:
     //if you don't have QGS comment bottom line
-    //QGSController* QgsController;
+//    QGSController* QgsController;
 
     Ui::MainWindow *ui;
+    //DatabaseController dbController;
+
+    QLabel* msg;
+
+    QPushButton* SetLine;
+    QPushButton* RadarBtn;
+
+    ChooseLine* lineDialog;
     DatabaseController *dbController;
     //ObjectFactory *objFactory;
 

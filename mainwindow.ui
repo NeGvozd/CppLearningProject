@@ -109,6 +109,32 @@
         </size>
        </property>
       </widget>
+      <widget class="QPushButton" name="LinesButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>100</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Lines</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="RadarButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>150</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Radar</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" colspan="2">
@@ -131,6 +157,75 @@
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
       </property>
+      <widget class="QPushButton" name="handButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>50</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/rec/img/grab.png</normaloff>:/rec/img/grab.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="playButton">
+       <property name="geometry">
+        <rect>
+         <x>610</x>
+         <y>0</y>
+         <width>50</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/rec/img/play.png</normaloff>:/rec/img/play.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pauseButton">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>0</y>
+         <width>50</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="resource.qrc">
+         <normaloff>:/rec/img/pause.png</normaloff>:/rec/img/pause.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="1" column="1">
@@ -333,6 +428,19 @@
          <string/>
         </property>
        </widget>
+       <widget class="QPushButton" name="SetLine">
+        <property name="geometry">
+         <rect>
+          <x>1070</x>
+          <y>450</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SetLine</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -374,10 +482,18 @@
     </property>
     <addaction name="actionauthors"/>
    </widget>
+   <widget class="QMenu" name="menuHand">
+    <property name="title">
+     <string>Hand</string>
+    </property>
+    <addaction name="actionHand"/>
+    <addaction name="actionLine"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>
    <addaction name="menuHelp"/>
    <addaction name="menuInfo"/>
+   <addaction name="menuHand"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="sizePolicy">
@@ -430,6 +546,16 @@
   <action name="actionNETU">
    <property name="text">
     <string>NETU</string>
+   </property>
+  </action>
+  <action name="actionHand">
+   <property name="text">
+    <string>Hand</string>
+   </property>
+  </action>
+  <action name="actionLine">
+   <property name="text">
+    <string>Line</string>
    </property>
   </action>
  </widget>
