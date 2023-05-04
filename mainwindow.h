@@ -22,7 +22,7 @@
 #include "QGSController.h"
 #include "chooseline.h"
 
-#include "objects/src/ObjectFactory.h"
+#include "objects/ObjectFactory.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -80,9 +80,9 @@ private slots:
 
 
 
-    //void on_playButton_clicked();
+    void on_playButton_clicked();
 
-    //void on_pauseButton_clicked();
+    void on_pauseButton_clicked();
 
 public slots:
     void addedToDb();
@@ -95,6 +95,8 @@ private:
 
     Ui::MainWindow *ui;
     //DatabaseController dbController;
+
+    QLabel* msg;
 
     QPushButton* SetLine;
     QPushButton* RadarBtn;
