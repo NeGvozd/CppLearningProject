@@ -58,6 +58,8 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
+
+    void createStatusBar();
 //    void LinesWidgetInit();
 
 private slots:
@@ -97,6 +99,11 @@ private:
     //DatabaseController dbController;
 
     QLabel* msg;
+    QLabel* forIconCoord;
+    QLabel* forNameCoord;
+    QLabel* forValuesCoord;
+    QLabel* forNameScale;
+    QLabel* forValuesScale;
 
     QPushButton* SetLine;
     QPushButton* RadarBtn;
