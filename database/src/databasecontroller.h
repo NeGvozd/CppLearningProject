@@ -39,6 +39,8 @@ public slots:
     void slot_block_db();
     void slot_unblock_db();
 
+    void slot_userAddedData();
+
 private:
     QSqlDatabase db;
     AirplansTable* airplanTable; //table with Airplans

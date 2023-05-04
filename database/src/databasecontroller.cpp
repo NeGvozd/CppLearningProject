@@ -10,6 +10,7 @@ DatabaseController::DatabaseController()
      connect(dbWindow, SIGNAL(sig_addButton_clicked()), this,SLOT(slot_addButton_clicked()));
      connect(dbWindow, SIGNAL(sig_deleteButton_clicked()), this,SLOT(slot_deleteButton_clicked()));
      connect(dbWindow, SIGNAL(sig_tableView_clicked(const QModelIndex &)), this,SLOT(slot_tableView_clicked(const QModelIndex &)));
+     connect(dbWindow, SIGNAL(sig_UserPressedEnterToSaveChanges()), this, SLOT(slot_userAddedData()));
      connect(this, SIGNAL(sig_block_db()), dbWindow,SLOT(slot_block_db()));
      connect(this, SIGNAL(sig_unblock_db()), dbWindow,SLOT(slot_unblock_db()));
 }
@@ -30,6 +31,7 @@ int DatabaseController::connection()
         qInfo() << "Can not open database! "<<db.lastError().databaseText();
         return -1;
     }
+
 
 }
 
@@ -90,7 +92,6 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
-    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()
@@ -103,6 +104,11 @@ void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
 {
     currentRow = index.row();
 }
+
+
+void DatabaseController::slot_userAddedData()
+{
+    emit sig_addedToDb();
 
 void DatabaseController::slot_block_db()
 {

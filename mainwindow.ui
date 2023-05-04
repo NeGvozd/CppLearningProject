@@ -118,6 +118,35 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#LinesButton{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(236, 101, 80, 1);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(217, 91, 72, 1);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+
+QPushButton#LinesButton:hover{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(26, 101, 80, 1);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(217, 91, 72, 1);
+color: white;
+font-family: 'Roboto Slab', serif;
+}</string>
+       </property>
        <property name="text">
         <string>Lines</string>
        </property>
@@ -130,6 +159,29 @@
          <width>51</width>
          <height>51</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#RadarButton{
+    height: 42px;
+	border: none;
+	background: #3a7999;
+	color: #f2f2f2;
+	padding: 10px;
+	font-size: 11px;
+	border-radius: 5px;
+	position: relative;
+}
+
+QPushButton#RadarButton:before {
+	content:'';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 42px;
+	background: rgba(255,255,255,0.3);
+	border-radius: 5px;
+}</string>
        </property>
        <property name="text">
         <string>Radar</string>
@@ -344,89 +396,6 @@
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-       </widget>
-       <widget class="QLabel" name="labelForText">
-        <property name="geometry">
-         <rect>
-          <x>450</x>
-          <y>470</y>
-          <width>71</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="whatsThis">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/rec/img/location_icon.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="text">
-         <string>Coordinate</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForIcon">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>470</y>
-          <width>31</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="resource.qrc">:/rec/img/location_icon.png</pixmap>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForCoord">
-        <property name="geometry">
-         <rect>
-          <x>530</x>
-          <y>470</y>
-          <width>221</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForTextScale">
-        <property name="geometry">
-         <rect>
-          <x>770</x>
-          <y>470</y>
-          <width>61</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Scale :</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForScale">
-        <property name="geometry">
-         <rect>
-          <x>850</x>
-          <y>470</y>
-          <width>81</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
        </widget>
        <widget class="QPushButton" name="SetLine">
         <property name="geometry">
