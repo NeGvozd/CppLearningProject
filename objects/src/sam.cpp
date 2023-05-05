@@ -2,7 +2,7 @@
 #include "rocket.h"
 #include "plane.h"
 
-SAM::SAM(float health, const QString& model, float distance, Point* location) :
+SAM::SAM(float health, const QString& model, float distance, std::unique_ptr<Point> location) :
     health_(health), model_(model), distance_(distance), Point(location->X(), location->Y()) {}
 
 void SAM::ReceiveDamage(float amount)
