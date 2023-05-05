@@ -17,6 +17,14 @@ class Engine : public QObject {
 public:
     Engine();
     ~Engine() = default;
+
+    void startRenderCycle();
+    void pauseRenderCycle();
+private:
+    double segmentLength(double x, double y);
+    double segmentAngle(double x, double y);
+    void moveObjects();
+    
 signals:
     void planeCreated();
     void samCreated();
@@ -26,9 +34,11 @@ public slots:
     void addSAM(double x, double y);
     void addPlane(int lineNumber);
 private:
-    std::vector<std::unique_ptr<Plane>> planes;
+    std::vector<std::pair<std::unique_ptr<Plane>, int>> planes;
     std::vector<std::unique_ptr<SAM>> sams;
     std::vector<std::vector<Point*>> allLines;
+
+    QTimer* timer;
 };
 
 #endif

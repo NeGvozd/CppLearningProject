@@ -3,6 +3,7 @@
 #include "point.h"
 #include "sam.h"
 
+
 Plane::Plane(float health, float speed, const QString& model, 
              const std::shared_ptr<QVector<Point>> tragectory) :
     health_(health), speed_(speed), model_(model),

@@ -11,6 +11,7 @@ void SAM::ReceiveDamage(float amount)
     if (health_ <= 0) delete this;
 }
 
+
 std::unique_ptr<Rocket> SAM::Fire(std::weak_ptr<Plane>)
 {
 //    return std::make_unique<Rocket>();

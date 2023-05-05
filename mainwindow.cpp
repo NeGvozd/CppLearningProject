@@ -92,12 +92,12 @@ void MainWindow::show(){
     ui->DockWidgetForTree->close();
 }
 
-void MainWindow::updateMapCoord(double x, double y){
-    ui->labelForCoord->setText(QString("%1 : %2").arg(x).arg(y));
+void MainWindow::updateMapCoord(double x, double y) {
+    forValuesCoord->setText(QString("%1 : %2").arg(x).arg(y));
 }
 
 void MainWindow::updateMapScale(double s){
-    ui->labelForScale->setText(QString("%1").arg(s));
+    forValuesScale->setText(QString("%1").arg(s));
 }
 
 void MainWindow::on_actionNew_triggered(){
@@ -228,12 +228,12 @@ void MainWindow::on_handButton_clicked()
 
 void MainWindow::on_playButton_clicked()
 {
-    QgsController->startRenderCycleLine();
+    engine->startRenderCycle();
     emit sig_block_db();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
-    QgsController->pauseRenderCycleLine();
+    engine->pauseRenderCycle();
     emit sig_unblock_db();
 }

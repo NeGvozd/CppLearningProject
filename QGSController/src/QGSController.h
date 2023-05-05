@@ -47,10 +47,6 @@ public:
     void startLayer();
     void setCrs();
 
-
-    void renderCycle();
-    void startRenderCycleLine();
-    void pauseRenderCycleLine();
     void activateSelectingPoint();
 
     void selectionPoints();
@@ -77,16 +73,16 @@ public slots:
     void getLineId(int id);
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
+
+    void renderObject(QVector<QPair<double, double>> sams, QVector<QPair<double, double>> planes);
+
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
     void mouseMoved(const QgsPointXY &p );
     void mapScaled( double s );
-
-    void moving();
-
-    void lineFollow();
+    
 private:
     QgsMapToolPan* panTool;
     QgsMapToolEmitPoint* pointTool;
@@ -109,9 +105,6 @@ private:
     QgsVectorLayer* radarCirclesLayer = new QgsVectorLayer("multilinestring", "Circles", "memory");
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
-
-
-    QTimer* timerLine;
 
     //QVector<QVector<int>> lineId-Point-Numberline;
     QVector<QVector<int>> li_P_Nl;

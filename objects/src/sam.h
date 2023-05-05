@@ -15,7 +15,6 @@ public:
 
     std::unique_ptr<Rocket> Fire(std::weak_ptr<Plane> target);
     void ReceiveDamage(float amout);
-
 protected:
     float health_;
     QString model_;

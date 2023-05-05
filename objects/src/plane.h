@@ -3,7 +3,9 @@
 
 #include <QDebug>
 #include <vector>
+
 #include <memory>
+
 #include "point.h"
 
 class Rocket;
