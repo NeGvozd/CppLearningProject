@@ -294,7 +294,7 @@ void QGSController::renderObject(QVector<QPair<double, double>> sams, QVector<QP
         controlSquareLayer->changeGeometry(*i, g);
         k++;
     }
-    controlSquareLayes->commitChanges();
+    controlSquareLayer->commitChanges();
 }
 
 void QGSController::mouseMoved(const QgsPointXY &p ){
