@@ -10,7 +10,7 @@ QGSController::QGSController(QWidget* Map){
     canvas->setParallelRenderingEnabled(true);
     canvas->setCachingEnabled(true);
     canvas->setPreviewJobsEnabled(true);
-    canvas->setMapUpdateInterval(100); //ToDO::check possible values
+    canvas->setMapUpdateInterval(10000); //ToDO::check possible values
 
     //qInfo() << QgsSvgCache().getImageData("26562.svg");
 
@@ -50,9 +50,6 @@ QGSController::QGSController(QWidget* Map){
 //    controlPointsLayer->setRenderer(mSingleRenderer);
     controlPointsLayer->triggerRepaint();
     controlPointsLayer->commitChanges();*/
-    
-    timerLine = new QTimer(this);
-    connect(timerLine, &QTimer::timeout, this, &QGSController::lineFollow);
 
     connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
     connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
@@ -244,27 +241,6 @@ void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button
         addLine(1);
 }
 
-void QGSController::moving(){
-    controlPointsLayer->startEditing();
-
-    for (int i=0;i<controlPointsLayer->featureCount();i++)
-    {
-        QgsPointXY myP=controlPointsLayer->getFeature(i+1).geometry().asPoint();
-        myP.setX(myP.x()+0.1);
-        myP.setY(myP.y()+0.1);
-        QgsGeometry g =QgsGeometry::fromPointXY(myP);
-        controlPointsLayer->changeGeometry(i+1,g);
-    }
-
-    controlPointsLayer->commitChanges();
-}
-
-void QGSController::renderCycle(){
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &QGSController::moving);
-    timer->start(50);
-}
-
 void QGSController::selectionPoints(){
     selectionPointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(selectionPointTool);
@@ -292,58 +268,34 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 
-QPair<double, double> QGSController::calculatingLineVector(double x, double y){
-    return {x/sqrt(x*x+y*y), y/sqrt(x*x+y*y)};
-}
 
-void QGSController::lineFollow(){
-    for (int i=0;i<li_P_Nl.size();i++)
-    {
-        if (li_P_Nl[i][2]==-1)
-            continue;
-
-        controlPointsLayer->startEditing();
-
-        QgsPointXY myP=controlPointsLayer->getFeature(li_P_Nl[i][1]).geometry().asPoint();
-        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(li_P_Nl[i][0]).geometry().asMultiPolyline();
-
-        QVector<QgsPointXY> curLine = followLines[0];
-
-        QPair<double, double> pointVec = calculatingLineVector(curLine[li_P_Nl[i][2]+1].x()-curLine[li_P_Nl[i][2]].x(),
-                curLine[li_P_Nl[i][2]+1].y()-curLine[li_P_Nl[i][2]].y());
-        while(abs(myP.x()+0.3*pointVec.first-curLine[li_P_Nl[i][2]].x())>
-              abs(curLine[li_P_Nl[i][2]+1].x()-curLine[li_P_Nl[i][2]].x())){
-            li_P_Nl[i][2]+=1;
-            if(li_P_Nl[i][2]==curLine.size()-1){
-                li_P_Nl[i][2]= -1;
-                break;
-                }
-            myP.set(curLine[li_P_Nl[i][2]].x(), curLine[li_P_Nl[i][2]].y());
-            break;
-        }
-        if (li_P_Nl[i][2]==-1)
-            continue;
-        myP.setX(myP.x()+0.1*pointVec.first);
-        myP.setY(myP.y()+0.1*pointVec.second);
-        QgsGeometry g =QgsGeometry::fromPointXY(myP);
-        controlPointsLayer->changeGeometry(li_P_Nl[i][1],g);
-
-        controlPointsLayer->commitChanges();
+void QGSController::renderObject(QVector<QPair<double, double>> sams, QVector<QPair<double, double>> planes){
+    controlPointsLayer->startEditing();
+    QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
+    int k = 0;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = controlPointsLayer->getFeature(*i).geometry().asPoint();
+        point.set(planes[k].first, planes[k].second);
+        QgsGeometry g = QgsGeometry::fromPointXY(point);
+        controlPointsLayer->changeGeometry(*i, g);
+        k++;
     }
-}
-
-void QGSController::startRenderCycleLine(){
-    if(!timerLine->isActive())
-        timerLine->start(50);
-}
-
-void QGSController::pauseRenderCycleLine(){
-    if(timerLine->isActive())
-        timerLine->stop();
+    controlPointsLayer->commitChanges();
+    controlSquareLayer->startEditing();
+    featIds = controlSquareLayer->allFeatureIds();
+    k = 0;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = controlSquareLayer->getFeature(*i).geometry().asPoint();
+        point.set(sams[k].first, sams[k].second);
+        QgsGeometry g = QgsGeometry::fromPointXY(point);
+        controlSquareLayer->changeGeometry(*i, g);
+        k++;
+    }
+    controlSquareLayes->commitChanges();
 }
 
 void QGSController::mouseMoved(const QgsPointXY &p ){
-    emit coordChanged(p.x(), p.y()); //ПРАВИЛЬНО ЛИ ДЕЛАТЬ ПЕРЕБРОСКУ ПРОМЕЖУТОЧНОГО СИГНАЛА? ПРИ ТОМ, ЧТО КАНВАС - ПРИВАТНЫЙ
+    emit coordChanged(p.x(), p.y());
 }
 
 void QGSController::mapScaled( double s ){
