@@ -6,11 +6,11 @@ public:
     Point(float x, float y);
     virtual ~Point() = default;
 
-    float GetX() const;
-    void SetX(float x);
+    float X() const;
+    void X(float x);
 
-    float GetY() const;
-    void SetY(float y);
+    float Y() const;
+    void Y(float y);
 
 protected:
     float x_;

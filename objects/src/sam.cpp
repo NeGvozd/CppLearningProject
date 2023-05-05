@@ -3,7 +3,7 @@
 #include "plane.h"
 
 SAM::SAM(float health, const QString& model, float distance, Point* location) :
-    health_(health), model_(model), distance_(distance), Point(location->GetX(), location->GetY()) {}
+    health_(health), model_(model), distance_(distance), Point(location->X(), location->Y()) {}
 
 void SAM::ReceiveDamage(float amount)
 {

@@ -8,7 +8,7 @@
 
 
 Rocket::Rocket(float damage, float speed, float range, Point* location, std::weak_ptr<Point> target) :
-    damage_(damage), speed_(speed), range_(range),  Point(location->GetX(), location->GetY()),
+    damage_(damage), speed_(speed), range_(range),  Point(location->X(), location->Y()),
     target_(target) {}
 
 void Rocket::Move()
@@ -16,8 +16,8 @@ void Rocket::Move()
     auto target = target_.lock();
     if (!target) return;
 
-    float dx = target->GetX() - x_;
-    float dy = target->GetY() - y_;
+    float dx = target->X() - x_;
+    float dy = target->Y() - y_;
 
     float dist = std::sqrt(dx*dx + dy*dy);
     if (dist > 0) 

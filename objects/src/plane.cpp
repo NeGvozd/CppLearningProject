@@ -6,7 +6,7 @@
 Plane::Plane(float health, float speed, const QString& model, 
              const std::shared_ptr<QVector<Point>> tragectory) :
     health_(health), speed_(speed), model_(model),
-    Point(tragectory->first().GetX(), tragectory->first().GetY()) {}
+    Point(tragectory->at(0).X(), tragectory->at(0).Y()) {}
 
 void Plane::Move() 
 {
