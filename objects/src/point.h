@@ -5,12 +5,16 @@ class Point {
 public:
     Point(float x, float y);
     virtual ~Point() = default;
-    float X() const;
-    float Y() const;
 
-private:
-    float x;
-    float y;
+    float GetX() const;
+    void SetX(float x);
+
+    float GetY() const;
+    void SetY(float y);
+
+protected:
+    float x_;
+    float y_;
 };
 
 #endif // POINT_H

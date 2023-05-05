@@ -14,8 +14,9 @@ class SAM;
 class ObjectFactory {
 public:
     static std::unique_ptr<Point> CreateTarget(float x, float y);
-    static std::unique_ptr<Plane> CreatePlane(float health, float speed, const QString& model, Point coord);
-    static std::unique_ptr<SAM> CreateSAM(float health, const QString& model, float distance, Point coord);
+    static std::unique_ptr<Plane> CreatePlane(float health, float speed, const QString& model,
+                                              const std::shared_ptr<QVector<Point>> tragectory);
+    static std::unique_ptr<SAM> CreateSAM(float health, const QString& model, float distance, Point* location);
 };
 
 #endif // OBJECT_FACTORY_H

@@ -1,30 +1,17 @@
 #include "sam.h"
 #include "rocket.h"
-#include <cmath>
+#include "plane.h"
 
-SAM::SAM(float health, const QString& model, float distance, Point coord) :
-    health(health), model(model), distance(distance), coord(coord) {}
+SAM::SAM(float health, const QString& model, float distance, Point* location) :
+    health_(health), model_(model), distance_(distance), Point(location->GetX(), location->GetY()) {}
 
-void SAM::Fire() const {
-    /* Supposed example of usage
-    Rocket rocket(100, 1000, 2000, nullptr);
-    rocket.Launch();
-    */
-}
-
-void SAM::setCoord(Point p){
-    coord = p;
-}
-
-Point SAM::getCoord(){
-    return coord;
-}
-
-void SAM::RLSWithPoint(Point p)
+void SAM::ReceiveDamage(float amount)
 {
-    //calculating dist between point and zrk:
-    float l =  pow(pow((coord.X()-p.X()),2) + pow((coord.Y()-p.Y()), 2), 0.5);
-    if( l <= distance ){
-        qInfo() << "Object detected! WARNING!!!";
-    }
+    health_ -= amount;
+    if (health_ <= 0) delete this;
+}
+
+std::unique_ptr<Rocket> SAM::Fire(std::weak_ptr<Plane>)
+{
+//    return std::make_unique<Rocket>();
 }

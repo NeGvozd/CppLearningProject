@@ -1,19 +1,23 @@
 #ifndef ROCKET_H
 #define ROCKET_H
 
-class Point;
+#include <memory>
+#include "point.h"
 
-class Rocket {
+class Rocket : public Point {
 public:
-    Rocket(float damage, float speed, float range, Point* target);
-    virtual ~Rocket() = default;
-    virtual void Launch() const;
+    Rocket(float damage, float speed, float range, Point* location, std::weak_ptr<Point> target);
+    ~Rocket() = default;
 
-protected:
-    float damage;
-    float speed;
-    float range;
-    Point* target;
+    void Move();
+    void Hit();
+
+private:
+    float damage_;
+    float speed_;
+    float range_;
+    
+    std::weak_ptr<Point> target_;
 };
 
 #endif // ROCKET_H

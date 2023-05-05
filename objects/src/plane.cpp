@@ -1,31 +1,25 @@
 #include "plane.h"
 #include "rocket.h"
 #include "point.h"
+#include "sam.h"
 
-Plane::Plane(float health, float speed, const QString& model, Point point) :
-    health(health), speed(speed), model(model), coord(point) {}
+Plane::Plane(float health, float speed, const QString& model, 
+             const std::shared_ptr<QVector<Point>> tragectory) :
+    health_(health), speed_(speed), model_(model),
+    Point(tragectory->first().GetX(), tragectory->first().GetY()) {}
 
-void Plane::Move(const std::vector<Point*>& points) const 
+void Plane::Move() 
 {
-//    std::cout << "Plane " << model << " moving along trajectory: ";
-//    for (auto oint : points) {
-//        std::cout << "(" << point->getX() << "," << point->getY() << ") ";
-//    }
-//    std::cout << std::endl;
+
 }
 
-void Plane::setCoord(Point p){
-    coord = p;
-}
-
-Point Plane::getCoord(){
-    return coord;
-}
-
-void Plane::Fire(Point* point) const
+std::unique_ptr<Rocket> Plane::Fire(std::weak_ptr<SAM>)
 {
-    /* Supposed example of usage
-    Rocket rocket(50, 500, 1000, point);
-    rocket.Launch(); 
-    */
+//    return std::make_unique<Rocket>();
+}
+
+void Plane::ReceiveDamage(float amount)
+{
+    health_ -= amount;
+    if (health_ <= 0) delete this;
 }
