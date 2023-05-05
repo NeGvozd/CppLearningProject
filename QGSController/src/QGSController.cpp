@@ -1,10 +1,3 @@
-
-#include <QMessageBox>
-#include <QDebug>
-#include <QFileSystemModel>
-#include <QDockWidget>
-#include <QFileDialog>
-#include <QGridLayout>
 #include "QGSController.h"
 
 QGSController::QGSController(QWidget* Map){
@@ -17,7 +10,7 @@ QGSController::QGSController(QWidget* Map){
     canvas->setParallelRenderingEnabled(true);
     canvas->setCachingEnabled(true);
     canvas->setPreviewJobsEnabled(true);
-    canvas->setMapUpdateInterval(500); //ToDO::check possible values
+    canvas->setMapUpdateInterval(100); //ToDO::check possible values
 
     //qInfo() << QgsSvgCache().getImageData("26562.svg");
 
@@ -28,7 +21,6 @@ QGSController::QGSController(QWidget* Map){
 
     //Tools
     panTool= new QgsMapToolPan(canvas);
-
     //Здесь код для вставления картинки
 /*    controlPointsLayer->startEditing();
 
@@ -59,9 +51,11 @@ QGSController::QGSController(QWidget* Map){
     controlPointsLayer->triggerRepaint();
     controlPointsLayer->commitChanges();*/
     
+    timerLine = new QTimer(this);
+    connect(timerLine, &QTimer::timeout, this, &QGSController::lineFollow);
+
     connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
     connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
-
 }
 
 void QGSController::activatePanTool() {
@@ -100,6 +94,7 @@ void QGSController::addLayer(){
                 canvas->setExtent(layers[i]->extent());
 
             canvas->refresh();
+            qInfo() << canvas->size();
         }
     }
 }
@@ -173,16 +168,7 @@ void QGSController::addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom){
 }
 
 void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
-
     addElementToLayer(controlPointsLayer, QgsGeometry::fromPointXY(point)); //правильно ли так созданные объекты передавать не по указателю
-/*
-    if(controlPointsLayer->featureCount()==1)
-        if(tempLineId == -1){
-        renderCycle();
-        } else {
-        canvas->unsetMapTool(pointTool);
-        renderCycleLine();
-        }*/
 }
 
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
@@ -208,6 +194,8 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
     addLineToLayer(radarCirclesLayer, point+QgsVector(-6.,0.), point+QgsVector(6., 0.));
     addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-6.), point+QgsVector(0., 6.));
+
+    emit createSAM(point.x(), point.y());
 }
 
 void QGSController::showRadarZones(){
@@ -236,13 +224,24 @@ void QGSController::addLine(bool checked){
 
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();
+    QgsFeatureIds featIds = controlLinePointsLayer->allFeatureIds(); 
+    QVector<QPair<double, double>>* linePoints = new QVector<QPair<double, double>>;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = controlLinePointsLayer->getFeature(*i).geometry().asPoint();
+        linePoints->push_back({point.x(), point.y()});
+    }
     controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
+    emit createLine(linePoints);
     controlLinePointsLayer->commitChanges();
 }
 
 void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button){
-    addElementToLayer(controlLinePointsLayer, QgsGeometry::fromPointXY(point));
-    linePoints->push_back(point);
+    if (button==Qt::LeftButton){
+        addElementToLayer(controlLinePointsLayer, QgsGeometry::fromPointXY(point));
+        linePoints->push_back(point);
+    }
+    else
+        addLine(1);
 }
 
 void QGSController::moving(){
@@ -275,9 +274,8 @@ void QGSController::selectionPoints(){
 }
 
 void QGSController::getLineId(int id){
-    //this->tempLineId = id;
-    //activateSelectingPoint();
-    lineFlags.insert(id,0);
+    QVector<int>l{id,0,0};
+    li_P_Nl.append(l);
     addPointToLine(id);
 }
 void QGSController::addPointToLine(int id){
@@ -285,7 +283,7 @@ void QGSController::addPointToLine(int id){
 
     addElementToLayer(controlPointsLayer,QgsGeometry::fromPointXY(point));
 
-    renderCycleLine();
+    li_P_Nl[li_P_Nl.size()-1][1]=controlPointsLayer->featureCount();
 }
 
 void QGSController::lineChangeName(int id, QString name){
@@ -299,45 +297,49 @@ QPair<double, double> QGSController::calculatingLineVector(double x, double y){
 }
 
 void QGSController::lineFollow(){
-    for (auto flag=lineFlags.begin();flag!=lineFlags.end();flag++)
+    for (int i=0;i<li_P_Nl.size();i++)
     {
-        if (flag.value()==-1)
+        if (li_P_Nl[i][2]==-1)
             continue;
 
         controlPointsLayer->startEditing();
 
-        QgsPointXY myP=controlPointsLayer->getFeature(flag.key()).geometry().asPoint();
-        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(flag.key()).geometry().asMultiPolyline();
+        QgsPointXY myP=controlPointsLayer->getFeature(li_P_Nl[i][1]).geometry().asPoint();
+        QVector<QgsPolylineXY> followLines=controlLineLayer->getFeature(li_P_Nl[i][0]).geometry().asMultiPolyline();
 
         QVector<QgsPointXY> curLine = followLines[0];
 
-        QPair<double, double> pointVec = calculatingLineVector(curLine[flag.value()+1].x()-curLine[flag.value()].x(),
-                curLine[flag.value()+1].y()-curLine[flag.value()].y());
-        while(abs(myP.x()+0.3*pointVec.first-curLine[flag.value()].x())>
-              abs(curLine[flag.value()+1].x()-curLine[flag.value()].x())){
-            lineFlags[flag.key()]+=1;
-            if(lineFlags[flag.key()]==curLine.size()-1){
-                lineFlags[flag.key()]= -1;
+        QPair<double, double> pointVec = calculatingLineVector(curLine[li_P_Nl[i][2]+1].x()-curLine[li_P_Nl[i][2]].x(),
+                curLine[li_P_Nl[i][2]+1].y()-curLine[li_P_Nl[i][2]].y());
+        while(abs(myP.x()+0.3*pointVec.first-curLine[li_P_Nl[i][2]].x())>
+              abs(curLine[li_P_Nl[i][2]+1].x()-curLine[li_P_Nl[i][2]].x())){
+            li_P_Nl[i][2]+=1;
+            if(li_P_Nl[i][2]==curLine.size()-1){
+                li_P_Nl[i][2]= -1;
                 break;
                 }
-            myP.set(curLine[lineFlags[flag.key()]].x(), curLine[lineFlags[flag.key()]].y());
+            myP.set(curLine[li_P_Nl[i][2]].x(), curLine[li_P_Nl[i][2]].y());
             break;
         }
-        if (lineFlags[flag.key()]==-1)
+        if (li_P_Nl[i][2]==-1)
             continue;
         myP.setX(myP.x()+0.1*pointVec.first);
         myP.setY(myP.y()+0.1*pointVec.second);
         QgsGeometry g =QgsGeometry::fromPointXY(myP);
-        controlPointsLayer->changeGeometry(flag.key(),g);
+        controlPointsLayer->changeGeometry(li_P_Nl[i][1],g);
 
         controlPointsLayer->commitChanges();
     }
 }
 
-void QGSController::renderCycleLine(){
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &QGSController::lineFollow);
-    timer->start(50);
+void QGSController::startRenderCycleLine(){
+    if(!timerLine->isActive())
+        timerLine->start(50);
+}
+
+void QGSController::pauseRenderCycleLine(){
+    if(timerLine->isActive())
+        timerLine->stop();
 }
 
 void QGSController::mouseMoved(const QgsPointXY &p ){

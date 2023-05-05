@@ -23,23 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     QgsController = new QGSController(Map);
     
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
-
-    float x = 543343334343.433;
-    float y = 1.0;
-    float scale = 135;
-    QLabel *spacer = new QLabel(); // fake spacer
-    ui->statusbar->addPermanentWidget(spacer, 1);
-    ui->statusbar->addPermanentWidget(ui->labelForIcon);
-    ui->statusbar->addPermanentWidget(ui->labelForText);
-    ui->statusbar->addPermanentWidget(ui->labelForCoord);
-    ui->labelForCoord->setText(QString("%1 : %2").arg(x).arg(y));
-    ui->statusbar->addPermanentWidget(ui->labelForTextScale);
-    ui->statusbar->addPermanentWidget(ui->labelForScale);
-    ui->labelForScale->setText(QString("%1").arg(scale));
-
-
+    createStatusBar();
     ui->TreeAddedItems->clear();
-    
     SetLine = ui->SetLine;
     RadarBtn = ui->RadarButton;
     lineDialog = new ChooseLine(this);
@@ -53,12 +38,53 @@ MainWindow::MainWindow(QWidget *parent)
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
     connect(QgsController, &QGSController::scaleChanged, this, &MainWindow::updateMapScale);
+    engine = new Engine();
+    connect(this, &MainWindow::createNewObject, engine, &Engine::createNewObject);
+    connect(engine, &Engine::planeCreated, this, &MainWindow::planeCreated);
+    connect(engine, &Engine::samCreated, QgsController, &QGSController::activateSelectingSquare);
+    connect(QgsController, &QGSController::createLine, engine, &Engine::addLine);
+    connect(QgsController, &QGSController::createSAM, engine, &Engine::addSAM);
+    connect(lineDialog, &ChooseLine::itemClickSend, engine, &Engine::addPlane);
+    connect(this, SIGNAL(sig_block_db()),dbController,SLOT(slot_block_db()));
+    connect(this, SIGNAL(sig_unblock_db()),dbController,SLOT(slot_unblock_db()));
 }
 
 MainWindow::~MainWindow(){
     delete ui;
 }
 
+void MainWindow::createStatusBar()
+{
+    float x = 543343334343.433;
+    float y = 1.0;
+    float scale = 135;
+
+    //bad...
+    msg=new QLabel();
+    ui->statusbar->addPermanentWidget(msg);
+
+
+    QLabel *spacer = new QLabel(); // fake spacer
+    forIconCoord = new QLabel();
+    forNameCoord = new QLabel("Coordinate : ");
+    forValuesCoord = new QLabel();
+    forNameScale = new QLabel("Scale : ");
+    forValuesScale = new QLabel();
+
+    QPixmap pix(":/rec/img/location_icon.png");
+    forIconCoord->setPixmap(pix);
+    forValuesCoord->setFrameShape(QFrame::StyledPanel);
+    forValuesScale->setFrameShape(QFrame::StyledPanel);
+
+    ui->statusbar->addPermanentWidget(spacer, 2);
+    ui->statusbar->addPermanentWidget(forIconCoord);
+    ui->statusbar->addPermanentWidget(forNameCoord);
+    ui->statusbar->addPermanentWidget(forValuesCoord, 1);
+    forValuesCoord->setText(QString("%1 : %2").arg(x).arg(y));
+    ui->statusbar->addPermanentWidget(forNameScale);
+    ui->statusbar->addPermanentWidget(forValuesScale, 1);
+    forValuesScale->setText(QString("%1").arg(scale));
+}
 
 void MainWindow::show(){
     QMainWindow::show();
@@ -90,23 +116,17 @@ void MainWindow::on_actionExit_triggered(){
     close();
 }
 
+void MainWindow::planeCreated(){
+        lineDialog->exec();
+}
+
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
     if (item->childCount()!=0)
         return;
     Table type = dynamic_cast<MyTreeItem*>(item)->get_type();
     int id = dynamic_cast<MyTreeItem*>(item)->get_id();
     //dynamic_cast<MyTreeItem*>(item)->get_info();
-    this->create_new_object(id,type);
-    switch (type) {
-    case ZRK:
-        QgsController->activateSelectingSquare();
-        break;
-    case AIRPLANS:
-        QgsController->activateSelectingPoint();
-        break;
-    default:
-        break;
-    }
+    emit createNewObject(dbController->select(type,id));
 }
 
 MyTreeItem::MyTreeItem(MyTreeItem *parent, int id, Table type, QString name, int speed, int mass, int distance, int damage) : QTreeWidgetItem(parent){
@@ -168,31 +188,6 @@ void MainWindow::fillTreeFromDb()
 
 }
 
-void MainWindow::create_new_object(int id,Table type)//временное создание объектов(потом переделать) то есть сделать это по клику
-{
-    InfoAboutElement element = dbController->select(type,id);
-    switch (type)
-    {
-        case AIRPLANS:
-        {
-            auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-        }
-        break;
-        case ZRK:
-        {
-            auto zrk = ObjectFactory::CreateSAM(element.mass,element.name, element.distance, Point(0,0));
-        }
-        break;
-        default:
-            break;
-    }
-//    if(type == AIRPLANS)
-//        auto plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name);
-//    else if(type == ZRK)
-    //        auto zrk = ObjectFactory::CreateSAM(element.mass,element.name);
-}
-
-
 void MainWindow::on_addFromTreeButton_clicked(){
 
     if ((!ui->DockWidgetForTree->isVisible()))//maybe you must write '!' (on macOS it does not work)
@@ -204,8 +199,7 @@ void MainWindow::on_addFromTreeButton_clicked(){
         fillTreeFromDb();
 }
 
-void MainWindow::addedToDb()
-{
+void MainWindow::addedToDb(){
     qInfo() << "slot in main window" ;
     fillTreeFromDb();
 }
@@ -215,28 +209,31 @@ void MainWindow::on_actionLine_triggered(){
     SetLine->show();
     SetLine->raise();
     QgsController->selectionPoints();
+    msg->setText("Если вы хотите создать линию нажмите ПКМ");
     connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
     //приходится курсор доставать
 }
 void MainWindow::setLineHide(){
     SetLine->hide();
+    msg->setText("");
 }
-void MainWindow::showLinesDialog(){
-    lineDialog->show();
+void MainWindow::showLinesDialog(){    
+    lineDialog->exec();
 }
 
 void MainWindow::on_handButton_clicked()
 {
     QgsController->activatePanTool();
 }
-/*
+
 void MainWindow::on_playButton_clicked()
 {
-    QgsController->renderCycle();
+    QgsController->startRenderCycleLine();
+    emit sig_block_db();
 }
 
 void MainWindow::on_pauseButton_clicked()
 {
-    QgsController->stopRenderCycle()
+    QgsController->pauseRenderCycleLine();
+    emit sig_unblock_db();
 }
-*/

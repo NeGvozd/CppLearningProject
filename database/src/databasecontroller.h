@@ -7,7 +7,7 @@
 #include <QMainWindow>
 #include <QSqlTableModel>
 
-#include <datawindow.h>
+#include <../../datawindow.h>
 #include <database.h>
 
 
@@ -28,12 +28,18 @@ public:
 signals:
     void sig_table(QSqlTableModel *model);
     void sig_addedToDb();
+    void sig_block_db();
+    void sig_unblock_db();
 
 public slots:
     void slot_typeTable_clicked(Table table);
     void slot_addButton_clicked();
     void slot_deleteButton_clicked();
     void slot_tableView_clicked(const QModelIndex &index);
+    void slot_block_db();
+    void slot_unblock_db();
+
+    void slot_userAddedData();
 
 private:
     QSqlDatabase db;

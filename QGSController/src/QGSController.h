@@ -28,6 +28,10 @@
 
 #include <qgscircle.h>
 
+#include <QDebug>
+#include <QDialog>
+#include <QFileDialog>
+
 //#include <qgssvgcache.h> //мб для svg
 #include <qgscategorizedsymbolrenderer.h>
 
@@ -42,14 +46,16 @@ public:
     void addPointToLine(int id);
     void startLayer();
     void setCrs();
-    void activateSelectingPoint();
-    void activateSelectingSquare();
+
+
     void renderCycle();
+    void startRenderCycleLine();
+    void pauseRenderCycleLine();
+    void activateSelectingPoint();
 
     void selectionPoints();
 
     void activatePanTool();
-    void renderCycleLine();
     QPair<double, double> calculatingLineVector(double x, double y);
 
     void addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius);
@@ -63,11 +69,14 @@ signals:
     void sendLine(int id, QString name);
     void coordChanged(double x, double y);
     void scaleChanged(double s);
+    void createLine(QVector<QPair<double, double>>* linePoints);
+    void createSAM(double x, double y);
 public slots:
     void addLine(bool checked);
     void showRadarZones();
     void getLineId(int id);
     void lineChangeName(int id, QString name);
+    void activateSelectingSquare();
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
@@ -101,11 +110,14 @@ private:
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
 
-    QMap<int,int> lineFlags;
 
-    //int tempLineId = -1;
-    //int tempNumberOfLine = -1;
-    //bool isMoving = true;
+    QTimer* timerLine;
+
+    //QVector<QVector<int>> lineId-Point-Numberline;
+    QVector<QVector<int>> li_P_Nl;
+
+
+
 public:
     QgsMapToolEmitPoint* selectionPointTool;
 };

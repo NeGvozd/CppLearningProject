@@ -13,7 +13,8 @@ public:
     virtual ~SAM() = default;
     virtual void Fire() const;
     void RLSWithPoint(Point p);
-
+    void setCoord(Point p);
+    Point getCoord();
 protected:
     float health;
     QString model;
