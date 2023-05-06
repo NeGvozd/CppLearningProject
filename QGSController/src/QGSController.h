@@ -61,7 +61,9 @@ private:
     void deletePointsForLine();
     void initVectorLayer(QgsVectorLayer* layer);
     void addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom);
+    void sentChosenLine(int id);
 signals:
+    void sendPointsCoords(QVector<QPair<double, double>>* points);
     void sendLine(int id, QString name);
     void coordChanged(double x, double y);
     void scaleChanged(double s);
@@ -74,7 +76,7 @@ public slots:
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
 
-    void renderObject(QVector<QPair<double, double>> sams, QVector<QPair<double, double>> planes);
+    void renderObject(QVector<QPair<double, double>>* sams, QVector<QPair<double, double>>* planes);
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);

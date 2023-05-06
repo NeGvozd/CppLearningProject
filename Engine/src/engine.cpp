@@ -13,7 +13,7 @@ void Engine::createNewObject(InfoAboutElement element){
         {
             std::unique_ptr<Plane> plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name, nullptr);
 
-            planes.push_back({std::move(plane), -1}); // это не будет работать, если отменить создание объекта до создания любого объекта, что плохо
+            planes.push_back(std::move(plane)); // это не будет работать, если отменить создание объекта до создания любого объекта, что плохо
             emit planeCreated();
         }
         break;
@@ -38,25 +38,20 @@ void Engine::addLine(QVector<QPair<double, double>>* linePoints){
 }
 
 void Engine::addSAM(double x, double y){
-//    sams[sams.size()-1]->setCoord(Point(x, y));
+    sams[sams.size()-1]->X(x);
+    sams[sams.size()-1]->Y(y);
 }
 
-void Engine::addPlane(int lineNumber) {
-//    planes[planes.size()-1].first->setCoord(*allLines[lineNumber-1][0]);
-//    planes[planes.size()-1].second = lineNumber-1;
-}
-
-double Engine::segmentLength(double x, double y){
-    return sqrt(x*x+y*y);
-}
-
-double Engine::segmentAngle(double x, double y){
-    return atan2(y, x);
+void Engine::addPlane(QVector<QPair<double, double>>* points) {
+    std::shared_ptr<QVector<Point*>> vec = std::make_shared<QVector<Point*>>(0); 
+    for(auto i : *points)
+        vec->push_back(new Point(i.first, i.second));
+    planes[planes.size()-1]->setTragectory(vec);
 }
 
 void Engine::startRenderCycle(){
     if(!timer->isActive())
-        timer->start(50);
+        timer->start(100);
 }
 
 void Engine::pauseRenderCycle(){
@@ -65,5 +60,13 @@ void Engine::pauseRenderCycle(){
 }
 
 void Engine::moveObjects(){
-
+    QVector<QPair<double, double>>* sendPlanes = new QVector<QPair<double, double>>(0);
+    for(int i = 0; i<planes.size(); ++i){
+        planes[i]->Move();
+        sendPlanes->push_back({planes[i]->X(), planes[i]->Y()});
+    }
+    QVector<QPair<double, double>>* sendSams = new QVector<QPair<double, double>>(0);
+    for(int i = 0; i<sams.size(); ++i)
+        sendSams->push_back({sams[i]->X(), sams[i]->Y()});
+    emit sendObjects(sendSams, sendPlanes);
 }

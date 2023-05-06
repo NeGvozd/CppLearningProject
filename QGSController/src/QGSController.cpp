@@ -260,10 +260,19 @@ void QGSController::getLineId(int id){
 
 void QGSController::addPointToLine(int id){
     QgsPointXY point(controlLineLayer->getFeature(id).geometry().asMultiPolyline()[0][0]);
-
+    sentChosenLine(id);
     addElementToLayer(controlPointsLayer,QgsGeometry::fromPointXY(point));
 
     li_P_Nl[li_P_Nl.size()-1][1]=controlPointsLayer->featureCount();
+}
+
+void QGSController::sentChosenLine(int id){
+    QVector<QPair<double, double>>* points = new QVector<QPair<double, double>>(0);
+    QgsMultiPolylineXY polyline = controlLineLayer->getFeature(id).geometry().asMultiPolyline();
+    for(QgsPolylineXY line : polyline)
+        for(QgsPointXY point : line)
+            points->push_back({point.x(), point.y()});
+    emit sendPointsCoords(points);
 }
 
 void QGSController::lineChangeName(int id, QString name){
@@ -272,13 +281,13 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 
-void QGSController::renderObject(QVector<QPair<double, double>> sams, QVector<QPair<double, double>> planes){
+void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QPair<double, double>>* planes){
     controlPointsLayer->startEditing();
     QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
     int k = 0;
     for(auto i = featIds.begin(); i != featIds.end(); ++i){
         QgsPointXY point = controlPointsLayer->getFeature(*i).geometry().asPoint();
-        point.set(planes[k].first, planes[k].second);
+        point.set(planes->at(k).first, planes->at(k).second);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         controlPointsLayer->changeGeometry(*i, g);
         k++;
@@ -289,7 +298,7 @@ void QGSController::renderObject(QVector<QPair<double, double>> sams, QVector<QP
     k = 0;
     for(auto i = featIds.begin(); i != featIds.end(); ++i){
         QgsPointXY point = controlSquareLayer->getFeature(*i).geometry().asPoint();
-        point.set(sams[k].first, sams[k].second);
+        point.set(sams->at(k).first, sams->at(k).second);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         controlSquareLayer->changeGeometry(*i, g);
         k++;

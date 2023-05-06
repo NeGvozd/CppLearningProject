@@ -16,7 +16,7 @@ public:
     static std::unique_ptr<Point> CreateTarget(float x, float y);
 
     static std::unique_ptr<Plane> CreatePlane(float health, float speed, const QString& model,
-                                              const std::shared_ptr<QVector<Point>> tragectory);
+                                              const std::shared_ptr<QVector<Point*>> tragectory);
     static std::unique_ptr<SAM> CreateSAM(float health, const QString& model, float distance, std::unique_ptr<Point> location);
 
 };

@@ -12,6 +12,9 @@
 
 #pragma once
 
+//Один тик таймера - 15 минут
+//Один км - 0.0115 в числах
+
 class Engine : public QObject {
     Q_OBJECT
 public:
@@ -21,21 +24,20 @@ public:
     void startRenderCycle();
     void pauseRenderCycle();
 private:
-    double segmentLength(double x, double y);
-    double segmentAngle(double x, double y);
     void moveObjects();
     
 signals:
     void planeCreated();
     void samCreated();
+    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QPair<double, double>>* sendPlanes);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
     void addSAM(double x, double y);
-    void addPlane(int lineNumber);
+    void addPlane(QVector<QPair<double, double>>* points);
 private:
-    std::vector<std::pair<std::unique_ptr<Plane>, int>> planes;
-    std::vector<std::unique_ptr<SAM>> sams;
+    std::vector<std::unique_ptr<Plane>> planes = std::vector<std::unique_ptr<Plane>>(0);
+    std::vector<std::unique_ptr<SAM>> sams = std::vector<std::unique_ptr<SAM>>(0);
     std::vector<std::vector<Point*>> allLines;
 
     QTimer* timer;
