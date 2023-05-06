@@ -20,8 +20,8 @@ void Engine::createNewObject(InfoAboutElement element){
         case ZRK:
         {
             //auto sam = ObjectFactory::CreateSAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0));
-            //sams.push_back(std::move(sam));
             std::unique_ptr<SAM> sam(new SAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0)));
+            sams.push_back(std::move(sam));
             emit samCreated();
         }
         break;
