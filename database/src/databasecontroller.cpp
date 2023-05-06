@@ -37,13 +37,16 @@ int DatabaseController::connection()
 
 InfoAboutElement DatabaseController::select(Table table,int id)
 {
-    if(table == AIRPLANS)
-    {
+    switch (table) {
+    case AIRPLANS:
         return airplanTable->select(id);
-    }
-    else if(table == ZRK)
-    {
+        break;
+    case ZRK:
         return zrkTable->select(id);
+        break;
+    default:
+        return InfoAboutElement();
+        break;
     }
 }
 
@@ -51,13 +54,15 @@ InfoAboutElement DatabaseController::select(Table table,int id)
 QVector<InfoAboutElement> DatabaseController::select_all(Table table)
 {
     QVector<InfoAboutElement> ans;
-    if(table == AIRPLANS)
-    {
+    switch (table) {
+    case AIRPLANS:
         ans = airplanTable->select_all();
-    }
-    else if(table == ZRK)
-    {
+        break;
+    case ZRK:
         ans = zrkTable->select_all();
+        break;
+    default:
+        break;
     }
     return ans;
 }

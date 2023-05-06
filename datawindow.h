@@ -41,7 +41,7 @@ private slots:
     void slot_unblock_db();
 
 
-public:
+private:
     Ui::DataWindow *ui;
 };
 
