@@ -281,13 +281,13 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 
-void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QPair<double, double>>* planes){
+void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes){
     controlPointsLayer->startEditing();
     QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
     int k = 0;
     for(auto i = featIds.begin(); i != featIds.end(); ++i){
         QgsPointXY point = controlPointsLayer->getFeature(*i).geometry().asPoint();
-        point.set(planes->at(k).first, planes->at(k).second);
+        point.set(planes->at(k)[0], planes->at(k)[1]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         controlPointsLayer->changeGeometry(*i, g);
         k++;

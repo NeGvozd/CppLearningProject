@@ -21,10 +21,12 @@ public:
     std::unique_ptr<Rocket> Fire(std::weak_ptr<SAM> target);
     void ReceiveDamage(float amout);
     void setTragectory(std::shared_ptr<QVector<Point*>> tragectory);
+    float retAngle();
 
 private:
     float health_;
     float speed_;
+    float angle_;
     QString model_;
     std::shared_ptr<QVector<Point*>> tragectory_ = nullptr;
     int prevTragPoint;

@@ -22,25 +22,26 @@ public:
     ~Engine() = default;
 
     void startRenderCycle();
-    void pauseRenderCycle();
-private:
-    void moveObjects();
-    
+    void pauseRenderCycle();    
 signals:
     void planeCreated();
     void samCreated();
-    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QPair<double, double>>* sendPlanes);
+    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QList<double>>* sendPlanes);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
     void addSAM(double x, double y);
     void addPlane(QVector<QPair<double, double>>* points);
+private slots:
+    void packObjects();
+    void moveObjects();
 private:
     std::vector<std::unique_ptr<Plane>> planes = std::vector<std::unique_ptr<Plane>>(0);
     std::vector<std::unique_ptr<SAM>> sams = std::vector<std::unique_ptr<SAM>>(0);
     std::vector<std::vector<Point*>> allLines;
 
     QTimer* timer;
+    QTimer* sendTimer;
 };
 
 #endif

@@ -29,16 +29,15 @@ void Plane::Move(){
         else{
             Point* dest = tragectory_->at(curTragPoint+1);
             float dist = this->length(dest);
-            float angle = this->angle(dest);
-            //qInfo() << dist << ' ' << speed_ << ' ' << speed_*KM;
+            float angle_ = this->angle(dest);
             if(dist<speed_*KM){
                 curTragPoint+=1;
                 x_=(*tragectory_)[curTragPoint]->X();
                 y_=(*tragectory_)[curTragPoint]->Y();
             }
             else{
-                y_+=speed_*KM*sin(angle);
-                x_+=speed_*KM*cos(angle);
+                y_+=speed_*KM*sin(angle_);
+                x_+=speed_*KM*cos(angle_);
             }
         }
     }
@@ -63,4 +62,8 @@ void Plane::ReceiveDamage(float amount)
 {
     health_ -= amount;
     if (health_ <= 0) delete this;
+}
+
+float Plane::retAngle(){
+    return angle_;
 }

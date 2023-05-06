@@ -4,6 +4,8 @@
 Engine::Engine() {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Engine::moveObjects);
+    sendTimer = new QTimer(this);
+    connect(sendTimer, &QTimer::timeout, this, &Engine::packObjects);
 };
 
 void Engine::createNewObject(InfoAboutElement element){
@@ -52,19 +54,26 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
 void Engine::startRenderCycle(){
     if(!timer->isActive())
         timer->start(100);
+    if(!sendTimer->isActive())
+        sendTimer->start(500);
 }
 
 void Engine::pauseRenderCycle(){
     if(timer->isActive())
         timer->stop();
+    if(sendTimer->isActive())
+        sendTimer->stop();
 }
 
 void Engine::moveObjects(){
-    QVector<QPair<double, double>>* sendPlanes = new QVector<QPair<double, double>>(0);
-    for(int i = 0; i<planes.size(); ++i){
+    for(int i = 0; i<planes.size(); ++i)
         planes[i]->Move();
-        sendPlanes->push_back({planes[i]->X(), planes[i]->Y()});
-    }
+}
+
+void Engine::packObjects(){
+    QVector<QList<double>>* sendPlanes = new QVector<QList<double>>(0);
+    for(int i = 0; i<planes.size(); ++i)
+        sendPlanes->push_back({planes[i]->X(), planes[i]->Y(), planes[i]->retAngle()});
     QVector<QPair<double, double>>* sendSams = new QVector<QPair<double, double>>(0);
     for(int i = 0; i<sams.size(); ++i)
         sendSams->push_back({sams[i]->X(), sams[i]->Y()});

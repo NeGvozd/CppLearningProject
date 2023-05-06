@@ -76,7 +76,7 @@ public slots:
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
 
-    void renderObject(QVector<QPair<double, double>>* sams, QVector<QPair<double, double>>* planes);
+    void renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes); 
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
