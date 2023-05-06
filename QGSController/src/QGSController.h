@@ -100,7 +100,8 @@ private:
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
     QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
-    QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Points3", "memory");
+    QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Points32", "memory");
+    QgsVectorLayer* rocketsLineLayer = new QgsVectorLayer("multilinestring", "Points33", "memory");
 
 
     QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");

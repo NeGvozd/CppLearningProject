@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(sig_block_db()),dbController,SLOT(slot_block_db()));
     connect(this, SIGNAL(sig_unblock_db()),dbController,SLOT(slot_unblock_db()));
     connect(engine, &Engine::sendObjects, QgsController, &QGSController::renderObject);
+    connect(engine, &Engine::rocketCreated, QgsController, &QGSController::addRocket);
 }
 
 MainWindow::~MainWindow(){

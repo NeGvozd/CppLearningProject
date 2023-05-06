@@ -132,6 +132,8 @@ void QGSController::startLayer()
     layers.push_back(controlSquareLayer);
     layers.push_back(controlLineLayer);
     layers.push_back(controlLinePointsLayer);
+    layers.push_back(rocketsLayer);
+    layers.push_back(rocketsLineLayer);
 }
 
 void QGSController::setCrs()
@@ -173,6 +175,7 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
 
 void QGSController::addRocket(double x, double y){
     addElementToLayer(rocketsLayer, QgsGeometry::fromPointXY(QgsPointXY(x, y)));
+    addElementToLayer(rocketsLineLayer, QgsGeometry::fromMultiPolylineXY(QgsMultiPolylineXY(1)));
 }
 
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
@@ -309,16 +312,24 @@ void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<Q
     }
     controlSquareLayer->commitChanges();
     rocketsLayer->startEditing();
+    rocketsLineLayer->startEditing();
     featIds = rocketsLayer->allFeatureIds();
+    QgsFeatureIds featIds2 = rocketsLineLayer->allFeatureIds();
     k = 0;
-    for(auto i = featIds.begin(); i != featIds.end(); ++i){
-        QgsPointXY point = rocketsLayer->getFeature(*i).geometry().asPoint();
+    for(std::pair<QgsFeatureIds::iterator, QgsFeatureIds::iterator> i(featIds.begin(), featIds2.begin()); 
+    i.first != featIds.end() && i.second != featIds2.end(); ++i.first, ++i.second){
+        QgsPointXY point = rocketsLayer->getFeature(*i.first).geometry().asPoint();
         point.set(rockets->at(k)[0], rockets->at(k)[1]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
-        rocketsLayer->changeGeometry(*i, g);
+        rocketsLayer->changeGeometry(*i.first, g);
+        QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*i.second).geometry().asMultiPolyline();
+        line[0].push_back(point);
+        g = QgsGeometry::fromMultiPolylineXY(line);
+        rocketsLineLayer->changeGeometry(*i.second, g);
         k++;
     }
     rocketsLayer->commitChanges();
+    rocketsLineLayer->commitChanges();
 }
 
 void QGSController::mouseMoved(const QgsPointXY &p ){

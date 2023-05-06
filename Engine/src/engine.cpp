@@ -13,17 +13,17 @@ void Engine::createNewObject(InfoAboutElement element){
     {
         case AIRPLANS:
         {
-            std::unique_ptr<Plane> plane = ObjectFactory::CreatePlane(element.mass,element.speed,element.name, nullptr);
+            Plane* plane = new Plane(element.mass,element.speed,element.name, nullptr);
 
-            planes.push_back(std::move(plane)); // это не будет работать, если отменить создание объекта до создания любого объекта, что плохо
+            planes.push_back(plane); // это не будет работать, если отменить создание объекта до создания любого объекта, что плохо
             emit planeCreated();
         }
         break;
         case ZRK:
         {
             //auto sam = ObjectFactory::CreateSAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0));
-            std::unique_ptr<SAM> sam(new SAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0)));
-            sams.push_back(std::move(sam));
+            SAM* sam = new SAM(element.mass, element.name, element.distance, new Point(0,0));
+            sams.push_back(sam);
             emit samCreated();
         }
         break;
@@ -33,10 +33,8 @@ void Engine::createNewObject(InfoAboutElement element){
 }
 
 void Engine::addLine(QVector<QPair<double, double>>* linePoints){
-    std::vector<Point*> vec;
     for(auto i = linePoints->begin(); i<linePoints->end(); ++i)
-        vec.push_back(new Point((*i).first, (*i).second));
-    allLines.push_back(vec);
+        allLines.push_back(new Point((*i).first, (*i).second));
 }
 
 void Engine::addSAM(double x, double y){
@@ -45,7 +43,7 @@ void Engine::addSAM(double x, double y){
 }
 
 void Engine::addPlane(QVector<QPair<double, double>>* points) {
-    std::shared_ptr<QVector<Point*>> vec = std::make_shared<QVector<Point*>>(0); 
+    QVector<Point*>* vec = new QVector<Point*>(0); 
     for(auto i : *points)
         vec->push_back(new Point(i.first, i.second));
     planes[planes.size()-1]->setTragectory(vec);
@@ -70,14 +68,15 @@ void Engine::moveObjects(){
         planes[i]->Move();
     for(int i = 0; i<rockets.size(); ++i)
         rockets[i]->Move();
+    SAMscane();
 }
 
 void Engine::SAMscane(){
     for(int i = 0; i<sams.size(); ++i)
         for(int j = 0; j<planes.size(); ++j){
-            if(sams[i]->length(planes[j].release())<sams[i]->distance()){ //чет смысл unique_ptr кончился
-                std::unique_ptr<Rocket> rocket = ObjectFactory::CreateRocket(1000, 1200, 0.5, sams[i].release(), planes[j].release());
-                rockets.push_back(std::move(rocket));
+            if(sams[i]->length(planes[j])<sams[i]->distance() & rockets.size() < 1){
+                Rocket* rocket = new Rocket(1000, 1200, 0.5, sams[i], planes[j]);
+                rockets.push_back(rocket);
                 emit rocketCreated(sams[i]->X(), sams[i]->Y());
             }
         }

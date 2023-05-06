@@ -10,7 +10,7 @@
 #define KM 0.0115
 
 Plane::Plane(float health, float speed, const QString& model, 
-             const std::shared_ptr<QVector<Point*>> tragectory) :
+             QVector<Point*>* tragectory) :
     health_(health), speed_(speed/60), model_(model), tragectory_(tragectory), curTragPoint(-1), //скорость за 15 мин
     Point(-999, -999) {}
 
@@ -45,7 +45,7 @@ void Plane::Move(){
     }
 }
 
-void Plane::setTragectory(std::shared_ptr<QVector<Point*>> tragectory){
+void Plane::setTragectory(QVector<Point*>* tragectory){
     if(curTragPoint!= -1) tragectory_->append(*tragectory);
     else{ 
         tragectory_ = tragectory;
@@ -55,7 +55,7 @@ void Plane::setTragectory(std::shared_ptr<QVector<Point*>> tragectory){
     }
 }
 
-std::unique_ptr<Rocket> Plane::Fire(std::weak_ptr<SAM>)
+Rocket* Plane::Fire(SAM* target)
 {
 //    return std::make_unique<Rocket>();
 }

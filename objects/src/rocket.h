@@ -19,7 +19,7 @@ private:
     float range_;
     float angle_;
     
-    std::weak_ptr<Point> target_;
+    Point* target_;
 };
 
 #endif // ROCKET_H

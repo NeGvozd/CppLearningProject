@@ -11,16 +11,15 @@
 #define KM 0.0115
 
 Rocket::Rocket(float damage, float speed, float range, Point* location, Point* target) :
-    damage_(damage), speed_(speed), range_(range), angle_(0),  Point(location->X(), location->Y()),
+    damage_(damage), speed_(speed/60), range_(range), angle_(0),  Point(location->X(), location->Y()),
     target_(target) {}
 
 void Rocket::Move()
 {
-    auto target = target_.lock();
-    if (!target) return;
+    if (!target_) return;
 
-    float dx = target->X() - x_;
-    float dy = target->Y() - y_;
+    float dx = target_->X() - x_;
+    float dy = target_->Y() - y_;
 
     float dist = sqrt(dx*dx + dy*dy);
     float angle_ = atan2(dy, dx);
@@ -31,7 +30,7 @@ void Rocket::Move()
         
     }
     else{
-        target->dead();
+        target_->dead();
     }
 }
 
@@ -41,9 +40,9 @@ float Rocket::retAngle(){
 
 void Rocket::Hit()
 {
-    if (auto target = std::dynamic_pointer_cast<Plane>(target_.lock()))
+    if (auto target = dynamic_cast<Plane*>(target_))
         target->ReceiveDamage(damage_);
-    if (auto target = std::dynamic_pointer_cast<SAM>(target_.lock()))
+    if (auto target = dynamic_cast<SAM*>(target_))
         target->ReceiveDamage(damage_);
 
     // target_.ReceiveDamage();

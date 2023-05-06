@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <memory>
 #include "point.h"
-#include "ObjectFactory.h"
 
 class Rocket;
 class Plane;
@@ -12,10 +11,10 @@ class Plane;
 class SAM : public Point{
 public:
     SAM(float health, const QString& model, float distance,
-        std::unique_ptr<Point> location);
+        Point* location);
     virtual ~SAM() = default;
 
-    std::unique_ptr<Rocket> Fire(std::shared_ptr<Plane> target);
+    Rocket* Fire(Plane* target);
     void ReceiveDamage(float amout);
     float distance();
 protected:
