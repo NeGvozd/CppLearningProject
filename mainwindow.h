@@ -82,6 +82,7 @@ private slots:
     void fillTreeFromDb();
     void showLinesDialog();
     void create_new_object(int id,Table type);
+
     void on_playButton_clicked();
     void on_pauseButton_clicked();
 
@@ -101,6 +102,7 @@ private:
     QLabel* forIconCoord;
     QLabel* forNameCoord;
     QLabel* forValuesCoord;
+    QLabel* forIconScale;
     QLabel* forNameScale;
     QLabel* forValuesScale;
 
