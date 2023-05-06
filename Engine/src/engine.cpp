@@ -68,6 +68,19 @@ void Engine::pauseRenderCycle(){
 void Engine::moveObjects(){
     for(int i = 0; i<planes.size(); ++i)
         planes[i]->Move();
+    for(int i = 0; i<rockets.size(); ++i)
+        rockets[i]->Move();
+}
+
+void Engine::SAMscane(){
+    for(int i = 0; i<sams.size(); ++i)
+        for(int j = 0; j<planes.size(); ++j){
+            if(sams[i]->length(planes[j].release())<sams[i]->distance()){ //чет смысл unique_ptr кончился
+                std::unique_ptr<Rocket> rocket = ObjectFactory::CreateRocket(1000, 1200, 0.5, sams[i].release(), planes[j].release());
+                rockets.push_back(std::move(rocket));
+                emit rocketCreated(sams[i]->X(), sams[i]->Y());
+            }
+        }
 }
 
 void Engine::packObjects(){
@@ -77,5 +90,8 @@ void Engine::packObjects(){
     QVector<QPair<double, double>>* sendSams = new QVector<QPair<double, double>>(0);
     for(int i = 0; i<sams.size(); ++i)
         sendSams->push_back({sams[i]->X(), sams[i]->Y()});
-    emit sendObjects(sendSams, sendPlanes);
+    QVector<QList<double>>* sendRockets = new QVector<QList<double>>(0);
+    for(int i = 0; i<rockets.size(); ++i)
+        sendRockets->push_back({rockets[i]->X(), rockets[i]->Y(), rockets[i]->retAngle()});
+    emit sendObjects(sendSams, sendPlanes, sendRockets);
 }

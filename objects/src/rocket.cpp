@@ -6,9 +6,12 @@
 #include "plane.h"
 #include "sam.h"
 
+#include <math.h>
 
-Rocket::Rocket(float damage, float speed, float range, Point* location, std::weak_ptr<Point> target) :
-    damage_(damage), speed_(speed), range_(range),  Point(location->X(), location->Y()),
+#define KM 0.0115
+
+Rocket::Rocket(float damage, float speed, float range, Point* location, Point* target) :
+    damage_(damage), speed_(speed), range_(range), angle_(0),  Point(location->X(), location->Y()),
     target_(target) {}
 
 void Rocket::Move()
@@ -19,11 +22,21 @@ void Rocket::Move()
     float dx = target->X() - x_;
     float dy = target->Y() - y_;
 
-    float dist = std::sqrt(dx*dx + dy*dy);
-    if (dist > 0) 
+    float dist = sqrt(dx*dx + dy*dy);
+    float angle_ = atan2(dy, dx);
+    if (dist > range_) 
     {
+        y_+=speed_*KM*sin(angle_);
+        x_+=speed_*KM*cos(angle_);
         
     }
+    else{
+        target->dead();
+    }
+}
+
+float Rocket::retAngle(){
+    return angle_;
 }
 
 void Rocket::Hit()

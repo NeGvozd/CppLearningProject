@@ -5,11 +5,13 @@
 #include "point.h"
 #include "plane.h"
 #include "sam.h"
+#include "rocket.h"
 #include <QDebug>
 
 class Point;
 class Plane;
 class SAM;
+class Rocket;
 
 class ObjectFactory {
 public:
@@ -18,6 +20,8 @@ public:
     static std::unique_ptr<Plane> CreatePlane(float health, float speed, const QString& model,
                                               const std::shared_ptr<QVector<Point*>> tragectory);
     static std::unique_ptr<SAM> CreateSAM(float health, const QString& model, float distance, std::unique_ptr<Point> location);
+
+    static std::unique_ptr<Rocket> CreateRocket(float damage, float speed, float range, Point* location, Point* target);
 
 };
 

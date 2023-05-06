@@ -76,7 +76,8 @@ public slots:
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
 
-    void renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes); 
+    void renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
+    void addRocket(double x, double y);
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);
@@ -99,6 +100,7 @@ private:
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
     QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
+    QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Points3", "memory");
 
 
     QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");

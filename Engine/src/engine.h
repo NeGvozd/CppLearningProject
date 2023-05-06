@@ -6,6 +6,7 @@
 
 #include "../../objects/src/point.h"
 #include "../../objects/src/plane.h"
+#include "../../objects/src/rocket.h"
 #include "../../objects/src/sam.h"
 #include "../../objects/src/ObjectFactory.h"
 #include "../../database/src/database.h"
@@ -22,11 +23,14 @@ public:
     ~Engine() = default;
 
     void startRenderCycle();
-    void pauseRenderCycle();    
+    void pauseRenderCycle();   
+private:
+    void SAMscane();
 signals:
     void planeCreated();
     void samCreated();
-    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QList<double>>* sendPlanes);
+    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
+    void rocketCreated(double x, double y);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
@@ -38,6 +42,7 @@ private slots:
 private:
     std::vector<std::unique_ptr<Plane>> planes = std::vector<std::unique_ptr<Plane>>(0);
     std::vector<std::unique_ptr<SAM>> sams = std::vector<std::unique_ptr<SAM>>(0);
+    std::vector<std::unique_ptr<Rocket>> rockets = std::vector<std::unique_ptr<Rocket>>(0);
     std::vector<std::vector<Point*>> allLines;
 
     QTimer* timer;

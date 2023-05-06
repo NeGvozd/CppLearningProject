@@ -25,6 +25,10 @@ float Point::length(const Point* p){
     return sqrt((p->X()-x_)*(p->X()-x_)+(p->Y()-y_)*(p->Y()-y_));
 };
 
+void Point::dead(){
+    isAlive = false;
+}
+
 float Point::angle(const Point* p){
     return atan2((p->Y()-y_), (p->X()-x_));
 };

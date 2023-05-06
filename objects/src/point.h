@@ -15,9 +15,12 @@ public:
 
     float length(const Point* p);
     float angle(const Point* p);
+    void dead();
+    
 protected:
     float x_;
     float y_;
+    bool isAlive = true;
 };
 
 #endif // POINT_H

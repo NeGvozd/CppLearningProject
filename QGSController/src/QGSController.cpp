@@ -171,6 +171,10 @@ void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
     addElementToLayer(controlPointsLayer, QgsGeometry::fromPointXY(point)); //правильно ли так созданные объекты передавать не по указателю
 }
 
+void QGSController::addRocket(double x, double y){
+    addElementToLayer(rocketsLayer, QgsGeometry::fromPointXY(QgsPointXY(x, y)));
+}
+
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
     QgsCircle* circle = new QgsCircle(QgsPoint(point), radius);
     addElementToLayer(layer, QgsGeometry::fromWkt(circle->toCircularString()->asWkt()));
@@ -281,7 +285,7 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 
-void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes){
+void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPointsLayer->startEditing();
     QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
     int k = 0;
@@ -304,6 +308,17 @@ void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<Q
         k++;
     }
     controlSquareLayer->commitChanges();
+    rocketsLayer->startEditing();
+    featIds = rocketsLayer->allFeatureIds();
+    k = 0;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = rocketsLayer->getFeature(*i).geometry().asPoint();
+        point.set(rockets->at(k)[0], rockets->at(k)[1]);
+        QgsGeometry g = QgsGeometry::fromPointXY(point);
+        rocketsLayer->changeGeometry(*i, g);
+        k++;
+    }
+    rocketsLayer->commitChanges();
 }
 
 void QGSController::mouseMoved(const QgsPointXY &p ){

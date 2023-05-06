@@ -15,29 +15,31 @@ Plane::Plane(float health, float speed, const QString& model,
     Point(-999, -999) {}
 
 void Plane::Move(){
-    if(curTragPoint == -1){
-        if(tragectory_)
-            if(!(x_==(*tragectory_)[(*tragectory_).size()-1]->X() && y_==(*tragectory_)[(*tragectory_).size()-1]->Y())){
-                curTragPoint=prevTragPoint;
-            }
-    }
-    if(curTragPoint != -1){
-        if(curTragPoint+1 == (*tragectory_).size()){
-            prevTragPoint=curTragPoint;
-            curTragPoint=-1;
+    if(isAlive){
+        if(curTragPoint == -1){
+            if(tragectory_)
+                if(!(x_==(*tragectory_)[(*tragectory_).size()-1]->X() && y_==(*tragectory_)[(*tragectory_).size()-1]->Y())){
+                    curTragPoint=prevTragPoint;
+                }
         }
-        else{
-            Point* dest = tragectory_->at(curTragPoint+1);
-            float dist = this->length(dest);
-            float angle_ = this->angle(dest);
-            if(dist<speed_*KM){
-                curTragPoint+=1;
-                x_=(*tragectory_)[curTragPoint]->X();
-                y_=(*tragectory_)[curTragPoint]->Y();
+        if(curTragPoint != -1){
+            if(curTragPoint+1 == (*tragectory_).size()){
+                prevTragPoint=curTragPoint;
+                curTragPoint=-1;
             }
             else{
-                y_+=speed_*KM*sin(angle_);
-                x_+=speed_*KM*cos(angle_);
+                Point* dest = tragectory_->at(curTragPoint+1);
+                float dist = this->length(dest);
+                float angle_ = this->angle(dest);
+                if(dist<speed_*KM){
+                    curTragPoint+=1;
+                    x_=(*tragectory_)[curTragPoint]->X();
+                    y_=(*tragectory_)[curTragPoint]->Y();
+                }
+                else{
+                    y_+=speed_*KM*sin(angle_);
+                    x_+=speed_*KM*cos(angle_);
+                }
             }
         }
     }
