@@ -109,7 +109,7 @@ void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
 void DatabaseController::slot_userAddedData()
 {
     emit sig_addedToDb();
-
+}
 void DatabaseController::slot_block_db()
 {
     emit sig_block_db();

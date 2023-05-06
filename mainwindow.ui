@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
@@ -149,7 +152,7 @@ margin-top: 5px;
 border-radius: 5px;
 padding: 5px9px;
 font-size: 1.2em;
-background-color: rgba(26, 101, 80, 1);
+background-color: rgba(206, 101, 80, 1);
 text shadow: #454545 0 0 2px;
 border-bottom: 4px solid rgba(217, 91, 72, 1);
 color: white;
@@ -233,6 +236,12 @@ QPushButton#RadarButton:before {
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#handButton{
+background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))
+}
+</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -250,7 +259,7 @@ QPushButton#RadarButton:before {
       <widget class="QPushButton" name="playButton">
        <property name="geometry">
         <rect>
-         <x>610</x>
+         <x>1160</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
@@ -279,7 +288,7 @@ QPushButton#RadarButton:before {
        </property>
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>1210</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
@@ -300,6 +309,24 @@ QPushButton#RadarButton:before {
          <width>50</width>
          <height>50</height>
         </size>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="lineButton">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>0</y>
+         <width>1111</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#lineButton{
+background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))
+}</string>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -479,7 +506,6 @@ QPushButton#RadarButton:before {
     <property name="title">
      <string>Hand</string>
     </property>
-    <addaction name="actionHand"/>
     <addaction name="actionLine"/>
    </widget>
    <addaction name="menuFile"/>
