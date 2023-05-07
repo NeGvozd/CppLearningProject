@@ -9,22 +9,18 @@ Engine::Engine() {
 };
 
 void Engine::createNewObject(InfoAboutElement element){
+    lastelement_ = element; //можно threadом сделать без сохранения, но пока сделаем с сохранением параметра.
     switch (element.type)
     {
         case AIRPLANS:
         {
-            Plane* plane = new Plane(element.mass,element.speed,element.name, nullptr);
-
-            planes.push_back(plane); // это не будет работать, если отменить создание объекта до создания любого объекта, что плохо
             emit planeCreated();
         }
         break;
         case ZRK:
         {
             //auto sam = ObjectFactory::CreateSAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0));
-            SAM* sam = new SAM(element.mass, element.name, element.distance, new Point(0,0));
-            sams.push_back(sam);
-            emit samCreated();
+            emit samCreated(); 
         }
         break;
         default:
@@ -37,9 +33,9 @@ void Engine::addLine(QVector<QPair<double, double>>* linePoints){
         allLines.push_back(new Point((*i).first, (*i).second));
 }
 
-void Engine::addSAM(double x, double y){
-    sams[sams.size()-1]->X(x);
-    sams[sams.size()-1]->Y(y); //создал SAM здесь, кинул emit об этом в QGIS, он дал мне точку на которую кликнули, я её добавил в движке и кинул ему обратно какого радиуса круги и где создать
+void Engine::addSAM(double x, double y){ 
+    SAM* sam = new SAM(lastelement_.mass, lastelement_.name, lastelement_.distance, new Point(x,y)); //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
+    sams.push_back(sam);
     emit createSAMCircles(x, y, sams[sams.size()-1]->distance());
 }
 
@@ -47,7 +43,8 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
     QVector<Point*>* vec = new QVector<Point*>(0); 
     for(auto i : *points)
         vec->push_back(new Point(i.first, i.second));
-    planes[planes.size()-1]->setTragectory(vec);
+    Plane* plane = new Plane(lastelement_.mass,lastelement_.speed,lastelement_.name, vec);
+    planes.push_back(plane);
 }
 
 void Engine::startRenderCycle(){

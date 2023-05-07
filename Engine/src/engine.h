@@ -47,6 +47,8 @@ private:
 
     QTimer* timer;
     QTimer* sendTimer;
+
+    InfoAboutElement lastelement_;
 };
 
 #endif
