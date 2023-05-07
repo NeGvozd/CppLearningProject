@@ -72,10 +72,13 @@ void Engine::moveObjects(){
 void Engine::SAMscane(){
     for(int i = 0; i<sams.size(); ++i)
         for(int j = 0; j<planes.size(); ++j){
-            if(sams[i]->length(planes[j])<sams[i]->distance() & rockets.size() < 1){
-                Rocket* rocket = new Rocket(1000, 1200, 0.5, sams[i], planes[j]);
-                rockets.push_back(rocket);
-                emit rocketCreated(sams[i]->X(), sams[i]->Y());
+            if(sams[i]->length(planes[j])<sams[i]->distance()){
+                Rocket* rocket = sams[i]->Fire(planes[j]);
+                qInfo() << " so ";
+                if(rocket){
+                    rockets.push_back(rocket);
+                    emit rocketCreated(sams[i]->X(), sams[i]->Y());
+                }
             }
         }
 }
