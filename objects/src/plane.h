@@ -4,8 +4,6 @@
 #include <QDebug>
 #include <vector>
 
-#include <memory>
-
 #include "point.h"
 
 class Rocket;
@@ -14,23 +12,24 @@ class SAM;
 class Plane : public Point {
 public:
     Plane(float health, float speed, const QString& model,
-          QVector<Point*>* tragectory);
+          std::shared_ptr<QVector<Point>>& tragectory);
     ~Plane() = default;
 
     void Move();
-    Rocket* Fire(SAM* target);
     void ReceiveDamage(float amout);
-    void setTragectory(QVector<Point*>* tragectory);
-    float retAngle();
+    void SetTragectory(std::shared_ptr<QVector<Point>>& tragectory);
+
+    float Angle() const;
 
 private:
     float health_;
     float speed_;
     float angle_ = 0.;
     QString model_;
-    QVector<Point*>* tragectory_ = nullptr;
-    int prevTragPoint;
-    int curTragPoint;
+
+    std::shared_ptr<QVector<Point>>& tragectory_ ;
+    int prev_route_point_;
+    int curr_route_point_;
 };
 
 #endif

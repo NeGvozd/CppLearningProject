@@ -21,14 +21,16 @@ void Point::Y(float y) {
     y_ = y;
 }
 
-float Point::length(const Point* p){
-    return sqrt((p->X()-x_)*(p->X()-x_)+(p->Y()-y_)*(p->Y()-y_));
+float Point::DistanceTo(const std::weak_ptr<const Point>& object) {
+    auto obj = object.lock();
+    return sqrt((obj->X()-x_)*(obj->X()-x_)+(obj->Y()-y_)*(obj->Y()-y_));
 };
 
-void Point::dead(){
-    isAlive = false;
+void Point::OnDead() {
+    is_alive_ = false;
 }
 
-float Point::angle(const Point* p){
-    return atan2((p->Y()-y_), (p->X()-x_));
+float Point::AngleWith(const std::weak_ptr<const Point> object) {
+    auto obj = object.lock();
+    return atan2((obj->Y()-y_), (obj->X()-x_));
 };

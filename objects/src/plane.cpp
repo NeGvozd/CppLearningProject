@@ -10,62 +10,73 @@
 #define KM 0.0115
 
 Plane::Plane(float health, float speed, const QString& model, 
-             QVector<Point*>* tragectory) :
-    health_(health), speed_(speed/60), model_(model), tragectory_(tragectory), curTragPoint(-1), //скорость за 15 мин
-    Point(NULL, NULL) {if (tragectory_) curTragPoint = 0; X(tragectory->at(0)->X()); Y(tragectory->at(0)->Y());}
+             std::shared_ptr<QVector<Point>>& tragectory) :
+    health_(health), 
+    speed_(speed/60), 
+    model_(model), 
+    tragectory_(tragectory), 
+    curr_route_point_(-1), //скорость за 15 мин
+    Point(tragectory->at(0).X(), tragectory->at(0).Y()) 
+    {   
+        if (tragectory_) curr_route_point_ = 0; 
+    }
 
-void Plane::Move(){
-    if(isAlive){
-        if(curTragPoint == -1){
-            if(tragectory_)
-                if(!(x_==(*tragectory_)[(*tragectory_).size()-1]->X() && y_==(*tragectory_)[(*tragectory_).size()-1]->Y())){
-                    curTragPoint=prevTragPoint;
-                }
+void Plane::Move()
+{
+    if (!is_alive_) return;
+
+    if (curr_route_point_ == -1 && tragectory_)
+    {
+        // if the next route point is not reached
+        if (!(x_== (*tragectory_)[(*tragectory_).size()-1].X() && y_== (*tragectory_)[(*tragectory_).size()-1].Y()))
+        {
+            curr_route_point_ = prev_route_point_;
         }
-        if(curTragPoint != -1){
-            if(curTragPoint+1 == (*tragectory_).size()){
-                prevTragPoint=curTragPoint;
-                curTragPoint=-1;
-            }
-            else{
-                Point* dest = tragectory_->at(curTragPoint+1);
-                float dist = this->length(dest);
-                angle_ = this->angle(dest);
-                if(dist<speed_*KM){
-                    curTragPoint+=1;
-                    x_=(*tragectory_)[curTragPoint]->X();
-                    y_=(*tragectory_)[curTragPoint]->Y();
-                }
-                else{
-                    y_+=speed_*KM*sin(angle_);
-                    x_+=speed_*KM*cos(angle_);
-                }
+    }
+    if (curr_route_point_ != -1)
+    {
+        // if at the last point of the route
+        if (curr_route_point_ == (*tragectory_).size()-1)
+        {
+            prev_route_point_ = curr_route_point_;
+            curr_route_point_ = -1;
+        } else {
+            auto destination = tragectory_->at(curr_route_point_+1);
+            float dist = this->DistanceTo(std::make_shared<Point>(destination));
+            angle_ = this->AngleWith(std::make_shared<Point>(destination));
+
+            // if the end of the tragectory is closer than one step
+            if (dist < speed_*KM)
+            {
+                curr_route_point_ += 1;
+                x_ = (*tragectory_)[curr_route_point_].X();
+                y_ = (*tragectory_)[curr_route_point_].Y();
+            } else {
+                y_ += speed_ * KM * sin(angle_);
+                x_ += speed_ * KM * cos(angle_);
             }
         }
     }
 }
 
-void Plane::setTragectory(QVector<Point*>* tragectory){
-    if(curTragPoint!= -1) tragectory_->append(*tragectory);
-    else{ 
+void Plane::SetTragectory(std::shared_ptr<QVector<Point>>& tragectory)
+{
+    if (curr_route_point_ != -1) 
+    {   
+        tragectory_->append(*tragectory);
+    } else { 
         tragectory_ = tragectory;
-        X(tragectory->at(0)->X());
-        Y(tragectory->at(0)->Y());
-        curTragPoint = 0;
+        X(tragectory->at(0).X());
+        Y(tragectory->at(0).Y());
+        curr_route_point_ = 0;
     }
 }
 
-Rocket* Plane::Fire(SAM* target)
-{
-//    return std::make_unique<Rocket>();
-}
-
-void Plane::ReceiveDamage(float amount)
-{
+void Plane::ReceiveDamage(float amount) {
     health_ -= amount;
     if (health_ <= 0) delete this;
 }
 
-float Plane::retAngle(){
+float Plane::Angle() const {
     return angle_;
 }

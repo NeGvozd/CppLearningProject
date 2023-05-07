@@ -1,18 +1,19 @@
 #ifndef ROCKET_H
 #define ROCKET_H
 
-#include <memory>
 #include "point.h"
 #include "sam.h"
 
 class Rocket : public Point {
 public:
-    Rocket(float damage, float speed, float range, Point* target, SAM* parent);
+    Rocket(float damage, float speed, float range, 
+           std::shared_ptr<const Plane> target,
+           const std::weak_ptr<SAM> parent);
     ~Rocket() = default;
 
     void Move();
     void Hit();
-    float retAngle();
+    float Angle() const;
 
 private:
     float damage_;
@@ -20,8 +21,8 @@ private:
     float range_;
     float angle_;
     
-    Point* target_;
-    SAM* parent_;
+    std::shared_ptr<const Plane> target_;
+    const std::weak_ptr<SAM> parent_;
 };
 
 #endif // ROCKET_H

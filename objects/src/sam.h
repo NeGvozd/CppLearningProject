@@ -2,27 +2,26 @@
 #define SAM_H
 
 #include <QDebug>
-#include <memory>
 #include "point.h"
 
 class Rocket;
 class Plane;
 
-class SAM : public Point{
+class SAM : public Point {
 public:
     SAM(float health, const QString& model, float distance,
-        Point* location);
-    virtual ~SAM() = default;
+        std::unique_ptr<Point> location);
+    ~SAM() = default;
 
-    Rocket* Fire(Plane* target);
+    std::unique_ptr<Rocket> Fire(std::shared_ptr<const Plane> plane);
     void ReceiveDamage(float amout);
-    float distance();
-    void rocketDead();
+    float Distance() const;
+    void Reload(); // when rocket is destroyed, can create a new one
 protected:
     float health_;
     QString model_;
     float distance_;
-    int fired = 1;
+    int battery_ = 1;
 };
 
 #endif // SAM_H

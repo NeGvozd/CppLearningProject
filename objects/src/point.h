@@ -1,6 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <memory>
+
 class Point {
 public:
     Point(float x, float y);
@@ -13,14 +15,15 @@ public:
     float Y() const;
     void Y(float y);
 
-    float length(const Point* p);
-    float angle(const Point* p);
-    void dead();
+    float DistanceTo(const std::weak_ptr<const Point>& object);
+    float AngleWith(const std::weak_ptr<const Point> object);
+
+    void OnDead();
     
 protected:
     float x_;
     float y_;
-    bool isAlive = true;
+    bool is_alive_ = true;
 };
 
 #endif // POINT_H

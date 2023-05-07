@@ -4,27 +4,29 @@
 
 #define KM 0.0115
 
-SAM::SAM(float health, const QString& model, float distance, Point* location) :
+SAM::SAM(float health, const QString& model, float distance, 
+         std::unique_ptr<Point> location) :
     health_(health), model_(model), distance_(distance*KM), Point(location->X(), location->Y()) {}
 
-void SAM::ReceiveDamage(float amount)
-{
+void SAM::ReceiveDamage(float amount) {
     health_ -= amount;
     if (health_ <= 0) delete this;
 }
 
-float SAM::distance(){
+float SAM::Distance() const {
     return distance_;
 }
 
-void SAM::rocketDead(){
-    fired++;
+void SAM::Reload() {
+    battery_++;
 }
 
-Rocket* SAM::Fire(Plane* target){
-    if(fired>0){
-        fired--;
-        return new Rocket(1000, 1200, 0.5, target, this);;//пока не понятно как создавать ракеты из бд
+std::unique_ptr<Rocket> SAM::Fire(std::shared_ptr<const Plane> target)
+{
+    if (battery_ > 0) {
+        battery_--;
+        const std::weak_ptr<SAM> rocket_parent = std::make_shared<SAM>(this); 
+        return std::make_unique<Rocket>(1000, 1200, 0.5, target, rocket_parent);//пока не понятно как создавать ракеты из бд
     }
     return nullptr;
 }
