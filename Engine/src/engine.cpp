@@ -72,6 +72,7 @@ void Engine::moveObjects(){
 
 void Engine::packObjects(){
     QVector<QList<double>>* sendPlanes = new QVector<QList<double>>(0);
+
     for(int i = 0; i<planes.size(); ++i)
         sendPlanes->push_back({planes[i]->X(), planes[i]->Y(), planes[i]->retAngle()});
     QVector<QPair<double, double>>* sendSams = new QVector<QPair<double, double>>(0);

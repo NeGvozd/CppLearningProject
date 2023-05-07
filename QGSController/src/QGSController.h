@@ -22,6 +22,7 @@
 
 #include <qmap.h>
 
+#include <QObject>
 #include <QVector>
 #include <qgslinestring.h>
 #include <qgswkbtypes.h>
@@ -31,6 +32,10 @@
 #include <QDebug>
 #include <QDialog>
 #include <QFileDialog>
+
+#include <qgsrulebasedrenderer.h>
+#include <qgssinglesymbolrenderer.h>
+#include <qgsmarkersymbollayer.h>
 
 //#include <qgssvgcache.h> //мб для svg
 #include <qgscategorizedsymbolrenderer.h>
@@ -59,8 +64,13 @@ public:
     void addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size);
 private:
     void deletePointsForLine();
+
     void initVectorLayer(QgsVectorLayer* layer);
+    void initVectorLayerWithSVG(QgsVectorLayer* layer);
+
     void addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom);
+    void addElementToLayerWithSVG(QgsVectorLayer* layer, QgsGeometry geom);
+
     void sentChosenLine(int id);
 signals:
     void sendPointsCoords(QVector<QPair<double, double>>* points);
@@ -100,6 +110,11 @@ private:
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
     QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
 
+    QgsVectorLayer* baseWaterLayer = new QgsVectorLayer("../CppLearningProject/maps/world-bathymetry-110-million.shp", "water", "ogr");
+    QgsVectorLayer* baseEarthLayer = new QgsVectorLayer("../CppLearningProject/maps/world-land-areas-110-million.shp", "earth", "ogr");
+
+
+    QgsVectorLayer* controlPlanes = new QgsVectorLayer("Point", "Points", "memory");
 
     QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");
     QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
