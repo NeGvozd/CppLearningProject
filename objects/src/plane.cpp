@@ -30,7 +30,7 @@ void Plane::Move(){
             else{
                 Point* dest = tragectory_->at(curTragPoint+1);
                 float dist = this->length(dest);
-                float angle_ = this->angle(dest);
+                angle_ = this->angle(dest);
                 if(dist<speed_*KM){
                     curTragPoint+=1;
                     x_=(*tragectory_)[curTragPoint]->X();
