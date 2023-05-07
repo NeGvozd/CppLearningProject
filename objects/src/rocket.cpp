@@ -4,19 +4,18 @@
 #include "rocket.h"
 #include "point.h"
 #include "plane.h"
-#include "sam.h"
 
 #include <math.h>
 
 #define KM 0.0115
 
-Rocket::Rocket(float damage, float speed, float range, Point* location, Point* target) :
-    damage_(damage), speed_(speed/60), range_(range), angle_(0),  Point(location->X(), location->Y()),
+Rocket::Rocket(float damage, float speed, float range, Point* target, SAM* parent) :
+    damage_(damage), speed_(speed/60), range_(range), angle_(0), parent_(parent), Point(parent->X(), parent->Y()),
     target_(target) {}
 
 void Rocket::Move()
 {
-    if (!target_) return;
+    if (!target_ || !isAlive) return;
 
     float dx = target_->X() - x_;
     float dy = target_->Y() - y_;
@@ -30,7 +29,9 @@ void Rocket::Move()
         
     }
     else{
-        target_->dead();
+//        target_->dead();
+        isAlive = !isAlive;
+        parent_->rocketDead();
     }
 }
 

@@ -12,7 +12,7 @@
 Plane::Plane(float health, float speed, const QString& model, 
              QVector<Point*>* tragectory) :
     health_(health), speed_(speed/60), model_(model), tragectory_(tragectory), curTragPoint(-1), //скорость за 15 мин
-    Point(-999, -999) {if (tragectory_) curTragPoint = 0; X(tragectory->at(0)->X()); Y(tragectory->at(0)->Y());}
+    Point(NULL, NULL) {if (tragectory_) curTragPoint = 0; X(tragectory->at(0)->X()); Y(tragectory->at(0)->Y());}
 
 void Plane::Move(){
     if(isAlive){

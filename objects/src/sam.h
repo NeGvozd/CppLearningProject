@@ -17,11 +17,12 @@ public:
     Rocket* Fire(Plane* target);
     void ReceiveDamage(float amout);
     float distance();
+    void rocketDead();
 protected:
     float health_;
     QString model_;
     float distance_;
-    int fired = 5;
+    int fired = 1;
 };
 
 #endif // SAM_H
