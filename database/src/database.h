@@ -39,8 +39,8 @@ public:
 class AirplansTable//:public BaseTable
 {
 public:
-    InfoAboutElement select(int id); //override;
-    QVector<InfoAboutElement> select_all(); //override;
+    InfoAboutElement select(int id);// override;
+    QVector<InfoAboutElement> select_all();// override;
 };
 
 class ZRKTable//:public BaseTable

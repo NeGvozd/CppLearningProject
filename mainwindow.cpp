@@ -70,11 +70,14 @@ void MainWindow::createStatusBar()
     forIconCoord = new QLabel();
     forNameCoord = new QLabel("Coordinate : ");
     forValuesCoord = new QLabel();
+    forIconScale = new QLabel();
     forNameScale = new QLabel("Scale : ");
     forValuesScale = new QLabel();
 
-    QPixmap pix(":/rec/img/location_icon.png");
-    forIconCoord->setPixmap(pix);
+    QPixmap pixCoord(":/rec/img/location_icon.png");
+    forIconCoord->setPixmap(pixCoord);
+    QPixmap pixScale(":/rec/img/scale.png");
+    forIconScale->setPixmap(pixScale);
     forValuesCoord->setFrameShape(QFrame::StyledPanel);
     forValuesScale->setFrameShape(QFrame::StyledPanel);
 
@@ -83,6 +86,7 @@ void MainWindow::createStatusBar()
     ui->statusbar->addPermanentWidget(forNameCoord);
     ui->statusbar->addPermanentWidget(forValuesCoord, 1);
     forValuesCoord->setText(QString("%1 : %2").arg(x).arg(y));
+    ui->statusbar->addPermanentWidget(forIconScale);
     ui->statusbar->addPermanentWidget(forNameScale);
     ui->statusbar->addPermanentWidget(forValuesScale, 1);
     forValuesScale->setText(QString("%1").arg(scale));

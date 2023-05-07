@@ -5,16 +5,14 @@
 #include <QPainter>
 #include <QTime>
 
-static const int LOAD_TIME_MSEC = 0 * 1000;
 
-static const int PROGRESS_X_PX = 423;
-static const int PROGRESS_Y_PX = 683;
-static const int PROGRESS_WIDTH_PX = 440;
-static const int PROGRESS_HEIGHT_PX = 70;
-
-int main(int argc, char *argv[])
+void createSplashScreen(MainWindow &w, QApplication &a)
 {
-    QApplication a(argc, argv);
+    static const int LOAD_TIME_MSEC = 3 * 1000;
+    static const int PROGRESS_X_PX = 423;
+    static const int PROGRESS_Y_PX = 683;
+    static const int PROGRESS_WIDTH_PX = 430;
+    static const int PROGRESS_HEIGHT_PX = 70;
 
     QPixmap pix( ":/rec/img/SplashScreen.png" );
     QSplashScreen splashScreen( pix );
@@ -29,18 +27,20 @@ int main(int argc, char *argv[])
 
         QPainter painter;
         painter.begin( &pix );
-
         painter.fillRect(PROGRESS_X_PX, PROGRESS_Y_PX, progress / 100.0 * PROGRESS_WIDTH_PX, PROGRESS_HEIGHT_PX, Qt::green);
         painter.end();
 
         splashScreen.setPixmap(pix);
         a.processEvents();
     }
-
-    MainWindow w;
-    w.show();
-
     splashScreen.finish( &w );
+}
 
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    createSplashScreen(w, a);
+    w.show();
     return a.exec();
 }

@@ -101,6 +101,7 @@ private:
     QLabel* forIconCoord;
     QLabel* forNameCoord;
     QLabel* forValuesCoord;
+    QLabel* forIconScale;
     QLabel* forNameScale;
     QLabel* forValuesScale;
 
