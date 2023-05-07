@@ -76,7 +76,7 @@ public slots:
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
 
-    void renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
+    void renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
     void addRocket(double x, double y);
     void addRadarCircles(double x, double y, double radius);
 

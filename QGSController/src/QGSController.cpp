@@ -289,8 +289,8 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->changeAttributeValue(id,0,name);
     controlLineLayer->commitChanges();
 }
-
-void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
+//здесь чет плохой код
+void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPointsLayer->startEditing();
     QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
     int k = 0;
@@ -307,7 +307,7 @@ void QGSController::renderObject(QVector<QPair<double, double>>* sams, QVector<Q
     k = 0;
     for(auto i = featIds.begin(); i != featIds.end(); ++i){
         QgsPointXY point = controlSquareLayer->getFeature(*i).geometry().asPoint();
-        point.set(sams->at(k).first, sams->at(k).second);
+        point.set(sams->at(k)[0], sams->at(k)[0]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         controlSquareLayer->changeGeometry(*i, g);
         k++;

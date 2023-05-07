@@ -25,10 +25,12 @@ public:
     void pauseRenderCycle();   
 private:
     void SAMscane();
+    template< class T >
+    QVector<QList<double>>* packObjects(std::vector<T*> vector);
 signals:
     void planeCreated();
     void samCreated();
-    void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
+    void sendObjects(QVector<QList<double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
     void rocketCreated(double x, double y);
     void createSAMCircles(double x, double y, double radius);
 public slots:
@@ -37,7 +39,7 @@ public slots:
     void addSAM(double x, double y);
     void addPlane(QVector<QPair<double, double>>* points);
 private slots:
-    void packObjects();
+    void packAllObjects();
     void moveObjects();
 private:
     std::vector<Plane*> planes = std::vector<Plane*>(0);

@@ -5,7 +5,7 @@ Engine::Engine() {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Engine::moveObjects);
     sendTimer = new QTimer(this);
-    connect(sendTimer, &QTimer::timeout, this, &Engine::packObjects);
+    connect(sendTimer, &QTimer::timeout, this, &Engine::packAllObjects);
 };
 
 void Engine::createNewObject(InfoAboutElement element){
@@ -74,7 +74,6 @@ void Engine::SAMscane(){
         for(int j = 0; j<planes.size(); ++j){
             if(sams[i]->length(planes[j])<sams[i]->distance()){
                 Rocket* rocket = sams[i]->Fire(planes[j]);
-                qInfo() << " so ";
                 if(rocket){
                     rockets.push_back(rocket);
                     emit rocketCreated(sams[i]->X(), sams[i]->Y());
@@ -82,16 +81,22 @@ void Engine::SAMscane(){
             }
         }
 }
+//здесь надо concept(можно SFINAE)
+template< class T >
+QVector<QList<double>>* Engine::packObjects(std::vector<T*> vector){
+    constexpr bool hasAngle = requires(const T& t){ t.retAngle(); };
+    QVector<QList<double>>* send = new QVector<QList<double>>(0);
+    if constexpr (hasAngle){
+        for(int i = 0; i<vector.size(); ++i)
+            send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->retAngle()}); 
+    }
+    else{
+        for(int i = 0; i<vector.size(); ++i)
+            send->push_back({vector[i]->X(), vector[i]->Y()});
+    }
+    return send;
+}
 
-void Engine::packObjects(){
-    QVector<QList<double>>* sendPlanes = new QVector<QList<double>>(0);
-    for(int i = 0; i<planes.size(); ++i)
-        sendPlanes->push_back({planes[i]->X(), planes[i]->Y(), planes[i]->retAngle()});
-    QVector<QPair<double, double>>* sendSams = new QVector<QPair<double, double>>(0);
-    for(int i = 0; i<sams.size(); ++i)
-        sendSams->push_back({sams[i]->X(), sams[i]->Y()});
-    QVector<QList<double>>* sendRockets = new QVector<QList<double>>(0);
-    for(int i = 0; i<rockets.size(); ++i)
-        sendRockets->push_back({rockets[i]->X(), rockets[i]->Y(), rockets[i]->retAngle()});
-    emit sendObjects(sendSams, sendPlanes, sendRockets);
+void Engine::packAllObjects(){
+    emit sendObjects(packObjects<SAM>(sams), packObjects<Plane>(planes), packObjects<Rocket>(rockets));
 }
