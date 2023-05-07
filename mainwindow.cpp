@@ -189,7 +189,7 @@ void MainWindow::fillTreeFromDb()
 
     int sizeOfzrks = zrks.size();
     for(int i = 0; i<sizeOfzrks ;i++){
-        MyTreeItem *sam = new MyTreeItem(zrk, zrks[i].id, zrks[i].type, zrks[i].name, 0, 0, zrks[i].distance, zrks[i].damage);
+        MyTreeItem *sam = new MyTreeItem(zrk, zrks[i].id, zrks[i].type, zrks[i].name, 0, 0, zrks[i].distance);
     }
 
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);

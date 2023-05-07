@@ -31,7 +31,6 @@ public:
     int mass;
     int health;
     int distance;
-    int damage;
     int rocket;
     int sprite_id;
    // InfoAboutElement(int id,Table type,QString name,int speed,int mass,int health,int rocket = 0,int sprite_id = 0);
