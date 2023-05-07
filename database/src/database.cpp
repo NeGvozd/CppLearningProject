@@ -20,7 +20,7 @@ InfoAboutElement AirplansTable::select(int id)
     int sprite_id = my_query.value(rec.indexOf("Sprtite_id")).toInt();//ops
 
     //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-    InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,0,rocket,sprite_id};
+    InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,rocket,sprite_id};
     //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health,0,0,0,0);
     return plane;
 }
@@ -44,7 +44,7 @@ QVector<InfoAboutElement> AirplansTable::select_all()
         int sprite_id = my_query.value(rec.indexOf("Sprtite_id")).toInt();//ops
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,0,rocket,sprite_id};
+        InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,rocket,sprite_id};
         //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health,0,0,0,0);
         vec.append(plane);
     }
@@ -65,14 +65,13 @@ InfoAboutElement ZRKTable::select(int id)
 
     QString name = my_query.value(rec.indexOf("Name")).toString();
     int distance = my_query.value(rec.indexOf("Distance")).toInt();
-    int damage = my_query.value(rec.indexOf("Damage")).toInt();
     int health = my_query.value(rec.indexOf("Health")).toInt();
     int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
     int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();
     //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Distance ="<< distance <<"Damage ="<< damage;
 
     //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,0,0,health, distance , damage,0,0);
-    InfoAboutElement zrk = {id, ZRK, name,0,health, distance , damage,rocket,sprite_id};
+    InfoAboutElement zrk = {id, ZRK, name,0,health, distance,rocket,sprite_id};
     return zrk;
 
 }
@@ -91,14 +90,13 @@ QVector<InfoAboutElement> ZRKTable::select_all()
         int id = my_query.value(rec.indexOf("id")).toInt();
         QString name = my_query.value(rec.indexOf("Name")).toString();
         int distance = my_query.value(rec.indexOf("Distance")).toInt();
-        int damage = my_query.value(rec.indexOf("Damage")).toInt();
         int health = my_query.value(rec.indexOf("Health")).toInt();
         int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
         int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();//ops
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
         //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,0,0,health, distance , damage,0,0);
-        InfoAboutElement zrk = {id, ZRK, name,0,health, distance , damage,rocket,sprite_id};
+        InfoAboutElement zrk = {id, ZRK, name,0,health, distance,rocket,sprite_id};
         vec.append(zrk);
     }
 
