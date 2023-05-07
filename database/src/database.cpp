@@ -107,12 +107,50 @@ QVector<InfoAboutElement> ZRKTable::select_all()
 
 
 
-//InfoAboutElement::InfoAboutElement(int _id, Table _type, QString _name, int _speed, int _mass, int _health,int _distance,int _damage, int _rocket, int _sprite_id):
-//    id{_id},type{_type},name{_name},speed{_speed},mass{_mass},health{_health},distance{_distance},damage{_damage},rocket{_rocket},sprite_id{_sprite_id}
-//{
-//}
+InfoAboutRocket ROCKETTable::select(int id)
+{
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM ROCKET WHERE id = (:id)");
+    my_query.bindValue(":id", id);
+    my_query.exec();
 
-//InfoAboutElement::InfoAboutElement(int id, Table type, QString name, int mass, int health, int distance, int damage, int rocket, int sprite_id):
-//    id{id},type{type},name{name},mass{mass},health{health},distance{distance},damage{damage},rocket{rocket},sprite_id{sprite_id}
-//{
-//}
+    QSqlRecord rec = my_query.record();
+    my_query.first();
+
+    QString name = my_query.value(rec.indexOf("Name")).toString();
+    int speed = my_query.value(rec.indexOf("Speed")).toInt();
+    int damage = my_query.value(rec.indexOf("Damage")).toInt();
+    int distance = my_query.value(rec.indexOf("Distance")).toInt();
+    int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
+
+    qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+    InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type};
+
+    return rocket;
+}
+
+QVector<InfoAboutRocket> ROCKETTable::select_all()
+{
+    QVector<InfoAboutRocket> vec;
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM ROCKET");
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    while(my_query.next())
+    {
+        int id = my_query.value(rec.indexOf("id")).toInt();
+        QString name = my_query.value(rec.indexOf("Name")).toString();
+        int speed = my_query.value(rec.indexOf("Speed")).toInt();
+        int damage = my_query.value(rec.indexOf("Damage")).toInt();
+        int distance = my_query.value(rec.indexOf("Distance")).toInt();
+        int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
+
+        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+        InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type};
+        vec.append(rocket);
+    }
+
+    return vec;
+}
+

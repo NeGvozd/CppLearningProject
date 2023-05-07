@@ -45,6 +45,7 @@ private:
     QSqlDatabase db;
     AirplansTable* airplanTable; //table with Airplans
     ZRKTable* zrkTable;
+    ROCKETTable* rocketTable;
     DataWindow* dbWindow;
     int currentRow;
 

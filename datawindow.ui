@@ -24,9 +24,9 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="2" column="4">
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="rocketButton">
       <property name="text">
-       <string>что-то еще</string>
+       <string>Ракеты</string>
       </property>
      </widget>
     </item>

@@ -27,6 +27,7 @@ void DataWindow::on_planeButton_clicked()
 {
     ui->planeButton->setEnabled(false);
     ui->zrkButton->setEnabled(true);
+    ui->rocketButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     emit sig_typeTable_clicked(AIRPLANS);
 }
@@ -35,6 +36,7 @@ void DataWindow::on_zrkButton_clicked()
 {
     ui->zrkButton->setEnabled(false);
     ui->planeButton->setEnabled(true);
+    ui->rocketButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     emit sig_typeTable_clicked(ZRK);
 }
@@ -67,4 +69,14 @@ void DataWindow::slot_unblock_db()
 {
     ui->addButton->setEnabled(true);
     ui->deleteButton->setEnabled(true);
+}
+
+
+void DataWindow::on_rocketButton_clicked()
+{
+    ui->planeButton->setEnabled(true);
+    ui->zrkButton->setEnabled(true);
+    ui->rocketButton->setEnabled(false);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    emit sig_typeTable_clicked(ROCKET);
 }
