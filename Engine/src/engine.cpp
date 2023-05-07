@@ -39,7 +39,8 @@ void Engine::addLine(QVector<QPair<double, double>>* linePoints){
 
 void Engine::addSAM(double x, double y){
     sams[sams.size()-1]->X(x);
-    sams[sams.size()-1]->Y(y);
+    sams[sams.size()-1]->Y(y); //создал SAM здесь, кинул emit об этом в QGIS, он дал мне точку на которую кликнули, я её добавил в движке и кинул ему обратно какого радиуса круги и где создать
+    emit createSAMCircles(x, y, sams[sams.size()-1]->distance());
 }
 
 void Engine::addPlane(QVector<QPair<double, double>>* points) {

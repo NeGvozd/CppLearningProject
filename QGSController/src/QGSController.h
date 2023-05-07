@@ -78,6 +78,7 @@ public slots:
 
     void renderObject(QVector<QPair<double, double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
     void addRocket(double x, double y);
+    void addRadarCircles(double x, double y, double radius);
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);

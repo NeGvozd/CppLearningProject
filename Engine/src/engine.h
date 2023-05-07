@@ -30,6 +30,7 @@ signals:
     void samCreated();
     void sendObjects(QVector<QPair<double, double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
     void rocketCreated(double x, double y);
+    void createSAMCircles(double x, double y, double radius);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);

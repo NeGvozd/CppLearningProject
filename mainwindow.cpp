@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(sig_unblock_db()),dbController,SLOT(slot_unblock_db()));
     connect(engine, &Engine::sendObjects, QgsController, &QGSController::renderObject);
     connect(engine, &Engine::rocketCreated, QgsController, &QGSController::addRocket);
+    connect(engine, &Engine::createSAMCircles, QgsController, &QGSController::addRadarCircles);
 }
 
 MainWindow::~MainWindow(){

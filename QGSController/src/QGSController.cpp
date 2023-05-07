@@ -195,14 +195,17 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
     addSquareToLayer(controlSquareLayer, point, 1.);
 
-    addCircleToLayer(radarCirclesLayer, point, 2.);
-    addCircleToLayer(radarCirclesLayer, point, 4.);
-    addCircleToLayer(radarCirclesLayer, point, 6.);
-
-    addLineToLayer(radarCirclesLayer, point+QgsVector(-6.,0.), point+QgsVector(6., 0.));
-    addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-6.), point+QgsVector(0., 6.));
-
     emit createSAM(point.x(), point.y());
+}
+
+void QGSController::addRadarCircles(double x, double y, double radius){
+    QgsPointXY point = QgsPointXY(x, y);
+    addCircleToLayer(radarCirclesLayer, point, size/3);
+    addCircleToLayer(radarCirclesLayer, point, size*2/3);
+    addCircleToLayer(radarCirclesLayer, point, size);
+
+    addLineToLayer(radarCirclesLayer, point+QgsVector(-size,0.), point+QgsVector(size, 0.));
+    addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-size), point+QgsVector(0., size));
 }
 
 void QGSController::showRadarZones(){
