@@ -39,7 +39,7 @@ private slots:
     void slot_table(QSqlTableModel *model);
     void slot_block_db();
     void slot_unblock_db();
-
+    void on_rocketButton_clicked();
 
 private:
     Ui::DataWindow *ui;
