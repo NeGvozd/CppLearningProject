@@ -26,7 +26,7 @@ public:
 private:
     float health_;
     float speed_;
-    float angle_;
+    float angle_ = 0.;
     QString model_;
     QVector<Point*>* tragectory_ = nullptr;
     int prevTragPoint;

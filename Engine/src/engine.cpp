@@ -82,9 +82,9 @@ void Engine::SAMscane(){
         }
 }
 //здесь надо concept(можно SFINAE)
-template< class T >
+template<class T>
 QVector<QList<double>>* Engine::packObjects(std::vector<T*> vector){
-    constexpr bool hasAngle = requires(const T& t){ t.retAngle(); };
+    constexpr bool hasAngle = requires(T t){ t.retAngle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
     if constexpr (hasAngle){
         for(int i = 0; i<vector.size(); ++i)

@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QTime>
 
+static const int LOAD_TIME_MSEC = 0.001 * 1000;
 
 void createSplashScreen(MainWindow &w, QApplication &a)
 {

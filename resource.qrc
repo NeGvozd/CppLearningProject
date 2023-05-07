@@ -12,6 +12,7 @@
         <file>img/play.png</file>
         <file>img/pause.png</file>
         <file>img/SplashScreen.png</file>
+        <file>img/airplane.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

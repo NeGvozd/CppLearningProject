@@ -10,9 +10,8 @@ QGSController::QGSController(QWidget* Map){
     canvas->setParallelRenderingEnabled(true);
     canvas->setCachingEnabled(true);
     canvas->setPreviewJobsEnabled(true);
-    canvas->setMapUpdateInterval(10000); //ToDO::check possible values
+    canvas->setMapUpdateInterval(500); //ToDO::check possible values
 
-    //qInfo() << QgsSvgCache().getImageData("26562.svg");
 
     startLayer();
 
@@ -21,38 +20,7 @@ QGSController::QGSController(QWidget* Map){
 
     //Tools
     panTool= new QgsMapToolPan(canvas);
-    //Здесь код для вставления картинки
-/*    controlPointsLayer->startEditing();
 
-    QgsFeatureRenderer * layerRenderer= controlPointsLayer->renderer();
-    QgsSingleSymbolRenderer *mSingleRenderer = QgsSingleSymbolRenderer::convertFromRenderer(layerRenderer);
-    QgsMarkerSymbol* symbol = new  QgsMarkerSymbol();
-    QVariantMap mp;
-       // mp[QString("fill")]= QString("red");
-    mp[QString("name")]= QString("26562.svg");
-    mp[QString("size")]= QString("6");
-      //  mp[QString("outline")]=QString("black");
-     //   mp[QString("outline-width")]=QString("6.8");
-    QgsSvgMarkerSymbolLayer* planeLayer = new QgsSvgMarkerSymbolLayer("26562.svg");
-    //planeLayer->setPath("26562.svg");
-    //qInfo() << planeLayer->path();
-    //planeLayer->setColor(QColor(1, 1, 0));
-    QgsSymbolLayer* svgsymbol=planeLayer->create(mp);
-//    QgsMarkerSymbol* newsym=symbol->createSimple(mp);
-    QgsSymbol* newsym = QgsSymbol::defaultSymbol(controlPointsLayer->geometryType());
-    newsym->deleteSymbolLayer(0);
-    newsym->insertSymbolLayer(0, svgsymbol);
-    QList<QgsRendererCategory> Categories;
-    QgsRendererCategory MyCategorie = QgsRendererCategory(QVariant("1"),newsym,"26562.svg");
-    Categories.append(MyCategorie);
-    QgsCategorizedSymbolRenderer* lrenderer = new QgsCategorizedSymbolRenderer("RVER",Categories);
-    controlPointsLayer->setRenderer(lrenderer);
-//    controlPointsLayer->setRenderer(mSingleRenderer);
-    controlPointsLayer->triggerRepaint();
-    controlPointsLayer->commitChanges();*/
-
-    //timerLine = new QTimer(this);
-    //connect(timerLine, &QTimer::timeout, this, &QGSController::lineFollow);
 
     connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
     connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
@@ -82,7 +50,7 @@ void QGSController::addLayer(){
             return;
         if (layerPath.contains(".shp"))
         {
-
+            qInfo()<<layerPath;
             QgsVectorLayer* newLayer = new QgsVectorLayer(layerPath, layerPath, "ogr");
 
             layers.push_back(newLayer);
@@ -119,11 +87,36 @@ void QGSController::initVectorLayer(QgsVectorLayer* layer){
     layer->commitChanges();
 }
 
+void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer){
+    layer->dataProvider()->addAttributes({{"type", QVariant::Int},{"angle",QVariant::Double}});
+    layer->updateFields();
+
+    QgsSvgMarkerSymbolLayer* svgL = new QgsSvgMarkerSymbolLayer(":/rec/img/airplane.svg",10);
+    QgsSymbol* s= QgsSymbol::defaultSymbol(layer->geometryType());
+    s->changeSymbolLayer(0,svgL);
+
+    //Magic?
+    QgsMarkerSymbol* m =dynamic_cast<QgsMarkerSymbol*>(s);
+    //A store for object properties.
+    QgsProperty p;
+    p.setField("angle");
+    m->setDataDefinedAngle(p);
+
+    QgsRuleBasedRenderer::Rule* rule =new QgsRuleBasedRenderer::Rule(s,0,0);
+
+    QgsRuleBasedRenderer* render= new QgsRuleBasedRenderer(rule);
+
+    layer->setRenderer(render);
+    layer->commitChanges();
+}
+
 void QGSController::startLayer()
 {
     initVectorLayer(controlPointsLayer);
     initVectorLayer(controlSquareLayer);
     initVectorLayer(controlLineLayer);
+
+    initVectorLayerWithSVG(controlPlanes);
 
     setCrs();
     layers.push_back(radarCirclesLayer);
@@ -133,6 +126,20 @@ void QGSController::startLayer()
     layers.push_back(controlLinePointsLayer);
     layers.push_back(rocketsLayer);
     layers.push_back(rocketsLineLayer);
+
+    layers.push_back(controlPlanes);
+
+    layers.push_back(baseEarthLayer);
+    layers.push_back(baseWaterLayer);
+
+
+    crs=layers.at(layers.size()-1)->crs();
+
+    canvas->setLayers(layers);
+    for(int i=2;i<layers.length();i++)
+        canvas->setExtent(layers[i]->extent());
+
+    canvas->refresh();
 }
 
 void QGSController::setCrs()
@@ -165,6 +172,25 @@ void QGSController::addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom){
     feat.setAttribute("name", QString::number(int(layer->featureCount())+1));
     feat.setGeometry(geom);
     layer->addFeature(feat);
+    layer->commitChanges();
+}
+
+void QGSController::addElementToLayerWithSVG(QgsVectorLayer *layer, QgsGeometry geom){
+    layer->startEditing();
+
+
+    QgsFeature feat;
+    //Assigns a field map with the feature to allow attribute access by attribute name.
+    feat.setFields(layer->fields(), true);
+    feat.setGeometry(geom);
+
+    double angle=90;
+    feat.setAttribute("angle",angle);
+    //feat.setAttribute("type",0);
+
+
+    layer->addFeature(feat);
+
     layer->commitChanges();
 }
 
@@ -270,7 +296,7 @@ void QGSController::getLineId(int id){
 void QGSController::addPointToLine(int id){
     QgsPointXY point(controlLineLayer->getFeature(id).geometry().asMultiPolyline()[0][0]);
     sentChosenLine(id);
-    addElementToLayer(controlPointsLayer,QgsGeometry::fromPointXY(point));
+    addElementToLayerWithSVG(controlPlanes,QgsGeometry::fromPointXY(point));
 
     li_P_Nl[li_P_Nl.size()-1][1]=controlPointsLayer->featureCount();
 }
@@ -291,9 +317,23 @@ void QGSController::lineChangeName(int id, QString name){
 }
 //здесь чет плохой код
 void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
-    controlPointsLayer->startEditing();
-    QgsFeatureIds featIds = controlPointsLayer->allFeatureIds(); 
+    controlPlanes->startEditing();
+    QgsFeatureIds featIds = controlPlanes->allFeatureIds(); 
     int k = 0;
+    for(auto i = featIds.begin(); i != featIds.end(); ++i){
+        QgsPointXY point = controlPlanes->getFeature(*i).geometry().asPoint();
+        point.set(planes->at(k)[0], planes->at(k)[1]);
+        QgsGeometry g = QgsGeometry::fromPointXY(point);
+        controlPlanes->changeGeometry(*i, g);
+        controlPlanes->changeAttributeValue(*i,1,-planes->at(k)[2]*180/M_PI);
+        k++;
+    }
+    controlPlanes->commitChanges();
+
+/*
+    controlPointsLayer->startEditing();
+    featIds = controlPointsLayer->allFeatureIds();
+    k = 0;
     for(auto i = featIds.begin(); i != featIds.end(); ++i){
         QgsPointXY point = controlPointsLayer->getFeature(*i).geometry().asPoint();
         point.set(planes->at(k)[0], planes->at(k)[1]);
@@ -301,7 +341,7 @@ void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<dou
         controlPointsLayer->changeGeometry(*i, g);
         k++;
     }
-    controlPointsLayer->commitChanges();
+    controlPointsLayer->commitChanges();*/
     controlSquareLayer->startEditing();
     featIds = controlSquareLayer->allFeatureIds();
     k = 0;
