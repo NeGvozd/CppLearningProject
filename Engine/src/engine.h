@@ -26,7 +26,7 @@ public:
 private:
     void SAMscane();
     template< class T >
-    QVector<QList<double>>* packObjects(std::vector<T> vector);
+    QVector<QList<double>>* packObjects(std::vector<std::shared_ptr<T>> vector);
 signals:
     void planeCreated();
     void samCreated();

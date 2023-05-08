@@ -88,12 +88,12 @@ void Engine::SAMscane()
 }
 //здесь надо concept(можно SFINAE)
 template<class T>
-QVector<QList<double>>* Engine::packObjects(std::vector<T> vector){
-    constexpr bool hasAngle = requires(T t){ t.retAngle(); };
+QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>> vector){
+    constexpr bool hasAngle = requires(T t){ t.Angle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
     if constexpr (hasAngle){
         for(int i = 0; i<vector.size(); ++i)
-            send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->retAngle()}); 
+            send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->Angle()}); 
     }
     else{
         for(int i = 0; i<vector.size(); ++i)
@@ -103,5 +103,5 @@ QVector<QList<double>>* Engine::packObjects(std::vector<T> vector){
 }
 
 void Engine::packAllObjects(){
-    emit sendObjects(packObjects<std::shared_ptr<SAM>>(sams), packObjects<std::shared_ptr<Plane>>(planes), packObjects<std::shared_ptr<Rocket>>(rockets));
+    emit sendObjects(packObjects<SAM>(sams), packObjects<Plane>(planes), packObjects<Rocket>(rockets));
 }

@@ -6,7 +6,6 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 if(NOT DEFINED ENV{QGIS_PATH})
     set(QGIS_PATH /apps CACHE PATH "specify path to QGIS install directory")
 endif()
