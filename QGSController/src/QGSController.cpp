@@ -257,6 +257,15 @@ void QGSController::addLine(bool checked){
     }
 }
 
+//если прилетит в середине отрисовки, то всё поломается, что делать?????
+void QGSController::deleteRocket(int pos){
+    rocketsLayer->startEditing();
+    QgsFeatureIds featIds = rocketsLayer->allFeatureIds();
+    rocketsLayer->deleteFeature(*(featIds.begin()+pos));
+    rocketsLayer->commitChanges();
+    emit continueRender();
+}
+
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();
     QgsFeatureIds featIds = controlLinePointsLayer->allFeatureIds(); 

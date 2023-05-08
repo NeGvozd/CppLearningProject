@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(engine, &Engine::sendObjects, QgsController, &QGSController::renderObject);
     connect(engine, &Engine::rocketCreated, QgsController, &QGSController::addRocket);
     connect(engine, &Engine::createSAMCircles, QgsController, &QGSController::addRadarCircles);
+    connect(engine, &Engine::deleteRocket, QgsController, &QGSController::deleteRocket);
+    connect(QgsController, &QGSController::continueRender, engine, &Engine::startRenderCycle);
 }
 
 MainWindow::~MainWindow(){

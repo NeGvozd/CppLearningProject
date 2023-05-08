@@ -79,6 +79,7 @@ signals:
     void scaleChanged(double s);
     void createLine(QVector<QPair<double, double>>* linePoints);
     void createSAM(double x, double y);
+    void continueRender();
 public slots:
     void addLine(bool checked);
     void showRadarZones();
@@ -89,6 +90,7 @@ public slots:
     void renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
     void addRocket(double x, double y);
     void addRadarCircles(double x, double y, double radius);
+    void deleteRocket(int pos);
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);

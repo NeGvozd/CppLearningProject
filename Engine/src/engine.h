@@ -33,6 +33,7 @@ signals:
     void sendObjects(QVector<QList<double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
     void rocketCreated(double x, double y);
     void createSAMCircles(double x, double y, double radius);
+    void deleteRocket(int pos);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);

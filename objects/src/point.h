@@ -19,6 +19,7 @@ public:
     float AngleWith(const std::weak_ptr<const Point> object);
 
     void OnDead();
+    bool isAlive();
     
 protected:
     float x_;

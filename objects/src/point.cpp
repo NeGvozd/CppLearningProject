@@ -32,6 +32,10 @@ void Point::OnDead() {
     is_alive_ = false;
 }
 
+bool Point::isAlive(){
+    return is_alive_;
+}
+
 float Point::AngleWith(const std::weak_ptr<const Point> object) {
     auto obj = object.lock();
     return atan2((obj->Y()-y_), (obj->X()-x_));

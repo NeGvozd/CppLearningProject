@@ -65,8 +65,21 @@ void Engine::pauseRenderCycle(){
 void Engine::moveObjects(){
     for(int i = 0; i<planes.size(); ++i)
         planes[i]->Move();
-    for(int i = 0; i<rockets.size(); ++i)
-        rockets[i]->Move();
+    int pos = 0;
+    for(std::vector<std::shared_ptr<Rocket>>::iterator it=rockets.begin(); it<rockets.end();)
+    if((*it)->isAlive()){
+        (*it)->Move();
+        ++it;
+        pos++;
+    }
+    else {
+            qInfo() << (*it)->isAlive();
+            pauseRenderCycle();
+            rockets.erase(it);
+            rockets[pos]->~Rocket();
+            emit deleteRocket(pos);
+            pos--;
+        }
     SAMscane();
 }
 
@@ -92,11 +105,15 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>> vect
     constexpr bool hasAngle = requires(T t){ t.Angle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
     if constexpr (hasAngle){
-        for(int i = 0; i<vector.size(); ++i)
+        for(int i = 0; i<vector.size(); ++i){
+        qInfo() << vector[i]->isAlive() << vector[i].use_count() << vector.size();
+        if(vector[i]->isAlive()) 
             send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->Angle()}); 
+        }
     }
     else{
         for(int i = 0; i<vector.size(); ++i)
+        if(vector[i]->isAlive()) 
             send->push_back({vector[i]->X(), vector[i]->Y()});
     }
     return send;

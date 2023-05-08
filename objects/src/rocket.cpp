@@ -32,7 +32,7 @@ void Rocket::Move()
         
     } else {
         //target_->dead();
-        is_alive_ = !is_alive_;
+        this->OnDead();
 
         auto parent = parent_.lock();
         parent->Reload();
