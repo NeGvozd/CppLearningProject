@@ -7,13 +7,13 @@
 class Rocket;
 class Plane;
 
-class SAM : public Point {
+class SAM : public Point, public std::enable_shared_from_this<SAM> {
 public:
     SAM(float health, const QString& model, float distance,
         std::unique_ptr<Point> location);
     ~SAM() = default;
 
-    std::unique_ptr<Rocket> Fire(std::shared_ptr<const Plane> plane);
+    std::shared_ptr<Rocket> Fire(std::shared_ptr<Plane> target);
     void ReceiveDamage(float amout);
     float Distance() const;
     void Reload(); // when rocket is destroyed, can create a new one

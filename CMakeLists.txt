@@ -11,7 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(QGIS_PATH /apps)
+set(QGIS_PATH /usr/local)
 
 find_package(Qt5 COMPONENTS
         Core

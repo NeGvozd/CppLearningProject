@@ -26,7 +26,7 @@ public:
 private:
     void SAMscane();
     template< class T >
-    QVector<QList<double>>* packObjects(std::vector<T*> vector);
+    QVector<QList<double>>* packObjects(std::vector<T> vector);
 signals:
     void planeCreated();
     void samCreated();
@@ -42,10 +42,10 @@ private slots:
     void packAllObjects();
     void moveObjects();
 private:
-    std::vector<Plane*> planes = std::vector<Plane*>(0);
-    std::vector<SAM*> sams = std::vector<SAM*>(0);
-    std::vector<Rocket*> rockets = std::vector<Rocket*>(0);
-    std::vector<Point*> allLines;
+    std::vector<std::shared_ptr<Plane>> planes;
+    std::vector<std::shared_ptr<SAM>> sams;
+    std::vector<std::shared_ptr<Rocket>> rockets;
+    std::vector<std::shared_ptr<Point>> allLines;
 
     QTimer* timer;
     QTimer* sendTimer;

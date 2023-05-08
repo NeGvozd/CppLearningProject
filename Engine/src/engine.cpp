@@ -28,23 +28,24 @@ void Engine::createNewObject(InfoAboutElement element){
     }
 }
 
-void Engine::addLine(QVector<QPair<double, double>>* linePoints){
-    for(auto i = linePoints->begin(); i<linePoints->end(); ++i)
-        allLines.push_back(new Point((*i).first, (*i).second));
+void Engine::addLine(QVector<QPair<double, double>>* linePoints) 
+{
+    for(auto i = linePoints->begin(); i < linePoints->end(); ++i)
+        allLines.push_back(std::make_shared<Point>((*i).first, (*i).second));
 }
 
 void Engine::addSAM(double x, double y){ 
-    SAM* sam = new SAM(lastelement_.mass, lastelement_.name, lastelement_.distance, new Point(x,y)); //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
-    sams.push_back(sam);
-    emit createSAMCircles(x, y, sams[sams.size()-1]->distance());
+    //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
+    sams.push_back(std::make_shared<SAM>(lastelement_.mass, lastelement_.name, lastelement_.distance, std::make_unique<Point>(x,y)));
+    emit createSAMCircles(x, y, sams[sams.size()-1]->Distance());
 }
 
 void Engine::addPlane(QVector<QPair<double, double>>* points) {
-    QVector<Point*>* vec = new QVector<Point*>(0); 
-    for(auto i : *points)
-        vec->push_back(new Point(i.first, i.second));
-    Plane* plane = new Plane(lastelement_.mass,lastelement_.speed,lastelement_.name, vec);
-    planes.push_back(plane);
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> vec(new QVector<std::shared_ptr<Point>>);
+    for (const auto& pair : *points) {
+            vec->append(std::make_shared<Point>(pair.first, pair.second));
+        }
+    planes.push_back(std::make_shared<Plane>(lastelement_.mass,lastelement_.speed,lastelement_.name, vec));
 }
 
 void Engine::startRenderCycle(){
@@ -69,21 +70,25 @@ void Engine::moveObjects(){
     SAMscane();
 }
 
-void Engine::SAMscane(){
-    for(int i = 0; i<sams.size(); ++i)
-        for(int j = 0; j<planes.size(); ++j){
-            if(sams[i]->length(planes[j])<sams[i]->distance()){
-                Rocket* rocket = sams[i]->Fire(planes[j]);
-                if(rocket){
+void Engine::SAMscane()
+{
+    for(int i = 0; i < sams.size(); ++i)
+    {
+        for(int j = 0; j < planes.size(); ++j)
+        {
+            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance()){
+                auto rocket = sams[i]->Fire(planes[j]);
+                if(rocket) {
                     rockets.push_back(rocket);
                     emit rocketCreated(sams[i]->X(), sams[i]->Y());
                 }
             }
         }
+    }
 }
 //здесь надо concept(можно SFINAE)
 template<class T>
-QVector<QList<double>>* Engine::packObjects(std::vector<T*> vector){
+QVector<QList<double>>* Engine::packObjects(std::vector<T> vector){
     constexpr bool hasAngle = requires(T t){ t.retAngle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
     if constexpr (hasAngle){
@@ -98,5 +103,5 @@ QVector<QList<double>>* Engine::packObjects(std::vector<T*> vector){
 }
 
 void Engine::packAllObjects(){
-    emit sendObjects(packObjects<SAM>(sams), packObjects<Plane>(planes), packObjects<Rocket>(rockets));
+    emit sendObjects(packObjects<std::shared_ptr<SAM>>(sams), packObjects<std::shared_ptr<Plane>>(planes), packObjects<std::shared_ptr<Rocket>>(rockets));
 }

@@ -21,12 +21,12 @@ void SAM::Reload() {
     battery_++;
 }
 
-std::unique_ptr<Rocket> SAM::Fire(std::shared_ptr<const Plane> target)
+std::shared_ptr<Rocket> SAM::Fire(std::shared_ptr<Plane> target)
 {
     if (battery_ > 0) {
         battery_--;
-        const std::weak_ptr<SAM> rocket_parent = std::make_shared<SAM>(this); 
-        return std::make_unique<Rocket>(1000, 1200, 0.5, target, rocket_parent);//пока не понятно как создавать ракеты из бд
+        const std::weak_ptr<SAM> rocket_parent = shared_from_this();
+        return std::make_shared<Rocket>(1000, 1200, 0.5, target, rocket_parent);//пока не понятно как создавать ракеты из бд
     }
     return nullptr;
 }

@@ -9,7 +9,7 @@
 #define KM 0.0115
 
 Rocket::Rocket(float damage, float speed, float range, 
-               std::shared_ptr<const Plane> target,
+               std::shared_ptr<Plane> target,
                const std::weak_ptr<SAM> parent) :
     damage_(damage), speed_(speed/60), range_(range), angle_(0), parent_(parent), 
     Point(parent.lock()->X(), parent.lock()->Y()),

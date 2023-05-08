@@ -12,12 +12,12 @@ class SAM;
 class Plane : public Point {
 public:
     Plane(float health, float speed, const QString& model,
-          std::shared_ptr<QVector<Point>>& tragectory);
+          std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
     ~Plane() = default;
 
     void Move();
     void ReceiveDamage(float amout);
-    void SetTragectory(std::shared_ptr<QVector<Point>>& tragectory);
+    void SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
 
     float Angle() const;
 
@@ -27,7 +27,7 @@ private:
     float angle_ = 0.;
     QString model_;
 
-    std::shared_ptr<QVector<Point>>& tragectory_ ;
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory_ ;
     int prev_route_point_;
     int curr_route_point_;
 };

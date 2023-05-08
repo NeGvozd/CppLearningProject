@@ -3,8 +3,10 @@
 
 Point::Point(float x, float y) :
     x_(x), y_(y) {}
-Point::Point(const Point& p) : 
-    x_(p.X()), y_(p.Y()) {};
+
+// Point::Point(const Point& p) :
+//     x_(p.X()), y_(p.Y()) {};
+
 float Point::X() const {
     return x_;
 }

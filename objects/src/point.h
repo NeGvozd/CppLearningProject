@@ -6,7 +6,7 @@
 class Point {
 public:
     Point(float x, float y);
-    Point(const Point& p);
+    Point();
     virtual ~Point() = default;
 
     float X() const;
