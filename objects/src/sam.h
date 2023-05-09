@@ -13,7 +13,7 @@ public:
         std::unique_ptr<Point> location);
     ~SAM() = default;
 
-    std::shared_ptr<Rocket> Fire(std::shared_ptr<Plane> target);
+    std::shared_ptr<Rocket> Fire(std::weak_ptr<Plane> target);
     void ReceiveDamage(float amout);
     float Distance() const;
     void Reload(); // when rocket is destroyed, can create a new one

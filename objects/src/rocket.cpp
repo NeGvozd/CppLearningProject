@@ -8,8 +8,14 @@
 
 #define KM 0.0115
 
+Rocket::~Rocket()
+{
+    qInfo() << "rocket destructed";
+    target_.reset();
+}
+
 Rocket::Rocket(float damage, float speed, float range, 
-               std::shared_ptr<Plane> target,
+               std::weak_ptr<Plane> target,
                const std::weak_ptr<SAM> parent) :
     damage_(damage), speed_(speed/60), range_(range), angle_(0), parent_(parent), 
     Point(parent.lock()->X(), parent.lock()->Y()),
@@ -17,10 +23,12 @@ Rocket::Rocket(float damage, float speed, float range,
 
 void Rocket::Move()
 {
-    if (!target_ || !is_alive_) return;
+    if (target_.expired() == true || !is_alive_) return;
 
-    float dx = target_->X() - x_;
-    float dy = target_->Y() - y_;
+    auto target = target_.lock();
+
+    float dx = target->X() - x_;
+    float dy = target->Y() - y_;
 
     float dist = sqrt(dx*dx + dy*dy);
     float angle_ = atan2(dy, dx);
@@ -45,9 +53,12 @@ float Rocket::Angle() const {
 
 void Rocket::Hit()
 {
-    if (auto target = std::dynamic_pointer_cast<Plane>(target_))
+    if (target_.expired() == true) return;
+
+    auto t = target_.lock();
+    if (auto target = std::dynamic_pointer_cast<Plane>(t))
         target->ReceiveDamage(damage_);
-    if (auto target = std::dynamic_pointer_cast<SAM>(target_))
+    if (auto target = std::dynamic_pointer_cast<SAM>(t))
         target->ReceiveDamage(damage_);
     // target_.ReceiveDamage();
 }

@@ -32,7 +32,7 @@ void Point::OnDead() {
     is_alive_ = false;
 }
 
-bool Point::isAlive(){
+bool Point::IsAlive() const {
     return is_alive_;
 }
 

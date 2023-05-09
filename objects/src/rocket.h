@@ -7,9 +7,9 @@
 class Rocket : public Point {
 public:
     Rocket(float damage, float speed, float range, 
-           std::shared_ptr<Plane> target,
+           std::weak_ptr<Plane> target,
            const std::weak_ptr<SAM> parent);
-    ~Rocket() = default;
+    ~Rocket();
 
     void Move();
     void Hit();
@@ -21,7 +21,7 @@ private:
     float range_;
     float angle_;
     
-    std::shared_ptr<Plane> target_;
+    std::weak_ptr<Plane> target_;
     const std::weak_ptr<SAM> parent_;
 };
 

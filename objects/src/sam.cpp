@@ -21,7 +21,7 @@ void SAM::Reload() {
     battery_++;
 }
 
-std::shared_ptr<Rocket> SAM::Fire(std::shared_ptr<Plane> target)
+std::shared_ptr<Rocket> SAM::Fire(std::weak_ptr<Plane> target)
 {
     if (battery_ > 0) {
         battery_--;
