@@ -27,6 +27,11 @@ add_executable(Zrk_Interface
     mainwindow.ui
     datawindow.cpp
     datawindow.ui
+    itemslist.cpp
+    itemslist.h
+    ItemsListWindow.ui
+    ItemsListWindow.cpp
+    ItemsListWindow.h
     resource.qrc
   )
 

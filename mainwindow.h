@@ -24,6 +24,9 @@
 
 #include "Engine/src/engine.h"
 
+#include "itemslist.h"
+#include "ItemsListWindow.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -65,6 +68,9 @@ signals:
     void createNewObject(InfoAboutElement element);
     void sig_block_db();
     void sig_unblock_db();
+    void selectRocketItem(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
+    void selectSAMItem(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
+    void selectPlaneItem(int id, QString name, QString model, float health, float speed, float x, float y);
 private slots:
     void on_actionLine_triggered();
 
@@ -84,11 +90,17 @@ private slots:
 
     void on_pauseButton_clicked();
 
+    void itemsListShow();
+    void itemsListClicked(QTreeWidgetItem *item, int column);
+
 public slots:
     void addedToDb();
     void updateMapCoord(double x, double y);
     void updateMapScale(double s);
     void planeCreated();
+    void addPlaneToItems(int id, QString name, QString model, float health, float speed, float x, float y);
+    void addSAMToItems(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
+    void addRocketToItems(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
 
 private:
     //if you don't have QGS comment bottom line
@@ -112,6 +124,12 @@ private:
     DatabaseController *dbController;
     //ObjectFactory *objFactory;
     Engine* engine;
+
+    ItemsListItem* planes = nullptr;
+    ItemsListItem* sams = nullptr;
+    ItemsListItem* rockets = nullptr;
+
+    ItemsListWindow* ListWindow;
 };
 
 #endif // MAINWINDOW_H

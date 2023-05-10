@@ -52,6 +52,16 @@ MainWindow::MainWindow(QWidget *parent)
     connect(engine, &Engine::createSAMCircles, QgsController, &QGSController::addRadarCircles);
     connect(engine, &Engine::deleteRocket, QgsController, &QGSController::deleteRocket);
     connect(QgsController, &QGSController::continueRender, engine, &Engine::startRenderCycle);
+    connect(ui->ItemsListButton, &QPushButton::clicked, this, &MainWindow::itemsListShow);
+
+    connect(engine, &Engine::sendPlaneToList, this, &MainWindow::addPlaneToItems);
+    connect(engine, &Engine::sendSAMToList, this, &MainWindow::addSAMToItems);
+    connect(engine, &Engine::sendRocketToList, this, &MainWindow::addRocketToItems);
+    connect(ui->ItemsListWidget, &QTreeWidget::itemClicked, this, &MainWindow::itemsListClicked);
+    ListWindow = new ItemsListWindow();
+    connect(this, &MainWindow::selectPlaneItem, ListWindow, &ItemsListWindow::planeCharacteristics);
+    connect(this, &MainWindow::selectRocketItem, ListWindow, &ItemsListWindow::RocketCharacteristics);
+    connect(this, &MainWindow::selectSAMItem, ListWindow, &ItemsListWindow::SAMCharacteristics);
 }
 
 MainWindow::~MainWindow(){
@@ -99,6 +109,8 @@ void MainWindow::show(){
     QMainWindow::show();
     ui->DockWidgetForTree->raise();
     ui->DockWidgetForTree->close();
+    ui->ItemsListWidget->raise();
+    ui->ItemsListWidget->close();
 }
 
 void MainWindow::updateMapCoord(double x, double y) {
@@ -126,7 +138,7 @@ void MainWindow::on_actionExit_triggered(){
 }
 
 void MainWindow::planeCreated(){
-        lineDialog->exec();
+    lineDialog->exec();
 }
 
 void MainWindow::on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column){
@@ -208,6 +220,13 @@ void MainWindow::on_addFromTreeButton_clicked(){
         fillTreeFromDb();
 }
 
+void MainWindow::itemsListShow(){
+    if ((!ui->ItemsListWidget->isVisible()))//maybe you must write '!' (on macOS it does not work)
+        ui->ItemsListWidget->show();
+    else
+        ui->ItemsListWidget->close();
+}
+
 void MainWindow::addedToDb(){
     qInfo() << "slot in main window" ;
     fillTreeFromDb();
@@ -245,4 +264,43 @@ void MainWindow::on_pauseButton_clicked()
 {
     engine->pauseRenderCycle();
     emit sig_unblock_db();
+}
+
+void MainWindow::addPlaneToItems(int id, QString name, QString model, float health, float speed, float x, float y){
+    if(!planes){
+        planes = new ItemsListItem(ui->ItemsListWidget, "Самолеты");
+        planes->setIcon(0, QIcon(":/rec/img/plane.png"));
+    }
+    ItemsListItem *plane = new ItemsListItem(planes, id, name, model, health, speed, x, y);
+}
+
+void MainWindow::addSAMToItems(int id, QString name, QString model, float health, float distance, int ammo, float x, float y){
+    if(!sams){
+        sams = new ItemsListItem(ui->ItemsListWidget, "ЗРК");
+        sams->setIcon(0, QIcon(":/rec/img/zrk.png"));
+    }
+    ItemsListItem *sam = new ItemsListItem(sams, id, name, model, health, distance, ammo, x, y);
+}
+
+void MainWindow::addRocketToItems(int id, QString name, QString model, float damage, float speed, float range, float x, float y){
+    if(!rockets){
+        rockets = new ItemsListItem(ui->ItemsListWidget, "Ракеты");
+    }
+    ItemsListItem *rocket = new ItemsListItem(rocket, id, name, model, damage, speed, range, x, y);
+}
+
+void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
+    ItemsListItem* selected = dynamic_cast<ItemsListItem*>(item);
+    if(selected->ammo()!=-1){
+        emit selectSAMItem(column, selected->name(), selected->model(), selected->health(), selected->distance(), selected->ammo(), selected->x(), selected->y());
+        ListWindow->show();
+    }
+    else if(selected->range()!=-1){
+        emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
+        ListWindow->show();
+    }
+    else{
+        emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
+        ListWindow->show();
+    }
 }

@@ -39,6 +39,7 @@ void Engine::addSAM(double x, double y) {
     //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
     sams.push_back(std::make_shared<SAM>(lastelement_.mass, lastelement_.name, lastelement_.distance, std::make_unique<Point>(x,y)));
     emit createSAMCircles(x, y, sams[sams.size()-1]->Distance());
+    emit sendSAMToList(sams.size()-1, lastelement_.name+QString::number(sams.size()-1), lastelement_.name, lastelement_.health, lastelement_.distance, 0, x, y);
 }
 
 void Engine::addPlane(QVector<QPair<double, double>>* points) {
@@ -47,6 +48,7 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
             vec->append(std::make_shared<Point>(pair.first, pair.second));
         }
     planes.push_back(std::make_shared<Plane>(lastelement_.mass,lastelement_.speed,lastelement_.name, vec));
+    emit sendPlaneToList(planes.size()-1, lastelement_.name+QString::number(planes.size()-1), lastelement_.name, lastelement_.health, lastelement_.speed, points->at(0).first, points->at(0).second);
 }
 
 void Engine::startRenderCycle() {
@@ -82,7 +84,7 @@ void Engine::moveObjects()
 
                 // rockets[pos]->~Rocket();
                 rockets.erase(it);
-                qInfo() << "Erased" << rockets.size();
+                //qInfo() << "Erased" << rockets.size();
                 if (pos > 0)
                     pos--;
 
@@ -105,32 +107,33 @@ void Engine::SAMscane()
                 {
                     rockets.push_back(rocket);
                     emit rocketCreated(sams[i]->X(), sams[i]->Y());
+                    emit sendRocketToList(rockets.size()-1, "0", "0", rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
                 }
             }
         }
     }
 }
 
-//здесь надо concept(можно SFINAE) <- не надо!. прим. Никита
+//здесь надо constexpr(можно SFINAE) <- не надо!. прим. Никита(да, можно и без этого)
 template<class T>
 QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vector)
 {
     constexpr bool hasAngle = requires(T t){ t.Angle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
 
-    QString type;
+    //QString type;
     // if constexpr (std::is_same_v<T, Plane>)
     //     type = "Planes";
     // if constexpr (std::is_same_v<T, SAM>)
     //     type = "SAM";
-    if constexpr (std::is_same_v<T, Rocket>)
-        type = "Rockets";
+    //if constexpr (std::is_same_v<T, Rocket>)
+    //    type = "Rockets";
 
     if constexpr (hasAngle)
     {        
         for(int i = 0; i<vector.size(); ++i)
         {            
-            qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
+            //qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
             if (!vector[i]->IsAlive()) 
             {
                 vector.erase(vector.begin()+i);
@@ -146,8 +149,8 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
                 send->push_back({vector[i]->X(), vector[i]->Y()});
     }
     
-    if (type == "Rockets")
-        qInfo() << "all send!" << type << send->size();
+    //if (type == "Rockets")
+    //    qInfo() << "all send!" << type << send->size();
     return send;
 }
 

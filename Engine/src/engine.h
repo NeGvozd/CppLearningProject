@@ -34,6 +34,9 @@ signals:
     void rocketCreated(double x, double y);
     void createSAMCircles(double x, double y, double radius);
     void deleteRocket(int pos);
+    void sendRocketToList(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
+    void sendSAMToList(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
+    void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);

@@ -10,8 +10,8 @@
 
 Rocket::~Rocket()
 {
-    qInfo() << "rocket destructed";
-    target_.reset();
+    //qInfo() << "rocket destructed";
+    target_.reset(); //это как работает, это что
 }
 
 Rocket::Rocket(float damage, float speed, float range, 
@@ -62,3 +62,9 @@ void Rocket::Hit()
         target->ReceiveDamage(damage_);
     // target_.ReceiveDamage();
 }
+
+float Rocket::Damage() const{return damage_;};
+
+float Rocket::Range() const{return range_;}; 
+
+float Rocket::Speed() const{return speed_;};
