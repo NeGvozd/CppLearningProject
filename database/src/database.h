@@ -7,7 +7,7 @@
 #include <QtSql>
 #include <QVector>
 
-enum Table{AIRPLANS,ZRK,ROCKET};//will be more tables
+enum Table{AIRPLANS,ZRK,ROCKET,SPRITE};//will be more tables
 
 class InfoAboutRocket
 {
@@ -18,6 +18,7 @@ public:
     int damage;
     int distance;
     int guidance_type;
+    int sprite_id;
 
 };
 
@@ -65,6 +66,12 @@ class ROCKETTable//:public BaseTable
 public:
     InfoAboutRocket select(int id);// override;
     QVector<InfoAboutRocket> select_all();// override;
+};
+
+class SpriteTable//:public BaseTable
+{
+public:
+    QString select(int id);// override;
 };
 
 

@@ -69,9 +69,9 @@
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QPushButton" name="pushButton_7">
+     <widget class="QPushButton" name="spriteButton">
       <property name="text">
-       <string>что-то еще</string>
+       <string>Спрайты</string>
       </property>
      </widget>
     </item>
