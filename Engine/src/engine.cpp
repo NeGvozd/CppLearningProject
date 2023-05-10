@@ -81,13 +81,11 @@ void Engine::moveObjects()
             pos++;
         } else {
                 pauseRenderCycle();
-
                 // rockets[pos]->~Rocket();
                 rockets.erase(it);
                 //qInfo() << "Erased" << rockets.size();
                 if (pos > 0)
                     pos--;
-
                 emit deleteRocket(pos);
         }
     }
@@ -121,13 +119,10 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
     constexpr bool hasAngle = requires(T t){ t.Angle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
 
-    //QString type;
-    // if constexpr (std::is_same_v<T, Plane>)
-    //     type = "Planes";
-    // if constexpr (std::is_same_v<T, SAM>)
-    //     type = "SAM";
-    //if constexpr (std::is_same_v<T, Rocket>)
-    //    type = "Rockets";
+    QString type;
+    if constexpr (std::is_same_v<T, Plane>) type = "Planes";
+    if constexpr (std::is_same_v<T, SAM>) type = "SAM";
+    if constexpr (std::is_same_v<T, Rocket>) type = "Rockets";
 
     if constexpr (hasAngle)
     {        
@@ -148,9 +143,6 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
             if(vector[i]->IsAlive()) 
                 send->push_back({vector[i]->X(), vector[i]->Y()});
     }
-    
-    //if (type == "Rockets")
-    //    qInfo() << "all send!" << type << send->size();
     return send;
 }
 
