@@ -292,15 +292,15 @@ void MainWindow::addRocketToItems(int id, QString name, QString model, float dam
 void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
     ItemsListItem* selected = dynamic_cast<ItemsListItem*>(item);
     if(selected->ammo()!=-1){
-        emit selectSAMItem(column, selected->name(), selected->model(), selected->health(), selected->distance(), selected->ammo(), selected->x(), selected->y());
         ListWindow->show();
+        emit selectSAMItem(column, selected->name(), selected->model(), selected->health(), selected->distance(), selected->ammo(), selected->x(), selected->y());
     }
     else if(selected->range()!=-1){
-        emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
         ListWindow->show();
+        //emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
     }
     else{
-        emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
         ListWindow->show();
+        //emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
     }
 }
