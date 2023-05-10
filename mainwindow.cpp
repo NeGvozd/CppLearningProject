@@ -199,7 +199,6 @@ void MainWindow::on_DataBaseButton_clicked(){
 void MainWindow::fillTreeFromDb()
 {
     ui->TreeAddedItems->clear();
-
     QVector<InfoAboutElement> planes = dbController->select_all(AIRPLANS);
     QVector<InfoAboutElement> zrks = dbController->select_all(ZRK);
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0,  "ЗРК");

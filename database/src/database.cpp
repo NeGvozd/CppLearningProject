@@ -143,12 +143,28 @@ QVector<InfoAboutRocket> ROCKETTable::select_all()
         int damage = my_query.value(rec.indexOf("Damage")).toInt();
         int distance = my_query.value(rec.indexOf("Distance")).toInt();
         int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
+        int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();
 
         qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
-        InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type};
+        InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type,sprite_id};
         vec.append(rocket);
     }
 
     return vec;
 }
 
+
+QString SpriteTable::select(int id)
+{
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM SPRITES WHERE id = (:id)");
+    my_query.bindValue(":id", id);
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    my_query.first();
+
+    QString path = my_query.value(rec.indexOf("Path")).toString();
+    qInfo() << "Row with id =" <<id<<"Path = "<< path;
+    return path;
+}

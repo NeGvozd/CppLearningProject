@@ -86,7 +86,10 @@ void DatabaseController::slot_typeTable_clicked(Table table)
             break;
         case ROCKET:
             model->setTable("ROCKET");
-        break;
+            break;
+        case SPRITE:
+            model->setTable("SPRITES");
+            break;
 
         default:
             break;

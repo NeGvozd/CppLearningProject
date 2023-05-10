@@ -46,6 +46,7 @@ private:
     AirplansTable* airplanTable; //table with Airplans
     ZRKTable* zrkTable;
     ROCKETTable* rocketTable;
+    SpriteTable* spritTable;
     DataWindow* dbWindow;
     int currentRow;
 
