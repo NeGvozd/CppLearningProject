@@ -19,7 +19,7 @@
 #include <database/src/database.h>
 #include "datawindow.h"
 #include "database/src/databasecontroller.h"
-#include "QGSController/src/QGSController.h"
+//#include "QGSController/src/QGSController.h"
 #include "QGSController/src/chooseline.h"
 
 #include "Engine/src/engine.h"
@@ -104,10 +104,8 @@ public slots:
 
 private:
     //if you don't have QGS comment bottom line
-    QGSController* QgsController;
-
+    //QGSController* QgsController;
     Ui::MainWindow *ui;
-    //DatabaseController dbController;
 
     QLabel* msg;
     QLabel* forIconCoord;

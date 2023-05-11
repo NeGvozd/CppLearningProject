@@ -23,10 +23,10 @@ link_directories(${QGIS_PATH}/lib)
 
 add_library(QGSController ${SOURCES})
 
-target_include_directories(QGSController PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src" ${QGIS_PATH}/include/qgis /usr/include/gdal)
+#target_include_directories(QGSController PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src" ${QGIS_PATH}/include/qgis /usr/include/gdal)
 
 target_link_directories(Zrk_Interface PRIVATE ${QGIS_PATH}/lib)
 
-target_link_libraries(QGSController Qt5::Core Qt5::Xml Qt5::Gui Qt5::Widgets qgis_native qgis_core qgis_app qgis_gui gdal)
+target_link_libraries(QGSController Qt5::Core Qt5::Xml Qt5::Gui Qt5::Widgets) #qgis_native qgis_core qgis_app qgis_gui gdal)
 
 #add_executable(${PROJECT_NAME} ${source_list})

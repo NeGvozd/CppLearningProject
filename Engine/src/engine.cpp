@@ -96,59 +96,62 @@ void Engine::moveObjects()
 
 void Engine::SAMscane()
 {
-    for(int i = 0; i < sams.size(); ++i)
-    {
-        for(int j = 0; j < planes.size(); ++j)
-        {
-            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance() && planes[j]->IsAlive())
-            {
-                auto rocket = sams[i]->Fire(planes[j]);
-                if(rocket)
-                {
-                    rockets.push_back(rocket);
-                    emit rocketCreated(sams[i]->X(), sams[i]->Y());
-                    emit sendRocketToList(rockets.size()-1, "0", "0", rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
-                }
-            }
-        }
-    }
+//    for(int i = 0; i < sams.size(); ++i)
+//    {
+//        for(int j = 0; j < planes.size(); ++j)
+//        {
+//            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance())
+//            {
+//                auto rocket = sams[i]->Fire(planes[j]);
+//                if(rocket)
+//                {
+//                    rockets.push_back(rocket);
+//                    emit rocketCreated(sams[i]->X(), sams[i]->Y());
+//                    emit sendRocketToList(rockets.size()-1, "0", "0", rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
+//                }
+//            }
+//        }
+//    }
 }
 
 //здесь надо constexpr(можно SFINAE) <- не надо!. прим. Никита(да, можно и без этого)
 template<class T>
 QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vector)
 {
-    constexpr bool hasAngle = requires(T t){ t.Angle(); };
-    QVector<QList<double>>* send = new QVector<QList<double>>(0);
+//    constexpr bool hasAngle = requires(T t){ t.Angle(); };
+//    QVector<QList<double>>* send = new QVector<QList<double>>(0);
 
-    QString type;
-    if constexpr (std::is_same_v<T, Plane>)
-        type = "Planes";
-    if constexpr (std::is_same_v<T, SAM>)
-        type = "SAM";
-    if constexpr (std::is_same_v<T, Rocket>)
-       type = "Rockets";
+//    //QString type;
+//    // if constexpr (std::is_same_v<T, Plane>)
+//    //     type = "Planes";
+//    // if constexpr (std::is_same_v<T, SAM>)
+//    //     type = "SAM";
+//    //if constexpr (std::is_same_v<T, Rocket>)
+//    //    type = "Rockets";
 
-    if constexpr (hasAngle)
-    {        
-        for(int i = 0; i<vector.size(); ++i)
-        {            
-            //qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
-            if (type == "Rockets" && !vector[i]->IsAlive()) 
-            {
-                vector.erase(vector.begin()+i);
-                emit deleteRocket(i);
-            }
+//    if constexpr (hasAngle)
+//    {
+//        for(int i = 0; i<vector.size(); ++i)
+//        {
+//            //qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
+//            if (!vector[i]->IsAlive())
+//            {
+//                vector.erase(vector.begin()+i);
+//                emit deleteRocket(i);
+//            }
 
-            if(vector.size() > 0 && vector[i]->IsAlive()) 
-                send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->Angle()}); 
-        }
-    } else {
-        for(int i = 0; i<vector.size(); ++i)
-            if(vector[i]->IsAlive()) 
-                send->push_back({vector[i]->X(), vector[i]->Y()});
-    }
-    return send;
+//            if(vector.size() > 0 && vector[i]->IsAlive())
+//                send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->Angle()});
+//        }
+//    } else {
+//        for(int i = 0; i<vector.size(); ++i)
+//            if(vector[i]->IsAlive())
+//                send->push_back({vector[i]->X(), vector[i]->Y()});
+//    }
+    
+//    //if (type == "Rockets")
+//    //    qInfo() << "all send!" << type << send->size();
+//    return send;
 }
 
 void Engine::packAllObjects() {
