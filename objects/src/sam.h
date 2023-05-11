@@ -2,6 +2,7 @@
 #define SAM_H
 
 #include <QDebug>
+#include <QTimer>
 #include "point.h"
 
 class Rocket;
@@ -21,7 +22,8 @@ protected:
     float health_;
     QString model_;
     float distance_;
-    int battery_ = 1;
+    int battery_ = 2;
+    QTimer* launchTimer;
 };
 
 #endif // SAM_H

@@ -105,7 +105,8 @@ void Engine::SAMscane()
                 {
                     rockets.push_back(rocket);
                     emit rocketCreated(sams[i]->X(), sams[i]->Y());
-                    emit sendRocketToList(rockets.size()-1, "0", "0", rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
+                    //emit sendRocketToList(rockets.size()-1, QString::number(rockets.size()-1), QString::number(rockets.size()-1), rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
+                    //не работает добавление ракет for some reason
                 }
             }
         }

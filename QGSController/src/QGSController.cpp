@@ -296,6 +296,12 @@ void QGSController::selectionPoints(){
     //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
 }
 
+void QGSController::deleteLine(int id){
+    controlLineLayer->startEditing();
+    controlLineLayer->deleteFeature(*(controlLineLayer->allFeatureIds().begin()+id-1));
+    controlLineLayer->commitChanges();
+}
+
 void QGSController::getLineId(int id){
     QVector<int>l{id,0,0};
     li_P_Nl.append(l);

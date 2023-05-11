@@ -13,6 +13,7 @@ ChooseLine::ChooseLine(QWidget *parent) :
     connect(acceptButton, &QPushButton::clicked, this, &ChooseLine::acceptClicked);
     connect(cancelButton, &QPushButton::clicked, this, &ChooseLine::closeWindow);
     connect(listWidget, &QListWidget::itemChanged, this, &ChooseLine::changeName);
+    connect(deleteButton, &QPushButton::clicked, this, &ChooseLine::deleteClicked);
 }
 
 ChooseLine::~ChooseLine()
@@ -30,6 +31,14 @@ void ChooseLine::acceptClicked(){
         int itemId = dynamic_cast<LineListItem*>(listWidget->selectedItems()[0])->id;
         emit itemClickSend(itemId);
         this->close();
+    }
+}
+
+void ChooseLine::deleteClicked(){
+    if(!listWidget->selectedItems().isEmpty()){
+        QListWidgetItem* it = listWidget->selectedItems()[0];
+        emit lineDeleteId(dynamic_cast<LineListItem*>(it)->id);
+        delete it;
     }
 }
 

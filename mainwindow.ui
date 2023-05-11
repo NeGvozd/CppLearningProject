@@ -71,7 +71,19 @@
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true"/>
+        <string notr="true">QPushButton#addFromTreeButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#addFromTreeButton:hover{
+margin-right: 2%;
+margin-top: 4%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#addFromTree:pressed{
+margin-right: 4%;
+margin-top: 8px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -104,6 +116,21 @@
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#DataBaseButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#DataBaseButton:hover{
+margin-right: 2%;
+margin-top: 4%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#DataBaseButton:pressed{
+margin-right: 4%;
+margin-top: 8px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -133,14 +160,12 @@
        <property name="styleSheet">
         <string notr="true">QPushButton#LinesButton{
 float right;
-margin-right: 3%;
-margin-top: 5px;
 border-radius: 5px;
 padding: 5px9px;
 font-size: 1.2em;
-background-color: rgba(236, 101, 80, 1);
+background-color: rgba(27, 31, 216, 0.59);
 text shadow: #454545 0 0 2px;
-border-bottom: 4px solid rgba(217, 91, 72, 1);
+border-bottom: 4px solid rgba(27, 31, 216, 0.59);
 color: white;
 font-family: 'Roboto Slab', serif;
 }
@@ -152,9 +177,22 @@ margin-top: 5px;
 border-radius: 5px;
 padding: 5px9px;
 font-size: 1.2em;
-background-color: rgba(206, 101, 80, 1);
+background-color: rgba(66, 68, 226, 0.59);
 text shadow: #454545 0 0 2px;
-border-bottom: 4px solid rgba(217, 91, 72, 1);
+border-bottom: 4px solid rgba(66, 68, 226, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+QPushButton#LinesButton:pressed{
+float right;
+margin-right: 4%;
+margin-top: 8px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(81, 83, 225, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(81, 83, 225, 0.59);
 color: white;
 font-family: 'Roboto Slab', serif;
 }</string>
@@ -177,25 +215,42 @@ font-family: 'Roboto Slab', serif;
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#RadarButton{
-    height: 42px;
-	border: none;
-	background: #3a7999;
-	color: #f2f2f2;
-	padding: 10px;
-	font-size: 11px;
-	border-radius: 5px;
-	position: relative;
+float right;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(27, 31, 216, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(27, 31, 216, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
 }
 
-QPushButton#RadarButton:before {
-	content:'';
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 0;
-	height: 42px;
-	background: rgba(255,255,255,0.3);
-	border-radius: 5px;
+QPushButton#RadarButton:hover{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(66, 68, 226, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(66, 68, 226, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+QPushButton#RadarButton:pressed{
+float right;
+margin-right: 4%;
+margin-top: 8px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(81, 83, 225, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(81, 83, 225, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
 }</string>
        </property>
        <property name="text">
@@ -251,9 +306,20 @@ QPushButton#RadarButton:before {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#handButton{
-background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))
+background-color: rgba(27, 31, 216, 0.59);
 }
-</string>
+QPushButton#handButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#handButton:pressed{
+margin-right: 3%;
+margin-top: 5px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -280,6 +346,19 @@ background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 25
        </property>
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#playButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#playButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(80, 241, 118, 0.92);
+}
+</string>
        </property>
        <property name="text">
         <string/>
@@ -310,6 +389,19 @@ background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 25
        <property name="cursor">
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#pauseButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#pauseButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(244, 47, 87, 0.92);
+}
+</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -322,24 +414,6 @@ background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 25
          <width>50</width>
          <height>50</height>
         </size>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="lineButton">
-       <property name="geometry">
-        <rect>
-         <x>50</x>
-         <y>0</y>
-         <width>1111</width>
-         <height>50</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton#lineButton{
-background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))
-}</string>
-       </property>
-       <property name="text">
-        <string/>
        </property>
       </widget>
      </widget>
@@ -507,6 +581,11 @@ background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 25
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true">QMenu#menuFile:hover{
+	background-color: rgba(149, 200, 249, 0.95);
+}</string>
+    </property>
     <property name="title">
      <string>File</string>
     </property>

@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
     connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
+    connect(lineDialog, &ChooseLine::lineDeleteId, QgsController, &QGSController::deleteLine);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
@@ -286,7 +287,7 @@ void MainWindow::addRocketToItems(int id, QString name, QString model, float dam
     if(!rockets){
         rockets = new ItemsListItem(ui->ItemsListWidget, "Ракеты");
     }
-    ItemsListItem *rocket = new ItemsListItem(rocket, id, name, model, damage, speed, range, x, y);
+    ItemsListItem *rocket = new ItemsListItem(rocket, id, "none", "none", damage, speed, range, x, y);
 }
 
 void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
@@ -297,10 +298,10 @@ void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
     }
     else if(selected->range()!=-1){
         ListWindow->show();
-        //emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
+        emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
     }
     else{
         ListWindow->show();
-        //emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
+        emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
     }
 }

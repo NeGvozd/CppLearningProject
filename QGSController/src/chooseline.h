@@ -28,10 +28,12 @@ public:
 signals:
     void itemClickSend(int id);
     void itemNameChange(int id, QString name);
+    void lineDeleteId(int id);
 public slots:
     void addLine(int id, QString name);
 private slots:
     void acceptClicked();
+    void deleteClicked();
     void closeWindow();
     void changeName(QListWidgetItem *item);
 
