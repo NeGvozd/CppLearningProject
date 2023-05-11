@@ -47,6 +47,10 @@ void Rocket::Move()
     }
 }
 
+float Rocket::Angle() const {
+    return angle_;
+}
+
 void Rocket::Hit()
 {
     if (target_.expired() == true) return;

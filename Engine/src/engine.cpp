@@ -145,9 +145,6 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
             if(vector[i]->IsAlive()) 
                 send->push_back({vector[i]->X(), vector[i]->Y()});
     }
-    
-    if (type == "Rockets")
-        qInfo() << "all send!" << type << send->size();
     return send;
 }
 
