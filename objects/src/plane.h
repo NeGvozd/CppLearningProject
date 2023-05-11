@@ -13,12 +13,11 @@ class Plane : public Point {
 public:
     Plane(float health, float speed, const QString& model,
           std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
-    ~Plane() = default;
+    ~Plane();
 
     void Move();
     void ReceiveDamage(float amout);
     void SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
-
     float Angle() const;
 
 private:

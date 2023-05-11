@@ -5,7 +5,6 @@
 #include "point.h"
 #include "plane.h"
 
-
 #define KM 0.0115
 
 Rocket::~Rocket()
@@ -23,7 +22,7 @@ Rocket::Rocket(float damage, float speed, float range,
 
 void Rocket::Move()
 {
-    if (target_.expired() == true || !is_alive_) return;
+    if (!is_alive_ || target_.expired() == true) return;
 
     auto target = target_.lock();
 
@@ -39,11 +38,12 @@ void Rocket::Move()
         x_+=speed_*KM*cos(angle_);
         
     } else {
-        //target_->dead();
-        this->OnDead();
-
+        this->Hit();
+        
         auto parent = parent_.lock();
         parent->Reload();
+
+        this->OnDead();
     }
 }
 

@@ -258,13 +258,23 @@ void QGSController::addLine(bool checked){
 }
 
 //если прилетит в середине отрисовки, то всё поломается, что делать?????
-void QGSController::deleteRocket(int pos){
+void QGSController::deleteRocket(int pos) {
+    qInfo() << "deleting rocket" << pos;
     rocketsLayer->startEditing();
     QgsFeatureIds featIds = rocketsLayer->allFeatureIds();
     rocketsLayer->deleteFeature(*(featIds.begin()+pos));
     rocketsLayer->commitChanges();
     emit continueRender();
 }
+
+void QGSController::deletePlane(int pos) {
+    qInfo() << "deleting plane" << pos;
+    controlPlanes->startEditing();
+    QgsFeatureIds featIds = controlPlanes->allFeatureIds();
+    controlPlanes->deleteFeature(*(featIds.begin()+pos));
+    controlPlanes->commitChanges();
+    emit continueRender();
+} 
 
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();

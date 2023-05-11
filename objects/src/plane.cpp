@@ -21,6 +21,12 @@ Plane::Plane(float health, float speed, const QString& model,
         if (tragectory_->count() >= 0) curr_route_point_ = 0;
     }
 
+Plane::~Plane()
+{
+    qInfo() << "plane destructed";
+    tragectory_.reset();
+}
+
 void Plane::Move()
 {
     if (!is_alive_) return;
@@ -74,7 +80,8 @@ void Plane::SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> trage
 
 void Plane::ReceiveDamage(float amount) {
     health_ -= amount;
-    if (health_ <= 0) delete this;
+    if (health_ <= 0) OnDead();
+    // qInfo() << IsAlive();
 }
 
 float Plane::Angle() const {
