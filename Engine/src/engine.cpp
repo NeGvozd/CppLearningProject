@@ -98,7 +98,7 @@ void Engine::SAMscane()
     {
         for(int j = 0; j < planes.size(); ++j)
         {
-            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance())
+            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance() && planes[j]->IsAlive())
             {
                 auto rocket = sams[i]->Fire(planes[j]);
                 if(rocket)
@@ -119,19 +119,19 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
 
     QString type;
-    // if constexpr (std::is_same_v<T, Plane>)
-    //     type = "Planes";
-    // if constexpr (std::is_same_v<T, SAM>)
-    //     type = "SAM";
+    if constexpr (std::is_same_v<T, Plane>)
+        type = "Planes";
+    if constexpr (std::is_same_v<T, SAM>)
+        type = "SAM";
     if constexpr (std::is_same_v<T, Rocket>)
-        type = "Rockets";
+       type = "Rockets";
 
     if constexpr (hasAngle)
     {        
         for(int i = 0; i<vector.size(); ++i)
         {            
-            qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
-            if (!vector[i]->IsAlive()) 
+            //qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
+            if (type == "Rockets" && !vector[i]->IsAlive()) 
             {
                 vector.erase(vector.begin()+i);
                 emit deleteRocket(i);

@@ -26,7 +26,7 @@ std::shared_ptr<Rocket> SAM::Fire(std::weak_ptr<Plane> target)
     if (battery_ > 0) {
         battery_--;
         const std::weak_ptr<SAM> rocket_parent = shared_from_this();
-        return std::make_shared<Rocket>(1000, 1200, 0.5, target, rocket_parent);//пока не понятно как создавать ракеты из бд
+        return std::make_shared<Rocket>(20000, 1200, 0.5, target, rocket_parent);//пока не понятно как создавать ракеты из бд
     }
     return nullptr;
 }
