@@ -225,9 +225,8 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
 void QGSController::addRadarCircles(double x, double y, double radius){
     QgsPointXY point = QgsPointXY(x, y);
-    addCircleToLayer(radarCirclesLayer, point, radius/3);
-    addCircleToLayer(radarCirclesLayer, point, radius*2/3);
-    addCircleToLayer(radarCirclesLayer, point, radius);
+    for(int i = 1; i<=3; ++i)
+        addCircleToLayer(radarCirclesLayer, point, radius*i/3);
 
     addLineToLayer(radarCirclesLayer, point+QgsVector(-radius,0.), point+QgsVector(radius, 0.));
     addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-radius), point+QgsVector(0., radius));
@@ -341,6 +340,7 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 //здесь чет плохой код
+
 void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds(); 
