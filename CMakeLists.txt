@@ -36,6 +36,8 @@ add_executable(Zrk_Interface
   )
 
 add_custom_command(TARGET Zrk_Interface POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/database/TECHNICALFEATURES.db $<TARGET_FILE_DIR:Zrk_Interface>/TECHNICALFEATURES.db)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/jsonData)
+
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/objects)
 

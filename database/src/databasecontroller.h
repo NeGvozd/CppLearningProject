@@ -6,9 +6,18 @@
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QSqlTableModel>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
+
 
 #include <../../datawindow.h>
 #include <database.h>
+#include "../../objects/src/point.h"
+#include "../../objects/src/plane.h"
+#include "../../objects/src/rocket.h"
+#include "../../objects/src/sam.h"
 
 
 
@@ -38,8 +47,8 @@ public slots:
     void slot_tableView_clicked(const QModelIndex &index);
     void slot_block_db();
     void slot_unblock_db();
-
     void slot_userAddedData();
+    void slot_make_backup(std::vector<std::shared_ptr<Plane> > &planes, std::vector<std::shared_ptr<SAM> > &sams, std::vector<std::shared_ptr<Rocket> > &rockets);
 
 private:
     QSqlDatabase db;

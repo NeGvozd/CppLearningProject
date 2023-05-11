@@ -87,3 +87,17 @@ void Plane::ReceiveDamage(float amount) {
 float Plane::Angle() const {
     return angle_;
 }
+float Plane::HEALTH() const
+{
+    return health_;
+}
+
+QString Plane::MODEL() const
+{
+    return model_;
+}
+
+float Plane::SPEED() const
+{
+    return speed_;
+}

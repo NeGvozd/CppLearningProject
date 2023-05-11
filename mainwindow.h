@@ -62,7 +62,7 @@ public:
     QWidget *Map;
     void show();
 //    void LinesWidgetInit();
-private: 
+private:
     void createStatusBar();
 signals:
     void createNewObject(InfoAboutElement element);
@@ -92,6 +92,8 @@ private slots:
 
     void itemsListShow();
     void itemsListClicked(QTreeWidgetItem *item, int column);
+
+    void on_saveButton_clicked();
 
 public slots:
     void addedToDb();

@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //if you don't have QGS comment bottom line
     //QgsController = new QGSController(Map);
-    
+
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
     createStatusBar();
     ui->TreeAddedItems->clear();
@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::selectPlaneItem, ListWindow, &ItemsListWindow::planeCharacteristics);
     connect(this, &MainWindow::selectRocketItem, ListWindow, &ItemsListWindow::RocketCharacteristics);
     connect(this, &MainWindow::selectSAMItem, ListWindow, &ItemsListWindow::SAMCharacteristics);
+    connect(engine,&Engine::sendDATA, dbController, &DatabaseController::slot_make_backup);
 }
 
 MainWindow::~MainWindow(){
@@ -251,7 +252,7 @@ void MainWindow::setLineHide(){
     SetLine->hide();
     msg->setText("");
 }
-void MainWindow::showLinesDialog(){    
+void MainWindow::showLinesDialog(){
     lineDialog->exec();
 }
 
@@ -309,4 +310,9 @@ void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
         ListWindow->show();
         //emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
     }
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    engine->sendVectorsToDB();
 }

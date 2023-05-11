@@ -22,7 +22,10 @@ public:
     ~Engine() = default;
 
     void startRenderCycle();
-    void pauseRenderCycle();   
+    void pauseRenderCycle();
+
+    void sendVectorsToDB();
+
 private:
     void SAMscane();
     template< class T >
@@ -37,6 +40,7 @@ signals:
     void sendRocketToList(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
     void sendSAMToList(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
     void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
+    void sendDATA(std::vector<std::shared_ptr<Plane>> &planes, std::vector<std::shared_ptr<SAM>> &sams, std::vector<std::shared_ptr<Rocket>> &rockets);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);

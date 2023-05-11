@@ -17,6 +17,10 @@ public:
     void ReceiveDamage(float amout);
     float Distance() const;
     void Reload(); // when rocket is destroyed, can create a new one
+    float HEALTH() const;
+    QString MODEL() const;
+    float DISTANCE() const;
+    int BATTERY() const;
 protected:
     float health_;
     QString model_;

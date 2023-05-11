@@ -21,6 +21,26 @@ void SAM::Reload() {
     battery_++;
 }
 
+float SAM::HEALTH() const
+{
+    return health_;
+}
+
+QString SAM::MODEL() const
+{
+    return model_;
+}
+
+float SAM::DISTANCE() const
+{
+    return distance_;
+}
+
+int SAM::BATTERY() const
+{
+    return battery_;
+}
+
 std::shared_ptr<Rocket> SAM::Fire(std::weak_ptr<Plane> target)
 {
     if (battery_ > 0) {
