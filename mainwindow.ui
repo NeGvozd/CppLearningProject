@@ -535,19 +535,6 @@ background-color: rgba(244, 47, 87, 0.92);
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </widget>
-       <widget class="QPushButton" name="SetLine">
-        <property name="geometry">
-         <rect>
-          <x>1070</x>
-          <y>450</y>
-          <width>80</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>SetLine</string>
-        </property>
-       </widget>
        <widget class="QTreeWidget" name="ItemsListWidget">
         <property name="geometry">
          <rect>
