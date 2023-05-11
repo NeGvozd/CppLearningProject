@@ -75,6 +75,7 @@ private slots:
     void on_actionLine_triggered();
 
     void on_handButton_clicked();
+    void setLineHide();
 
     void on_addFromTreeButton_clicked();
     void on_actionNew_triggered();
@@ -116,6 +117,7 @@ private:
     QLabel* forNameScale;
     QLabel* forValuesScale;
 
+    QPushButton* SetLine;
     QPushButton* RadarBtn;
 
     ChooseLine* lineDialog;

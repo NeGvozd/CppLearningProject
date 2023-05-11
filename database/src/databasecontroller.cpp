@@ -56,7 +56,6 @@ QVector<InfoAboutElement> DatabaseController::select_all(Table table)
     switch (table) {
     case AIRPLANS:
         ans = airplanTable->select_all();
-        rocketTable->select_all();
         break;
     case ZRK:
         ans = zrkTable->select_all();
@@ -83,12 +82,6 @@ void DatabaseController::slot_typeTable_clicked(Table table)
             break;
         case ZRK:
             model->setTable("ZRK");
-            break;
-        case ROCKET:
-            model->setTable("ROCKET");
-            break;
-        case SPRITE:
-            model->setTable("SPRITES");
             break;
 
         default:

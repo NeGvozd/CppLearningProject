@@ -9,13 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setStyleSheet("background-color: rgba(195, 218, 240, 0.92);");
-    //this->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0.898, x2:1, y2:0, stop:0 rgba(85, 170, 255, 245), stop:1 rgba(128, 213, 255, 255))");
-    ui->statusbar->setStyleSheet("background-color: rgba(149, 200, 249, 0.95);");
-    ui->HorizontalToolbar->setStyleSheet("background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))");
-    ui->VerticalToolbar->setStyleSheet("background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 130, 255, 69), stop:0.375 rgba(0, 140, 255, 69), stop:0.423533 rgba(0, 255, 240, 145), stop:0.45 rgba(0, 255, 240, 208), stop:0.452632 rgba(0, 120, 255, 145), stop:0.477581 rgba(71, 93, 255, 130), stop:0.518717 rgba(71, 255, 245, 130), stop:0.531579 rgba(71, 129, 255, 130), stop:0.55 rgba(0, 170, 255, 255), stop:0.57754 rgba(0, 255, 240, 130), stop:0.605263 rgba(0, 140, 255, 255), stop:0.625 rgba(0, 255, 240, 69), stop:1 rgba(0, 210, 255, 69))");
-    ui->menubar->setStyleSheet("background-color: rgba(149, 200, 249, 0.95);");
-
     Map=ui->Map;
     dbController = new DatabaseController;
 
@@ -32,11 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
     createStatusBar();
     ui->TreeAddedItems->clear();
-
-
-    
+    SetLine = ui->SetLine;
     RadarBtn = ui->RadarButton;
     lineDialog = new ChooseLine(this);
+    connect(SetLine, &QPushButton::clicked, QgsController, &QGSController::addLine);
+    SetLine->hide();
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
 
     connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
@@ -194,6 +187,7 @@ void MainWindow::on_DataBaseButton_clicked(){
 void MainWindow::fillTreeFromDb()
 {
     ui->TreeAddedItems->clear();
+
     QVector<InfoAboutElement> planes = dbController->select_all(AIRPLANS);
     QVector<InfoAboutElement> zrks = dbController->select_all(ZRK);
     MyTreeItem *zrk = new MyTreeItem(ui->TreeAddedItems, 0,  "ЗРК");
@@ -213,7 +207,7 @@ void MainWindow::fillTreeFromDb()
 
     int sizeOfzrks = zrks.size();
     for(int i = 0; i<sizeOfzrks ;i++){
-        MyTreeItem *sam = new MyTreeItem(zrk, zrks[i].id, zrks[i].type, zrks[i].name, 0, 0, zrks[i].distance);
+        MyTreeItem *sam = new MyTreeItem(zrk, zrks[i].id, zrks[i].type, zrks[i].name, 0, 0, zrks[i].distance, zrks[i].damage);
     }
 
     MyTreeItem *firstGyro = new MyTreeItem(gyro, 2);
@@ -245,11 +239,17 @@ void MainWindow::addedToDb(){
 
 
 void MainWindow::on_actionLine_triggered(){
+    SetLine->show();
+    SetLine->raise();
     QgsController->selectionPoints();
     msg->setText("Если вы хотите создать линию нажмите ПКМ");
+    connect(QgsController->selectionPointTool, &QgsMapToolEmitPoint::deactivated, this, &MainWindow::setLineHide);
     //приходится курсор доставать
 }
-
+void MainWindow::setLineHide(){
+    SetLine->hide();
+    msg->setText("");
+}
 void MainWindow::showLinesDialog(){    
     lineDialog->exec();
 }

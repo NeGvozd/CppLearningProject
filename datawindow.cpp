@@ -2,16 +2,6 @@
 #include "ui_datawindow.h"
 #include <QMessageBox>
 
-void DataWindow::disabled_buttons(QPushButton * btn)
-{
-    QList<QPushButton *> buttons = findChildren<QPushButton *>();
-    for (auto *but: buttons)
-    {
-        but->setEnabled(true);
-    }
-    btn->setEnabled(false);
-}
-
 DataWindow::DataWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DataWindow)
@@ -35,14 +25,16 @@ void DataWindow::keyPressEvent(QKeyEvent *e)
 
 void DataWindow::on_planeButton_clicked()
 {
-    disabled_buttons(ui->planeButton);
+    ui->planeButton->setEnabled(false);
+    ui->zrkButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     emit sig_typeTable_clicked(AIRPLANS);
 }
 
 void DataWindow::on_zrkButton_clicked()
 {
-    disabled_buttons(ui->zrkButton);
+    ui->zrkButton->setEnabled(false);
+    ui->planeButton->setEnabled(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     emit sig_typeTable_clicked(ZRK);
 }
@@ -76,19 +68,3 @@ void DataWindow::slot_unblock_db()
     ui->addButton->setEnabled(true);
     ui->deleteButton->setEnabled(true);
 }
-
-
-void DataWindow::on_rocketButton_clicked()
-{
-    disabled_buttons(ui->rocketButton);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    emit sig_typeTable_clicked(ROCKET);
-}
-
-void DataWindow::on_spriteButton_clicked()
-{
-    disabled_buttons(ui->spriteButton);
-    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-    emit sig_typeTable_clicked(SPRITE);
-}
-
