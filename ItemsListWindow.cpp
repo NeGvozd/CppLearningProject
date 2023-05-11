@@ -30,14 +30,19 @@ void ItemsListWindow::addElement(QString name){
 }
 
 void ItemsListWindow::planeCharacteristics(int id, QString name, QString model, float health, float speed, float x, float y){
+    this->id = id;
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Здоровье - " + QString::number(health));
     addElement("Скорость - " + QString::number(speed));
     addElement("Х - " + QString::number(x));
     addElement("Y - " + QString::number(y));
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &ItemsListWindow::exchangePlaneCoords);
+    timer->start(100);
 };
 void ItemsListWindow::SAMCharacteristics(int id, QString name, QString model, float health, float distance, int ammo, float x, float y){
+    this->id = id;
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Здоровье - " + QString::number(health));
@@ -45,8 +50,12 @@ void ItemsListWindow::SAMCharacteristics(int id, QString name, QString model, fl
     addElement("Заряды - " + QString::number(ammo));
     addElement("Х - " + QString::number(x));
     addElement("Y - " + QString::number(y));
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &ItemsListWindow::exchangeSAMCoords);
+    timer->start(100);
 };
 void ItemsListWindow::RocketCharacteristics(int id, QString name, QString model, float damage, float speed, float range, float x, float y){
+    this->id = id;
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Урон - " + QString::number(damage));
@@ -54,6 +63,29 @@ void ItemsListWindow::RocketCharacteristics(int id, QString name, QString model,
     addElement("Радиус - " + QString::number(range));
     addElement("Х - " + QString::number(x));
     addElement("Y - " + QString::number(y));
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &ItemsListWindow::exchangeRocketCoords);
+    timer->start(100);
+};
+
+void ItemsListWindow::exchangeRocketCoords(){
+    emit sendRocketId(this->id);
+}
+
+void ItemsListWindow::exchangeSAMCoords(){
+    emit sendSAMId(this->id);
+}
+
+void ItemsListWindow::exchangePlaneCoords(){
+    emit sendPlaneId(this->id);
+}
+
+void ItemsListWindow::getCoords(float x, float y){
+    delete ui->ListWidget->item(ui->ListWidget->count()-1);
+    delete ui->ListWidget->item(ui->ListWidget->count()-1);
+    addElement("Х - " + QString::number(x));
+    addElement("Y - " + QString::number(y));
+    timer->start(100);
 };
 
 void ItemsListWindow::reject(){

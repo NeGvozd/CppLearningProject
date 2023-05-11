@@ -63,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::selectPlaneItem, ListWindow, &ItemsListWindow::planeCharacteristics);
     connect(this, &MainWindow::selectRocketItem, ListWindow, &ItemsListWindow::RocketCharacteristics);
     connect(this, &MainWindow::selectSAMItem, ListWindow, &ItemsListWindow::SAMCharacteristics);
+    connect(ListWindow, &ItemsListWindow::sendRocketId, engine, &Engine::getRocketCoords);
+    connect(ListWindow, &ItemsListWindow::sendSAMId, engine, &Engine::getPlaneCoords);
+    connect(ListWindow, &ItemsListWindow::sendPlaneId, engine, &Engine::getPlaneCoords);
+    connect(engine, &Engine::sendElementCoords, ListWindow, &ItemsListWindow::getCoords);
 }
 
 MainWindow::~MainWindow(){

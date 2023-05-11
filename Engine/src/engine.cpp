@@ -150,3 +150,15 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
 void Engine::packAllObjects() {
     emit sendObjects(packObjects<SAM>(sams), packObjects<Plane>(planes), packObjects<Rocket>(rockets));
 }
+
+void Engine::getPlaneCoords(int id){
+    emit sendElementCoords(planes[id]->X(), planes[id]->Y());
+};
+
+void Engine::getSAMCoords(int id){
+    emit sendElementCoords(sams[id]->X(), sams[id]->Y());
+};
+
+void Engine::getRocketCoords(int id){
+    emit sendElementCoords(rockets[id]->X(), rockets[id]->Y());
+};

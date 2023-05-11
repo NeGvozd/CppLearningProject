@@ -37,11 +37,15 @@ signals:
     void sendRocketToList(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
     void sendSAMToList(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
     void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
+    void sendElementCoords(float x, float y);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
     void addSAM(double x, double y);
     void addPlane(QVector<QPair<double, double>>* points);
+    void getPlaneCoords(int id);
+    void getSAMCoords(int id);
+    void getRocketCoords(int id);
 private slots:
     void packAllObjects();
     void moveObjects();
