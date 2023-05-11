@@ -5,13 +5,12 @@
 #include "point.h"
 #include "plane.h"
 
-
 #define KM 0.0115
 
 Rocket::~Rocket()
 {
     //qInfo() << "rocket destructed";
-    target_.reset(); //это как работает, это что
+    target_.reset();
 }
 
 Rocket::Rocket(float damage, float speed, float range, 
@@ -39,11 +38,12 @@ void Rocket::Move()
         x_+=speed_*KM*cos(angle_);
         
     } else {
-        //target_->dead();
-        this->OnDead();
-
+        this->Hit();
+        
         auto parent = parent_.lock();
         parent->Reload();
+
+        this->OnDead();
     }
 }
 
@@ -62,9 +62,3 @@ void Rocket::Hit()
         target->ReceiveDamage(damage_);
     // target_.ReceiveDamage();
 }
-
-float Rocket::Damage() const{return damage_;};
-
-float Rocket::Range() const{return range_;}; 
-
-float Rocket::Speed() const{return speed_;};
