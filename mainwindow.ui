@@ -257,6 +257,19 @@ font-family: 'Roboto Slab', serif;
         <string>Radar</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="ItemsListButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>200</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Items</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" colspan="2">
@@ -428,7 +441,7 @@ background-color: rgba(244, 47, 87, 0.92);
          <x>0</x>
          <y>0</y>
          <width>200</width>
-         <height>500</height>
+         <height>281</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -521,6 +534,37 @@ background-color: rgba(244, 47, 87, 0.92);
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+       </widget>
+       <widget class="QPushButton" name="SetLine">
+        <property name="geometry">
+         <rect>
+          <x>1070</x>
+          <y>450</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SetLine</string>
+        </property>
+       </widget>
+       <widget class="QTreeWidget" name="ItemsListWidget">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>240</y>
+          <width>181</width>
+          <height>281</height>
+         </rect>
+        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>

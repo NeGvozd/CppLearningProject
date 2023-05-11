@@ -16,13 +16,16 @@
 #include <QLabel>
 #include <QPicture>
 
-#include <database.h>
+#include <database/src/database.h>
 #include "datawindow.h"
-#include "databasecontroller.h"
-//#include "QGSController.h"
-#include "chooseline.h"
+#include "database/src/databasecontroller.h"
+#include "QGSController/src/QGSController.h"
+#include "QGSController/src/chooseline.h"
 
-#include "objects/src/ObjectFactory.h"
+#include "Engine/src/engine.h"
+
+#include "itemslist.h"
+#include "ItemsListWindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -58,21 +61,22 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
-
-    void createStatusBar();
 //    void LinesWidgetInit();
+private: 
+    void createStatusBar();
 signals:
+    void createNewObject(InfoAboutElement element);
     void sig_block_db();
     void sig_unblock_db();
-    
+    void selectRocketItem(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
+    void selectSAMItem(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
+    void selectPlaneItem(int id, QString name, QString model, float health, float speed, float x, float y);
 private slots:
     void on_actionLine_triggered();
 
-private slots:
     void on_handButton_clicked();
     void setLineHide();
 
-private slots:
     void on_addFromTreeButton_clicked();
     void on_actionNew_triggered();
     void on_actionExit_triggered();
@@ -81,19 +85,26 @@ private slots:
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
     void showLinesDialog();
-    void create_new_object(int id,Table type);
 
     void on_playButton_clicked();
+
     void on_pauseButton_clicked();
+
+    void itemsListShow();
+    void itemsListClicked(QTreeWidgetItem *item, int column);
 
 public slots:
     void addedToDb();
     void updateMapCoord(double x, double y);
     void updateMapScale(double s);
+    void planeCreated();
+    void addPlaneToItems(int id, QString name, QString model, float health, float speed, float x, float y);
+    void addSAMToItems(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
+    void addRocketToItems(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
 
 private:
     //if you don't have QGS comment bottom line
-//    QGSController* QgsController;
+    QGSController* QgsController;
 
     Ui::MainWindow *ui;
     //DatabaseController dbController;
@@ -112,8 +123,13 @@ private:
     ChooseLine* lineDialog;
     DatabaseController *dbController;
     //ObjectFactory *objFactory;
+    Engine* engine;
 
+    ItemsListItem* planes = nullptr;
+    ItemsListItem* sams = nullptr;
+    ItemsListItem* rockets = nullptr;
+
+    ItemsListWindow* ListWindow;
 };
 
 #endif // MAINWINDOW_H
-

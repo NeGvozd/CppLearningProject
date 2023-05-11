@@ -20,7 +20,6 @@ int DatabaseController::connection()
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("TECHNICALFEATURES.db");
 
-
     if (db.open())
     {
         qInfo() << "Database is open!";
@@ -103,6 +102,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
+    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()
