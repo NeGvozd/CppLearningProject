@@ -9,7 +9,7 @@
 
 Rocket::~Rocket()
 {
-    //qInfo() << "rocket destructed";
+    qInfo() << "rocket destructed";
     target_.reset();
 }
 
@@ -22,7 +22,7 @@ Rocket::Rocket(float damage, float speed, float range,
 
 void Rocket::Move()
 {
-    if (target_.expired() == true || !is_alive_) return;
+    if (!is_alive_ || target_.expired() == true) return;
 
     auto target = target_.lock();
 

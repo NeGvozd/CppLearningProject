@@ -91,6 +91,7 @@ public slots:
     void addRocket(double x, double y);
     void addRadarCircles(double x, double y, double radius);
     void deleteRocket(int pos);
+    void deletePlane(int pos);
 
 private slots:
     void addPoint(const QgsPointXY &point, Qt::MouseButton button);

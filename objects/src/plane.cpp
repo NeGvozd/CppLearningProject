@@ -23,7 +23,7 @@ Plane::Plane(float health, float speed, const QString& model,
 
 Plane::~Plane()
 {
-    qInfo() << "Plane destroyed";
+    qInfo() << "plane destructed";
     tragectory_.reset();
 }
 
