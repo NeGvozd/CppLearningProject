@@ -14,7 +14,9 @@ public:
     void Move();
     void Hit();
     float Angle() const;
-
+    float Damage() const;
+    float Range() const; 
+    float Speed() const;
 private:
     float damage_;
     float speed_;
