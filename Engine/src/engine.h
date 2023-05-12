@@ -30,7 +30,7 @@ private:
 signals:
     void planeCreated();
     void samCreated();
-    void sendObjects(QVector<QList<double>>* sendSams, QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
+    void sendObjects(QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
     void rocketCreated(double x, double y);
     void createSAMCircles(double x, double y, double radius);
     void deleteRocket(int pos);

@@ -343,7 +343,7 @@ void QGSController::lineChangeName(int id, QString name){
 }
 //здесь чет плохой код
 
-void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
+void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds(); 
     int k = 0;
@@ -356,30 +356,6 @@ void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<dou
         k++;
     }
     controlPlanes->commitChanges();
-
-/*
-    controlPointsLayer->startEditing();
-    featIds = controlPointsLayer->allFeatureIds();
-    k = 0;
-    for(auto i = featIds.begin(); i != featIds.end(); ++i){
-        QgsPointXY point = controlPointsLayer->getFeature(*i).geometry().asPoint();
-        point.set(planes->at(k)[0], planes->at(k)[1]);
-        QgsGeometry g = QgsGeometry::fromPointXY(point);
-        controlPointsLayer->changeGeometry(*i, g);
-        k++;
-    }
-    controlPointsLayer->commitChanges();
-    controlSquareLayer->startEditing();
-    featIds = controlSquareLayer->allFeatureIds();
-    k = 0;
-    for(auto i = featIds.begin(); i != featIds.end(); ++i){
-        QgsPointXY point = controlSquareLayer->getFeature(*i).geometry().asPoint();
-        point.set(sams->at(k)[0], sams->at(k)[0]);
-        QgsGeometry g = QgsGeometry::fromPointXY(point);
-        controlSquareLayer->changeGeometry(*i, g);
-        k++;
-    }
-    controlSquareLayer->commitChanges();*/
     rocketsLayer->startEditing();
     rocketsLineLayer->startEditing();
     featIds = rocketsLayer->allFeatureIds();

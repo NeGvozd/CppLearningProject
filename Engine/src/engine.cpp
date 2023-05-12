@@ -152,7 +152,7 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
 }
 
 void Engine::packAllObjects() {
-    emit sendObjects(packObjects<SAM>(sams), packObjects<Plane>(planes), packObjects<Rocket>(rockets));
+    emit sendObjects(packObjects<Plane>(planes), packObjects<Rocket>(rockets));
 }
 
 void Engine::getPlaneCoords(int id){

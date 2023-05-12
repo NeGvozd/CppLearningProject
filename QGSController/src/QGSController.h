@@ -87,7 +87,7 @@ public slots:
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
 
-    void renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
+    void renderObject(QVector<QList<double>>* planes, QVector<QList<double>>* rockets); 
     void addRocket(double x, double y);
     void addRadarCircles(double x, double y, double radius);
     void deleteRocket(int pos);
@@ -119,8 +119,8 @@ private:
     QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Rockets", "memory");
     QgsVectorLayer* rocketsLineLayer = new QgsVectorLayer("multilinestring", "RocketsLine", "memory");
 
-    QgsVectorLayer* baseWaterLayer = new QgsVectorLayer("../CppLearningProject/maps/world-bathymetry-110-million.shp", "water", "ogr");
-    QgsVectorLayer* baseEarthLayer = new QgsVectorLayer("../CppLearningProject/maps/world-land-areas-110-million.shp", "earth", "ogr");
+    QgsVectorLayer* baseWaterLayer = new QgsVectorLayer("../maps/world-bathymetry-110-million.shp", "water", "ogr");
+    QgsVectorLayer* baseEarthLayer = new QgsVectorLayer("../maps/world-land-areas-110-million.shp", "earth", "ogr");
 
 
     QgsVectorLayer* controlPlanes = new QgsVectorLayer("Point", "Planes", "memory");
