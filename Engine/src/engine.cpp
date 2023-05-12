@@ -6,7 +6,7 @@ Engine::Engine() {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Engine::moveObjects);
     sendTimer = new QTimer(this);
-    connect(sendTimer, &QTimer::timeout, this, &Engine::packAllObjects);
+    // connect(sendTimer, &QTimer::timeout, this, &Engine::packAllObjects);
 };
 
 void Engine::createNewObject(InfoAboutElement element) {
@@ -54,8 +54,8 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
 void Engine::startRenderCycle() {
     if(!timer->isActive())
         timer->start(100);
-    if(!sendTimer->isActive())
-        sendTimer->start(500);
+    // if(!sendTimer->isActive())
+    //     sendTimer->start(500);
 }
 
 void Engine::pauseRenderCycle() {
@@ -66,48 +66,56 @@ void Engine::pauseRenderCycle() {
 }
 
 void Engine::moveObjects()
-{
-    for(int i = 0; i<planes.size(); ++i)
-        planes[i]->Move();
-
+{  
+    render_countdown += 100;
     int pos = 0;
-
-    for(std::vector<std::shared_ptr<Rocket>>::iterator it=rockets.begin(); it<rockets.end();)
+    for(auto& rocket : rockets)
     {
-        if((*it)->IsAlive())
+        rocket->Move();
+        if (!rocket->IsAlive())
         {
-            (*it)->Move();
-            ++it;
-            pos++;
-        } else {
-                pauseRenderCycle();
-                // rockets[pos]->~Rocket();
-                rockets.erase(it);
-                //qInfo() << "Erased" << rockets.size();
-                if (pos > 0)
-                    pos--;
-                emit deleteRocket(pos);
+            emit deleteRocket(pos);
+            pos--;
         }
+        pos++;
     }
-    SAMscane();
+    rockets.erase(std::remove_if(rockets.begin(), rockets.end(), 
+                  [](const std::shared_ptr<Rocket>& rocket) { return !rocket->IsAlive(); }), rockets.end());
+
+    pos = 0;
+    for(auto& plane : planes)
+    {
+        plane->Move();
+        SAMscan(plane);
+        if (!plane->IsAlive())
+        {
+            emit deletePlane(pos);
+            pos--;
+        }
+        pos++;
+    }
+    planes.erase(std::remove_if(planes.begin(), planes.end(), 
+                 [](const std::shared_ptr<Plane>& plane) { return !plane->IsAlive(); }), planes.end());
+
+    if (render_countdown >= 500)
+    {
+        packAllObjects();
+        render_countdown = 0;
+    }
 }
 
-void Engine::SAMscane()
+void Engine::SAMscan(std::weak_ptr<Plane> plane)
 {
+    auto plane_obj = plane.lock();
     for(int i = 0; i < sams.size(); ++i)
     {
-        for(int j = 0; j < planes.size(); ++j)
+        if(sams[i]->DistanceTo(plane) < sams[i]->Distance() && plane_obj->IsAlive())
         {
-            if(sams[i]->DistanceTo(planes[j])<sams[i]->Distance())
+            auto rocket = sams[i]->Fire(plane);
+            if(rocket)
             {
-                auto rocket = sams[i]->Fire(planes[j]);
-                if(rocket)
-                {
-                    rockets.push_back(rocket);
-                    emit rocketCreated(sams[i]->X(), sams[i]->Y());
-                    //emit sendRocketToList(rockets.size()-1, QString::number(rockets.size()-1), QString::number(rockets.size()-1), rocket->Damage(), rocket->Speed(), rocket->Range(), sams[i]->X(), sams[i]->Y());
-                    //не работает добавление ракет for some reason
-                }
+                rockets.push_back(rocket);
+                emit rocketCreated(sams[i]->X(), sams[i]->Y());
             }
         }
     }
@@ -120,22 +128,18 @@ QVector<QList<double>>* Engine::packObjects(std::vector<std::shared_ptr<T>>& vec
     constexpr bool hasAngle = requires(T t){ t.Angle(); };
     QVector<QList<double>>* send = new QVector<QList<double>>(0);
 
-    QString type;
-    if constexpr (std::is_same_v<T, Plane>) type = "Planes";
-    if constexpr (std::is_same_v<T, SAM>) type = "SAM";
-    if constexpr (std::is_same_v<T, Rocket>) type = "Rockets";
+    // QString type;
+    // if constexpr (std::is_same_v<T, Plane>)
+    //     type = "Planes";
+    // if constexpr (std::is_same_v<T, SAM>)
+    //     type = "SAM";
+    // if constexpr (std::is_same_v<T, Rocket>)
+    //    type = "Rockets";
 
     if constexpr (hasAngle)
     {        
         for(int i = 0; i<vector.size(); ++i)
-        {            
-            //qInfo() << type << vector[i]->IsAlive() << vector[i].use_count() << vector.size();
-            if (!vector[i]->IsAlive()) 
-            {
-                vector.erase(vector.begin()+i);
-                emit deleteRocket(i);
-            }
-
+        { 
             if(vector.size() > 0 && vector[i]->IsAlive()) 
                 send->push_back({vector[i]->X(), vector[i]->Y(), vector[i]->Angle()}); 
         }

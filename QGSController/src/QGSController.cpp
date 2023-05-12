@@ -227,9 +227,8 @@ void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
 void QGSController::addRadarCircles(double x, double y, double radius){
     QgsPointXY point = QgsPointXY(x, y);
-    addCircleToLayer(radarCirclesLayer, point, radius/3);
-    addCircleToLayer(radarCirclesLayer, point, radius*2/3);
-    addCircleToLayer(radarCirclesLayer, point, radius);
+    for(int i = 1; i<=3; ++i)
+        addCircleToLayer(radarCirclesLayer, point, radius*i/3);
 
     addLineToLayer(radarCirclesLayer, point+QgsVector(-radius,0.), point+QgsVector(radius, 0.));
     addLineToLayer(radarCirclesLayer, point+QgsVector(0.,-radius), point+QgsVector(0., radius));
@@ -260,13 +259,23 @@ void QGSController::addLine(bool checked){
 }
 
 //если прилетит в середине отрисовки, то всё поломается, что делать?????
-void QGSController::deleteRocket(int pos){
+void QGSController::deleteRocket(int pos) {
+    qInfo() << "deleting rocket" << pos;
     rocketsLayer->startEditing();
     QgsFeatureIds featIds = rocketsLayer->allFeatureIds();
     rocketsLayer->deleteFeature(*(featIds.begin()+pos));
     rocketsLayer->commitChanges();
     emit continueRender();
 }
+
+void QGSController::deletePlane(int pos) {
+    qInfo() << "deleting plane" << pos;
+    controlPlanes->startEditing();
+    QgsFeatureIds featIds = controlPlanes->allFeatureIds();
+    controlPlanes->deleteFeature(*(featIds.begin()+pos));
+    controlPlanes->commitChanges();
+    emit continueRender();
+} 
 
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();
@@ -333,6 +342,7 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->commitChanges();
 }
 //здесь чет плохой код
+
 void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds(); 

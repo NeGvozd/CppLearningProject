@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(engine, &Engine::rocketCreated, QgsController, &QGSController::addRocket);
     connect(engine, &Engine::createSAMCircles, QgsController, &QGSController::addRadarCircles);
     connect(engine, &Engine::deleteRocket, QgsController, &QGSController::deleteRocket);
+    connect(engine, &Engine::deletePlane, QgsController, &QGSController::deletePlane);
     connect(QgsController, &QGSController::continueRender, engine, &Engine::startRenderCycle);
     connect(ui->ItemsListButton, &QPushButton::clicked, this, &MainWindow::itemsListShow);
 

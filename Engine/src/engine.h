@@ -24,8 +24,8 @@ public:
     void startRenderCycle();
     void pauseRenderCycle();   
 private:
-    void SAMscane();
-    template< class T >
+    void SAMscan(std::weak_ptr<Plane> plane);
+    template<class T >
     QVector<QList<double>>* packObjects(std::vector<std::shared_ptr<T>>& vector);
 signals:
     void planeCreated();
@@ -38,6 +38,7 @@ signals:
     void sendSAMToList(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
     void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
     void sendElementCoords(float x, float y);
+    void deletePlane(int pos);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
@@ -57,6 +58,7 @@ private:
 
     QTimer* timer;
     QTimer* sendTimer;
+    int render_countdown = 0;
 
     InfoAboutElement lastelement_;
 };
