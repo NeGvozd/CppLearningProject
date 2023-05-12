@@ -73,7 +73,7 @@ void ItemsListWindow::exchangeRocketCoords(){
 }
 
 void ItemsListWindow::exchangeSAMCoords(){
-    emit sendSAMId(this->id);
+    //emit sendSAMId(this->id);
 }
 
 void ItemsListWindow::exchangePlaneCoords(){
