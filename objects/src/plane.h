@@ -4,20 +4,31 @@
 #include <QDebug>
 #include <vector>
 
-class Point;
+#include "point.h"
+
 class Rocket;
+class SAM;
 
-class Plane {
+class Plane : public Point {
 public:
-    Plane(float health, float speed, const QString& model);
-    virtual ~Plane() = default;
-    virtual void Move(const std::vector<Point*>& Points) const;
-    virtual void Fire(Point* Point) const;
+    Plane(float health, float speed, const QString& model,
+          std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
+    ~Plane();
 
-protected:
-    float health;
-    float speed;
-    QString model;
+    void Move();
+    void ReceiveDamage(float amout);
+    void SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
+    float Angle() const;
+
+private:
+    float health_;
+    float speed_;
+    float angle_ = 0.;
+    QString model_;
+
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory_ ;
+    int prev_route_point_;
+    int curr_route_point_;
 };
 
 #endif

@@ -1,0 +1,32 @@
+========================================================================
+ World Bathymetry (1:10 million)
+------------------------------------------------------------------------
+ https://koordinates.com/layer/1291-world-bathymetry-110-million/
+========================================================================
+From: Natural Earth
+
+Description:
+  World Bathymetry - 0m, 200m and 1000m to 10,000m in 1,000 m increments.
+  
+  Made with Natural Earth. Free vector and raster map data @
+  [naturalearthdata.com](http://naturalearthdata.com).
+
+Category: Contours & Terrain
+
+Projection: WGS 84
+
+------------------------------------------------------------------------
+ Processing steps applied by Koordinates
+------------------------------------------------------------------------
+
+- imported to Koordinates in Shapefile format on 25 Sep 2011
+- 186 invalid geometries fixed at import time 
+    (see https://koordinates.com/layer/1291-world-bathymetry-110-million/history/)
+- converted by Koordinates to Shapefile on 01 Aug 2019 (reference #1679776)
+
+====================
+No license specified
+====================
+
+No license was specified for this layer. This could mean default rights under copyright law for your legal jurisdiction may apply. Please check with Koordinates if you're unsure of your right to access and use this layer.
+

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
@@ -64,8 +67,23 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
-        <string notr="true"/>
+        <string notr="true">QPushButton#addFromTreeButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#addFromTreeButton:hover{
+margin-right: 2%;
+margin-top: 4%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#addFromTree:pressed{
+margin-right: 4%;
+margin-top: 8px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
        </property>
        <property name="text">
         <string/>
@@ -95,6 +113,24 @@
          <pointsize>14</pointsize>
         </font>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#DataBaseButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#DataBaseButton:hover{
+margin-right: 2%;
+margin-top: 4%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#DataBaseButton:pressed{
+margin-right: 4%;
+margin-top: 8px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -118,6 +154,49 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#LinesButton{
+float right;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(27, 31, 216, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(27, 31, 216, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+
+QPushButton#LinesButton:hover{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(66, 68, 226, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(66, 68, 226, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+QPushButton#LinesButton:pressed{
+float right;
+margin-right: 4%;
+margin-top: 8px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(81, 83, 225, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(81, 83, 225, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}</string>
+       </property>
        <property name="text">
         <string>Lines</string>
        </property>
@@ -131,8 +210,64 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#RadarButton{
+float right;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(27, 31, 216, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(27, 31, 216, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+
+QPushButton#RadarButton:hover{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(66, 68, 226, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(66, 68, 226, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+QPushButton#RadarButton:pressed{
+float right;
+margin-right: 4%;
+margin-top: 8px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(81, 83, 225, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(81, 83, 225, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}</string>
+       </property>
        <property name="text">
         <string>Radar</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="ItemsListButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>200</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Items</string>
        </property>
       </widget>
      </widget>
@@ -166,6 +301,26 @@
          <height>50</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#handButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#handButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(66, 68, 226, 0.59);
+}
+QPushButton#handButton:pressed{
+margin-right: 3%;
+margin-top: 5px;
+background-color: rgba(66, 68, 226, 0.59);
+}</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -183,11 +338,27 @@
       <widget class="QPushButton" name="playButton">
        <property name="geometry">
         <rect>
-         <x>610</x>
+         <x>1160</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#playButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#playButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(80, 241, 118, 0.92);
+}
+</string>
        </property>
        <property name="text">
         <string/>
@@ -204,13 +375,32 @@
        </property>
       </widget>
       <widget class="QPushButton" name="pauseButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
-         <x>660</x>
+         <x>1210</x>
          <y>0</y>
          <width>50</width>
          <height>50</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#pauseButton{
+background-color: rgba(27, 31, 216, 0.59);
+}
+QPushButton#pauseButton:hover{
+margin-right: 2%;
+margin-left: 2%;
+margin-bottom: 2%;
+margin-top: 2%;
+background-color: rgba(244, 47, 87, 0.92);
+}
+</string>
        </property>
        <property name="text">
         <string/>
@@ -251,7 +441,7 @@
          <x>0</x>
          <y>0</y>
          <width>200</width>
-         <height>500</height>
+         <height>281</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -345,101 +535,23 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </widget>
-       <widget class="QLabel" name="labelForText">
+       <widget class="QTreeWidget" name="ItemsListWidget">
         <property name="geometry">
          <rect>
-          <x>450</x>
-          <y>470</y>
-          <width>71</width>
-          <height>31</height>
+          <x>10</x>
+          <y>240</y>
+          <width>181</width>
+          <height>281</height>
          </rect>
         </property>
-        <property name="whatsThis">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/rec/img/location_icon.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="lineWidth">
-         <number>1</number>
-        </property>
-        <property name="text">
-         <string>Coordinate</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForIcon">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>470</y>
-          <width>31</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="pixmap">
-         <pixmap resource="resource.qrc">:/rec/img/location_icon.png</pixmap>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForCoord">
-        <property name="geometry">
-         <rect>
-          <x>530</x>
-          <y>470</y>
-          <width>221</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForTextScale">
-        <property name="geometry">
-         <rect>
-          <x>770</x>
-          <y>470</y>
-          <width>61</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Scale :</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="labelForScale">
-        <property name="geometry">
-         <rect>
-          <x>850</x>
-          <y>470</y>
-          <width>81</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="SetLine">
-        <property name="geometry">
-         <rect>
-          <x>1070</x>
-          <y>450</y>
-          <width>80</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>SetLine</string>
-        </property>
+        <attribute name="headerVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string notr="true">1</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>
@@ -456,6 +568,11 @@
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
+    <property name="styleSheet">
+     <string notr="true">QMenu#menuFile:hover{
+	background-color: rgba(149, 200, 249, 0.95);
+}</string>
+    </property>
     <property name="title">
      <string>File</string>
     </property>
@@ -486,7 +603,6 @@
     <property name="title">
      <string>Hand</string>
     </property>
-    <addaction name="actionHand"/>
     <addaction name="actionLine"/>
    </widget>
    <addaction name="menuFile"/>
@@ -545,7 +661,7 @@
   </action>
   <action name="actionNETU">
    <property name="text">
-    <string>NETU</string>
+    <string>ChangeCursor</string>
    </property>
   </action>
   <action name="actionHand">
