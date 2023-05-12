@@ -87,15 +87,14 @@ void QGSController::initVectorLayer(QgsVectorLayer* layer){
     layer->commitChanges();
 }
 
-void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer){
+void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, int size){
     layer->dataProvider()->addAttributes({{"type", QVariant::Int},{"angle",QVariant::Double}});
     layer->updateFields();
 
-    QgsSvgMarkerSymbolLayer* svgL = new QgsSvgMarkerSymbolLayer(":/rec/img/airplane.svg",10);
+    QgsSvgMarkerSymbolLayer* svgL = new QgsSvgMarkerSymbolLayer(":/rec/img/"+name,size);
     QgsSymbol* s= QgsSymbol::defaultSymbol(layer->geometryType());
     s->changeSymbolLayer(0,svgL);
 
-    //Magic?
     QgsMarkerSymbol* m =dynamic_cast<QgsMarkerSymbol*>(s);
     //A store for object properties.
     QgsProperty p;
@@ -113,21 +112,24 @@ void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer){
 void QGSController::startLayer()
 {
     initVectorLayer(controlPointsLayer);
-    initVectorLayer(controlSquareLayer);
+    //initVectorLayer(controlSquareLayer);
     initVectorLayer(controlLineLayer);
 
-    initVectorLayerWithSVG(controlPlanes);
+    initVectorLayerWithSVG(controlPlanes,"plane1.svg",10);
+    initVectorLayerWithSVG(rocketsLayer,"rocket.svg",6);
+    initVectorLayerWithSVG(controlSAM,"zrk.svg",6);
+
 
     setCrs();
     layers.push_back(radarCirclesLayer);
     layers.push_back(controlPointsLayer);
-    layers.push_back(controlSquareLayer);
+    layers.push_back(controlSAM);
     layers.push_back(controlLineLayer);
     layers.push_back(controlLinePointsLayer);
-    layers.push_back(rocketsLayer);
     layers.push_back(rocketsLineLayer);
 
     layers.push_back(controlPlanes);
+    layers.push_back(rocketsLayer);
 
     layers.push_back(baseEarthLayer);
     layers.push_back(baseWaterLayer);
@@ -218,7 +220,7 @@ void QGSController::addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &po
 
 void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
 
-    addSquareToLayer(controlSquareLayer, point, 1.);
+    addElementToLayer(controlSAM, QgsGeometry::fromPointXY(point));
 
     emit createSAM(point.x(), point.y());
 }
@@ -356,7 +358,7 @@ void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<dou
         controlPointsLayer->changeGeometry(*i, g);
         k++;
     }
-    controlPointsLayer->commitChanges();*/
+    controlPointsLayer->commitChanges();
     controlSquareLayer->startEditing();
     featIds = controlSquareLayer->allFeatureIds();
     k = 0;
@@ -367,7 +369,7 @@ void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<dou
         controlSquareLayer->changeGeometry(*i, g);
         k++;
     }
-    controlSquareLayer->commitChanges();
+    controlSquareLayer->commitChanges();*/
     rocketsLayer->startEditing();
     rocketsLineLayer->startEditing();
     featIds = rocketsLayer->allFeatureIds();
@@ -379,6 +381,7 @@ void QGSController::renderObject(QVector<QList<double>>* sams, QVector<QList<dou
         point.set(rockets->at(k)[0], rockets->at(k)[1]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         rocketsLayer->changeGeometry(*i.first, g);
+        rocketsLayer->changeAttributeValue(*i.first,1,-rockets->at(k)[2]*180/M_PI);
         QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*i.second).geometry().asMultiPolyline();
         line[0].push_back(point);
         g = QgsGeometry::fromMultiPolylineXY(line);

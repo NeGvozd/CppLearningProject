@@ -15,6 +15,9 @@
         <file>img/airplane.svg</file>
         <file>img/plane1.svg</file>
         <file>img/plane3.svg</file>
+        <file>img/plane2.svg</file>
+        <file>img/zrk.svg</file>
+        <file>img/rocket.svg</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

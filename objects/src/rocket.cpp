@@ -31,7 +31,7 @@ void Rocket::Move()
     float dy = target->Y() - y_;
 
     float dist = sqrt(dx*dx + dy*dy);
-    float angle_ = atan2(dy, dx);
+    angle_ = atan2(dy, dx);
 
     if (dist > range_) 
     {

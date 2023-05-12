@@ -66,7 +66,7 @@ private:
     void deletePointsForLine();
 
     void initVectorLayer(QgsVectorLayer* layer);
-    void initVectorLayerWithSVG(QgsVectorLayer* layer);
+    void initVectorLayerWithSVG(QgsVectorLayer* layer,QString name, int size);
 
     void addElementToLayer(QgsVectorLayer* layer, QgsGeometry geom);
     void addElementToLayerWithSVG(QgsVectorLayer* layer, QgsGeometry geom);
@@ -113,20 +113,21 @@ private:
     QList<QgsMapLayer *> layers;
 
     QgsVectorLayer* controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
-    QgsVectorLayer* controlSquareLayer = new QgsVectorLayer("Polygon", "Points2", "memory");
-    QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Points32", "memory");
-    QgsVectorLayer* rocketsLineLayer = new QgsVectorLayer("multilinestring", "Points33", "memory");
+    QgsVectorLayer* controlSAM = new QgsVectorLayer("Point", "SAM", "memory");
 
-    QgsVectorLayer* baseWaterLayer = new QgsVectorLayer("../maps/world-bathymetry-110-million.shp", "water", "ogr");
-    QgsVectorLayer* baseEarthLayer = new QgsVectorLayer("../maps/world-land-areas-110-million.shp", "earth", "ogr");
+    QgsVectorLayer* rocketsLayer = new QgsVectorLayer("Point", "Rockets", "memory");
+    QgsVectorLayer* rocketsLineLayer = new QgsVectorLayer("multilinestring", "RocketsLine", "memory");
+
+    QgsVectorLayer* baseWaterLayer = new QgsVectorLayer("../CppLearningProject/maps/world-bathymetry-110-million.shp", "water", "ogr");
+    QgsVectorLayer* baseEarthLayer = new QgsVectorLayer("../CppLearningProject/maps/world-land-areas-110-million.shp", "earth", "ogr");
 
 
-    QgsVectorLayer* controlPlanes = new QgsVectorLayer("Point", "Points", "memory");
+    QgsVectorLayer* controlPlanes = new QgsVectorLayer("Point", "Planes", "memory");
 
-    QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "Points3", "memory");
-    QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "Points31", "memory");
+    QgsVectorLayer* controlLineLayer = new QgsVectorLayer("multilinestring", "LineLayer", "memory");
+    QgsVectorLayer* controlLinePointsLayer = new QgsVectorLayer("Point", "LinePointsLayer", "memory");
 
-    QgsVectorLayer* radarCirclesLayer = new QgsVectorLayer("multilinestring", "Circles", "memory");
+    QgsVectorLayer* radarCirclesLayer = new QgsVectorLayer("multilinestring", "RadarCircles", "memory");
 
     QVector<QgsPointXY>* linePoints = new QVector<QgsPointXY>();
 
