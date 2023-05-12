@@ -266,6 +266,46 @@ font-family: 'Roboto Slab', serif;
          <height>51</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton#ItemsListButton{
+float right;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(27, 31, 216, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(27, 31, 216, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+
+QPushButton#ItemsListButton:hover{
+float right;
+margin-right: 3%;
+margin-top: 5px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(66, 68, 226, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(66, 68, 226, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}
+QPushButton#ItemsListButton:pressed{
+float right;
+margin-right: 4%;
+margin-top: 8px;
+border-radius: 5px;
+padding: 5px9px;
+font-size: 1.2em;
+background-color: rgba(81, 83, 225, 0.59);
+text shadow: #454545 0 0 2px;
+border-bottom: 4px solid rgba(81, 83, 225, 0.59);
+color: white;
+font-family: 'Roboto Slab', serif;
+}</string>
+       </property>
        <property name="text">
         <string>Items</string>
        </property>
