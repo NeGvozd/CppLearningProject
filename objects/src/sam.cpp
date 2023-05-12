@@ -2,7 +2,7 @@
 #include "rocket.h"
 #include "plane.h"
 
-#define KM 0.0115
+#define KM 0.0115*1000
 
 SAM::SAM(float health, const QString& model, float distance, 
          std::unique_ptr<Point> location) :
