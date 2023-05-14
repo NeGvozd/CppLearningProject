@@ -6,14 +6,13 @@
 #include <QGridLayout>
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
+
 
 
 
 #include <../../datawindow.h>
 #include <database.h>
+#include <jsondata.h>
 #include "../../objects/src/point.h"
 #include "../../objects/src/plane.h"
 #include "../../objects/src/rocket.h"
@@ -57,6 +56,7 @@ private:
     ROCKETTable* rocketTable;
     SpriteTable* spritTable;
     DataWindow* dbWindow;
+    JsonData* js;
     int currentRow;
 
 public:

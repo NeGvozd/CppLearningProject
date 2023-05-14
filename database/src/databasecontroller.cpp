@@ -123,54 +123,12 @@ void DatabaseController::slot_userAddedData()
 
 void DatabaseController::slot_make_backup(std::vector<std::shared_ptr<Plane> > &planes, std::vector<std::shared_ptr<SAM> > &sams, std::vector<std::shared_ptr<Rocket> > &rockets)
 {
-    qInfo() << "test";
-    std::vector<std::shared_ptr<SAM> > my_sams;
-    my_sams.push_back(std::make_shared<SAM>(100, "test", 1000, std::make_unique<Point>(1,1)));
-    my_sams.push_back(std::make_shared<SAM>(123, "smth", 123, std::make_unique<Point>(5,5)));
-    //save sams
-    QJsonArray sams_jsonArray;
-    for (const auto& sam : my_sams) {
-        QJsonObject jsonObj;
-        jsonObj["health"] = sam->HEALTH();
-        jsonObj["model"] = sam->MODEL();
-        jsonObj["battery"] = sam->BATTERY();
-        jsonObj["distance"] = sam->DISTANCE();
-        jsonObj["x"] = sam->X();
-        jsonObj["y"] = sam->Y();
-
-        sams_jsonArray.append(jsonObj);
-    }
-    QJsonDocument sams_jsonDoc(sams_jsonArray);
-
-    QFile sams_jsonFile("jsonData/sams.json");
-    if (sams_jsonFile.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&sams_jsonFile);
-        stream << sams_jsonDoc.toJson();
-        sams_jsonFile.close();
-    }
-    //save planes
-    QJsonArray planes_jsonArray;
-    for (const auto& plane : planes) {
-        QJsonObject jsonObj;
-        jsonObj["health"] = plane->HEALTH();
-        jsonObj["speed"] = plane->SPEED();
-        jsonObj["angle"] = plane->Angle();
-        jsonObj["model"] = plane->MODEL();
-        jsonObj["x"] = plane->X();
-        jsonObj["y"] = plane->Y();
-
-        planes_jsonArray.append(jsonObj);
-    }
-    QJsonDocument planes_jsonDoc(planes_jsonArray);
-
-    QFile planes_jsonFile("jsonData/planes.json");
-    if (planes_jsonFile.open(QIODevice::WriteOnly))
-    {
-        QTextStream stream(&planes_jsonFile);
-        stream << planes_jsonDoc.toJson();
-        planes_jsonFile.close();
-    }
+    sams.push_back(std::make_shared<SAM>(100, "test", 1000, std::make_unique<Point>(1,1)));
+    sams.push_back(std::make_shared<SAM>(123, "smth", 123, std::make_unique<Point>(5,5)));
+    js = new JsonData(planes,sams);
+    js->save();
+    js->return_sams();
+    js->return_planes();
 
 
 }
