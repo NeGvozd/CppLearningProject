@@ -101,3 +101,8 @@ float Plane::SPEED() const
 {
     return speed_;
 }
+
+std::shared_ptr<QVector<std::shared_ptr<Point> > > Plane::TRAGECTORY() const
+{
+    return tragectory_;
+}

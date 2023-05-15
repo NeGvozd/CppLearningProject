@@ -79,7 +79,10 @@ QVector<InfoAboutElement> JsonData::return_planes()
         int angle = json_obj["angle"].toInt();
         int x = json_obj["x"].toInt();
         int y = json_obj["y"].toInt();
+
+        //std::make_shared<QVector<std::shared_ptr<Point> >>(unpack_tragectory(json_obj["tragectory"]));
         //append to vec
+        std::shared_ptr<QVector<std::shared_ptr<Point> > > vec = unpack_tragectory(json_obj["tragectory"].toString());
     }
     return vec;
 }
@@ -115,12 +118,15 @@ void JsonData::save_planes()
     for (const auto& plane : planes) {
         //тут надо дописать мб новые поля которые нужно сохранять
         QJsonObject jsonObj;
+
         jsonObj["health"] = plane->HEALTH();
         jsonObj["speed"] = plane->SPEED();
         jsonObj["angle"] = plane->Angle();
         jsonObj["model"] = plane->MODEL();
         jsonObj["x"] = plane->X();
         jsonObj["y"] = plane->Y();
+
+        jsonObj["tragectory"] = pack_tragectory(plane->TRAGECTORY());
 
         planes_jsonArray.append(jsonObj);
     }
@@ -133,4 +139,39 @@ void JsonData::save_planes()
         stream << jsonDoc.toJson();
         jsonFile.close();
     }
+}
+
+QString JsonData::pack_tragectory(std::shared_ptr<QVector<std::shared_ptr<Point> > > vec)
+{
+    QJsonArray jsonArray;
+    for (const auto& p : *vec) {
+        QJsonObject jsonObj;
+        jsonObj["x"] = p->X();
+        jsonObj["y"] = p->Y();
+
+        jsonArray.append(jsonObj);
+    }
+
+    QJsonDocument tragectory_jsonDoc(jsonArray);
+    QString jsonString = tragectory_jsonDoc.toJson(QJsonDocument::Compact);
+    //qInfo() << jsonString;
+
+    return jsonString;
+}
+
+std::shared_ptr<QVector<std::shared_ptr<Point> > >  JsonData::unpack_tragectory(QString tragectory)
+{
+    QVector<std::shared_ptr<Point> >  vec;
+    QByteArray json_bytes = tragectory.toLocal8Bit();
+    auto json_doc = QJsonDocument::fromJson(json_bytes);
+    auto json_array = json_doc.array();
+    for(int i = 0;i < json_array.size();i++)
+    {
+        auto json_obj = json_array[i].toObject();
+        float x = json_obj["x"].toDouble();
+        float y = json_obj["y"].toDouble();
+        vec.append(std::make_shared<Point>(x,y));
+    }
+
+    return std::make_shared<QVector<std::shared_ptr<Point> >>(vec);
 }

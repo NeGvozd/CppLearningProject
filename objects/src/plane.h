@@ -22,6 +22,7 @@ public:
     float HEALTH() const;
     QString MODEL() const;
     float SPEED() const;
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> TRAGECTORY() const;
 
 private:
     float health_;

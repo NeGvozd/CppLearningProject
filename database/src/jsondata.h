@@ -27,6 +27,9 @@ private:
 
     void save_sams();
     void save_planes();
+    QString pack_tragectory(std::shared_ptr<QVector<std::shared_ptr<Point> > > vec);
+    std::shared_ptr<QVector<std::shared_ptr<Point> > >  unpack_tragectory(QString tragectory);
+
 
 
 };
