@@ -63,6 +63,7 @@ public:
     void show();
 //    void LinesWidgetInit();
 private:
+    void someVisualPreparing();
     void createStatusBar();
 signals:
     void createNewObject(InfoAboutElement element);

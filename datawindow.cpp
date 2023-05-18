@@ -17,6 +17,8 @@ DataWindow::DataWindow(QWidget *parent) :
     ui(new Ui::DataWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("-> База Данных <-");
+    this->setWindowIcon(QIcon(":/rec/ing/sql_icon.png"));
 
 }
 
@@ -48,9 +50,7 @@ void DataWindow::on_zrkButton_clicked()
 }
 
 void DataWindow::on_addButton_clicked(){
-    QMessageBox m;
-    m.information(nullptr, " ", " if you want to save changes in DataBase, press 'Enter' one more time after filling row \n You will reviece 'DataBase Updated'");
-
+    QMessageBox::information(nullptr, " ", " Если хотите сохранить изменения, то нажмите на Enter ещё раз, после того как внесёте данные!");
     emit sig_addButton_clicked();
 }
 
