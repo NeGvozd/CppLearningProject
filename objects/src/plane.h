@@ -19,6 +19,10 @@ public:
     void ReceiveDamage(float amout);
     void SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory);
     float Angle() const;
+    float HEALTH() const;
+    QString MODEL() const;
+    float SPEED() const;
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> TRAGECTORY() const;
 
 private:
     float health_;

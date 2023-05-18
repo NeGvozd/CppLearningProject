@@ -81,9 +81,28 @@ void Plane::SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> trage
 void Plane::ReceiveDamage(float amount) {
     health_ -= amount;
     if (health_ <= 0) OnDead();
-    qInfo() << health_;
+    // qInfo() << IsAlive();
 }
 
 float Plane::Angle() const {
     return angle_;
+}
+float Plane::HEALTH() const
+{
+    return health_;
+}
+
+QString Plane::MODEL() const
+{
+    return model_;
+}
+
+float Plane::SPEED() const
+{
+    return speed_;
+}
+
+std::shared_ptr<QVector<std::shared_ptr<Point> > > Plane::TRAGECTORY() const
+{
+    return tragectory_;
 }

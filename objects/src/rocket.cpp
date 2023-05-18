@@ -10,7 +10,7 @@
 Rocket::~Rocket()
 {
     //qInfo() << "rocket destructed";
-    target_.reset(); //это как работает, это что
+    target_.reset();
 }
 
 Rocket::Rocket(float damage, float speed, float range, 

@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //if you don't have QGS comment bottom line
     QgsController = new QGSController(Map);
-    
+
     connect(dbController, SIGNAL(sig_addedToDb()), this, SLOT(addedToDb()));
     createStatusBar();
     ui->TreeAddedItems->clear();
@@ -71,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ListWindow, &ItemsListWindow::sendSAMId, engine, &Engine::getPlaneCoords);
     connect(ListWindow, &ItemsListWindow::sendPlaneId, engine, &Engine::getPlaneCoords);
     connect(engine, &Engine::sendElementCoords, ListWindow, &ItemsListWindow::getCoords);
+    connect(engine,&Engine::sendDATA, dbController, &DatabaseController::slot_make_backup);
 }
 
 MainWindow::~MainWindow(){
@@ -250,7 +251,7 @@ void MainWindow::addedToDb(){
 
 
 void MainWindow::on_actionLine_triggered(){
-//    QgsController->selectionPoints();
+    QgsController->selectionPoints();
 //    msg->setText("Если вы хотите создать линию нажмите ПКМ");
     //приходится курсор доставать
 }
@@ -319,4 +320,9 @@ void MainWindow::on_MakeLineButton_clicked()
 {
     QgsController->selectionPoints();
     msg->setText("Если вы хотите создать линию нажмите ПКМ");
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    engine->sendVectorsToDB();
 }

@@ -21,7 +21,7 @@ void Engine::createNewObject(InfoAboutElement element) {
         case ZRK:
         {
             //auto sam = ObjectFactory::CreateSAM(element.mass, element.name, element.distance, std::make_unique<Point>(0,0));
-            emit samCreated(); 
+            emit samCreated();
         }
         break;
         default:
@@ -29,13 +29,13 @@ void Engine::createNewObject(InfoAboutElement element) {
     }
 }
 
-void Engine::addLine(QVector<QPair<double, double>>* linePoints) 
+void Engine::addLine(QVector<QPair<double, double>>* linePoints)
 {
     for(auto i = linePoints->begin(); i < linePoints->end(); ++i)
         allLines.push_back(std::make_shared<Point>((*i).first, (*i).second));
 }
 
-void Engine::addSAM(double x, double y) { 
+void Engine::addSAM(double x, double y) {
     //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
     sams.push_back(std::make_shared<SAM>(lastelement_.mass, lastelement_.name, lastelement_.distance, std::make_unique<Point>(x,y)));
     emit createSAMCircles(x, y, sams[sams.size()-1]->Distance());
@@ -63,6 +63,11 @@ void Engine::pauseRenderCycle() {
         timer->stop();
     if(sendTimer->isActive())
         sendTimer->stop();
+}
+
+void Engine::sendVectorsToDB()
+{
+    emit sendDATA(planes, sams, rockets);
 }
 
 void Engine::moveObjects()

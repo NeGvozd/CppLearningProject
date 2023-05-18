@@ -1,90 +1,90 @@
 #include "QGSController.h"
 
 QGSController::QGSController(QWidget* Map){
-    this->Map = Map;
+   this->Map = Map;
 
-    canvas =new QgsMapCanvas(this->Map);
+   canvas =new QgsMapCanvas(this->Map);
 
-    canvas->enableAntiAliasing(true);
-    canvas->setMapSettingsFlags(canvas->mapSettings().flags() | QgsMapSettings::RenderPreviewJob);
-    canvas->setParallelRenderingEnabled(true);
-    canvas->setCachingEnabled(true);
-    canvas->setPreviewJobsEnabled(true);
-    canvas->setMapUpdateInterval(500); //ToDO::check possible values
-
-
-    startLayer();
-
-    QGridLayout* gl =new QGridLayout(this->Map);
-    gl->addWidget(canvas);
-
-    //Tools
-    panTool= new QgsMapToolPan(canvas);
+   canvas->enableAntiAliasing(true);
+   canvas->setMapSettingsFlags(canvas->mapSettings().flags() | QgsMapSettings::RenderPreviewJob);
+   canvas->setParallelRenderingEnabled(true);
+   canvas->setCachingEnabled(true);
+   canvas->setPreviewJobsEnabled(true);
+   canvas->setMapUpdateInterval(500); //ToDO::check possible values
 
 
-    connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
-    connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
+   startLayer();
+
+   QGridLayout* gl =new QGridLayout(this->Map);
+   gl->addWidget(canvas);
+
+   //Tools
+   panTool= new QgsMapToolPan(canvas);
+
+
+   connect(canvas, &QgsMapCanvas::xyCoordinates, this, &QGSController::mouseMoved);
+   connect(canvas, &QgsMapCanvas::scaleChanged, this, &QGSController::mapScaled);
 }
 
 void QGSController::activatePanTool() {
-    if(!panTool->isActive())
-        canvas->setMapTool(panTool);
-    else{
-        canvas->unsetMapTool(panTool);
-    }
+   if(!panTool->isActive())
+       canvas->setMapTool(panTool);
+   else{
+       canvas->unsetMapTool(panTool);
+   }
 }
 
 
 QGSController::~QGSController(){
-    delete Map;
+   delete Map;
 }
 
 void QGSController::addLayer(){
-    QFileDialog dialog(Map, QString("Добавить слой").toLocal8Bit());
-    dialog.setOption(QFileDialog::DontUseNativeDialog);
-    dialog.setNameFilter("*.shp");
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        QString layerPath =dialog.selectedFiles()[0];
-        if (!QFile::exists(layerPath))
-            return;
-        if (layerPath.contains(".shp"))
-        {
-            qInfo()<<layerPath;
-            QgsVectorLayer* newLayer = new QgsVectorLayer(layerPath, layerPath, "ogr");
+   QFileDialog dialog(Map, QString("Добавить слой").toLocal8Bit());
+   dialog.setOption(QFileDialog::DontUseNativeDialog);
+   dialog.setNameFilter("*.shp");
+   if (dialog.exec() == QDialog::Accepted)
+   {
+       QString layerPath =dialog.selectedFiles()[0];
+       if (!QFile::exists(layerPath))
+           return;
+       if (layerPath.contains(".shp"))
+       {
+           qInfo()<<layerPath;
+           QgsVectorLayer* newLayer = new QgsVectorLayer(layerPath, layerPath, "ogr");
 
-            layers.push_back(newLayer);
+           layers.push_back(newLayer);
 
-            crs=layers.at(layers.size()-1)->crs();
+           crs=layers.at(layers.size()-1)->crs();
 
-            canvas->setLayers(layers);
-            for(int i=2;i<layers.length();i++)
-                canvas->setExtent(layers[i]->extent());
+           canvas->setLayers(layers);
+           for(int i=2;i<layers.length();i++)
+               canvas->setExtent(layers[i]->extent());
 
-            canvas->refresh();
-        }
-    }
+           canvas->refresh();
+       }
+   }
 }
 
 void QGSController::initVectorLayer(QgsVectorLayer* layer){
-    layer->startEditing();
-    layer->dataProvider()->addAttributes({QgsField("name", QVariant::String)});
-    layer->updateFields();
+   layer->startEditing();
+   layer->dataProvider()->addAttributes({QgsField("name", QVariant::String)});
+   layer->updateFields();
 
-    //Комментарии принадлежат к коду ниже
-    //Устанавливает, должны ли быть включены метки для слоя.
-    layer->setLabelsEnabled(true);
-    //Contains settings for how a map layer will be labeled.
-    QgsPalLayerSettings pls;
-    pls.fieldName = "name";
+   //Комментарии принадлежат к коду ниже
+   //Устанавливает, должны ли быть включены метки для слоя.
+   layer->setLabelsEnabled(true);
+   //Contains settings for how a map layer will be labeled.
+   QgsPalLayerSettings pls;
+   pls.fieldName = "name";
 
-    //Так и нужно(для понимания стоит перейти в изначальный класс)
-    pls.placement = QgsPalLayerSettings::Placement::Line;
+   //Так и нужно(для понимания стоит перейти в изначальный класс)
+   pls.placement = QgsPalLayerSettings::Placement::Line;
 
-    //Basic implementation of the labeling interface.
-    QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
-    layer->setLabeling(simple_label);
-    layer->commitChanges();
+   //Basic implementation of the labeling interface.
+   QgsVectorLayerSimpleLabeling* simple_label = new QgsVectorLayerSimpleLabeling(pls);
+   layer->setLabeling(simple_label);
+   layer->commitChanges();
 }
 
 void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, int size){
@@ -101,12 +101,12 @@ void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, 
     p.setField("angle");
     m->setDataDefinedAngle(p);
 
-    QgsRuleBasedRenderer::Rule* rule =new QgsRuleBasedRenderer::Rule(s,0,0);
+   QgsRuleBasedRenderer::Rule* rule =new QgsRuleBasedRenderer::Rule(s,0,0);
 
-    QgsRuleBasedRenderer* render= new QgsRuleBasedRenderer(rule);
+   QgsRuleBasedRenderer* render= new QgsRuleBasedRenderer(rule);
 
-    layer->setRenderer(render);
-    layer->commitChanges();
+   layer->setRenderer(render);
+   layer->commitChanges();
 }
 
 void QGSController::startLayer()
@@ -131,31 +131,31 @@ void QGSController::startLayer()
     layers.push_back(controlPlanes);
     layers.push_back(rocketsLayer);
 
-    layers.push_back(baseEarthLayer);
-    layers.push_back(baseWaterLayer);
+   layers.push_back(baseEarthLayer);
+   layers.push_back(baseWaterLayer);
 
 
-    crs=layers.at(layers.size()-1)->crs();
+   crs=layers.at(layers.size()-1)->crs();
 
-    canvas->setLayers(layers);
-    for(int i=2;i<layers.length();i++)
-        canvas->setExtent(layers[i]->extent());
+   canvas->setLayers(layers);
+   for(int i=2;i<layers.length();i++)
+       canvas->setExtent(layers[i]->extent());
 
-    canvas->refresh();
+   canvas->refresh();
 }
 
 void QGSController::setCrs()
 {
-    crs.createFromProj("+proj=longlat +datum=WGS84 +no_defs");
-    canvas->setDestinationCrs(crs);
+   crs.createFromProj("+proj=longlat +datum=WGS84 +no_defs");
+   canvas->setDestinationCrs(crs);
 }
 
 void QGSController::activateSelectingPoint(){
 
-    pointTool = new QgsMapToolEmitPoint(canvas);
-    canvas->setMapTool(pointTool);
-    //TODO как-то перенести в MainWindow?
-    connect(pointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
+   pointTool = new QgsMapToolEmitPoint(canvas);
+   canvas->setMapTool(pointTool);
+   //TODO как-то перенести в MainWindow?
+   connect(pointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
 }
 
 

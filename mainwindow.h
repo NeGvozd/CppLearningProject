@@ -61,8 +61,8 @@ public:
     ~MainWindow();
     QWidget *Map;
     void show();
-//    void LinesWidgetInit();
-private: 
+    void LinesWidgetInit();
+private:
     void createStatusBar();
 signals:
     void createNewObject(InfoAboutElement element);
@@ -92,6 +92,8 @@ private slots:
     void itemsListShow();
     void itemsListClicked(QTreeWidgetItem *item, int column);
 
+    void on_saveButton_clicked();
+
 public slots:
     void addedToDb();
     void updateMapCoord(double x, double y);
@@ -107,9 +109,7 @@ private slots:
 private:
     //if you don't have QGS comment bottom line
     QGSController* QgsController;
-
     Ui::MainWindow *ui;
-    //DatabaseController dbController;
 
     QLabel* msg;
     QLabel* forIconCoord;

@@ -9,7 +9,6 @@ static const int LOAD_TIME_MSEC = 5 * 1000;
 
 void createSplashScreen(MainWindow &w, QApplication &a)
 {
-
     //static const int LOAD_TIME_MSEC = 3 * 1000;
     static const int PROGRESS_X_PX = 423;
     static const int PROGRESS_Y_PX = 683;

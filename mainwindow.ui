@@ -310,6 +310,19 @@ font-family: 'Roboto Slab', serif;
         <string>Items</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="saveButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>270</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
      </widget>
     </item>
     <item row="0" column="0" colspan="2">
@@ -615,6 +628,19 @@ background-color: rgba(66, 68, 226, 0.59);
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3"/>
        </widget>
+       <widget class="QPushButton" name="SetLine">
+        <property name="geometry">
+         <rect>
+          <x>1070</x>
+          <y>450</y>
+          <width>80</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SetLine</string>
+        </property>
+       </widget>
        <widget class="QTreeWidget" name="ItemsListWidget">
         <property name="geometry">
          <rect>
@@ -644,7 +670,7 @@ background-color: rgba(66, 68, 226, 0.59);
      <x>0</x>
      <y>0</y>
      <width>1270</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

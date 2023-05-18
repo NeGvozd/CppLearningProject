@@ -23,7 +23,10 @@ public:
     ~Engine() = default;
 
     void startRenderCycle();
-    void pauseRenderCycle();   
+    void pauseRenderCycle();
+
+    void sendVectorsToDB();
+
 private:
     void SAMscan(std::weak_ptr<Plane> plane);
     template<class T >
@@ -40,6 +43,7 @@ signals:
     void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
     void sendElementCoords(float x, float y);
     void deletePlane(int pos);
+    void sendDATA(std::vector<std::shared_ptr<Plane>> &planes, std::vector<std::shared_ptr<SAM>> &sams, std::vector<std::shared_ptr<Rocket>> &rockets);
 public slots:
     void createNewObject(InfoAboutElement element);
     void addLine(QVector<QPair<double, double>>* linePoints);
