@@ -101,6 +101,9 @@ public slots:
     void addSAMToItems(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
     void addRocketToItems(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
 
+private slots:
+    void on_MakeLineButton_clicked();
+
 private:
     //if you don't have QGS comment bottom line
     QGSController* QgsController;

@@ -31,6 +31,7 @@ void ItemsListWindow::addElement(QString name){
 
 void ItemsListWindow::planeCharacteristics(int id, QString name, QString model, float health, float speed, float x, float y){
     this->id = id;
+    ui->ListWidget->clear();
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Здоровье - " + QString::number(health));
@@ -43,6 +44,7 @@ void ItemsListWindow::planeCharacteristics(int id, QString name, QString model, 
 };
 void ItemsListWindow::SAMCharacteristics(int id, QString name, QString model, float health, float distance, int ammo, float x, float y){
     this->id = id;
+    ui->ListWidget->clear();
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Здоровье - " + QString::number(health));
@@ -56,6 +58,7 @@ void ItemsListWindow::SAMCharacteristics(int id, QString name, QString model, fl
 };
 void ItemsListWindow::RocketCharacteristics(int id, QString name, QString model, float damage, float speed, float range, float x, float y){
     this->id = id;
+    ui->ListWidget->clear();
     addElement("Имя - " + name);
     addElement("Модель - " + model);
     addElement("Урон - " + QString::number(damage));

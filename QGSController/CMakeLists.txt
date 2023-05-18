@@ -16,7 +16,7 @@ message("QGIS_PATH is defined -- ${QGIS_PATH}")
 
 find_package(Qt5 COMPONENTS Core Gui Widgets Xml)
 
-file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "src/*.h" "../Engine/src/qgspack.h" "../Engine/src/qgspack.cpp")
 
 link_directories(/usr/lib)
 link_directories(${QGIS_PATH}/lib)

@@ -17,11 +17,13 @@ public:
     float Damage() const;
     float Range() const; 
     float Speed() const;
+    int Id() const;
 private:
     float damage_;
     float speed_;
     float range_;
     float angle_;
+    int id_;
     
     std::weak_ptr<Plane> target_;
     const std::weak_ptr<SAM> parent_;

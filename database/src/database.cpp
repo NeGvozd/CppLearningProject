@@ -121,7 +121,7 @@ InfoAboutRocket ROCKETTable::select(int id)
     int distance = my_query.value(rec.indexOf("Distance")).toInt();
     int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
 
-    qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+    //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
     InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type};
 
     return rocket;
@@ -145,7 +145,7 @@ QVector<InfoAboutRocket> ROCKETTable::select_all()
         int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
         int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();
 
-        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+        //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
         InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type,sprite_id};
         vec.append(rocket);
     }

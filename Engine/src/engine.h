@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <vector>
+#include "qgspack.h"
 
 #include "../../objects/src/point.h"
 #include "../../objects/src/plane.h"

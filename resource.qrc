@@ -18,6 +18,7 @@
         <file>img/plane2.svg</file>
         <file>img/zrk.svg</file>
         <file>img/rocket.svg</file>
+        <file>img/line_icon.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

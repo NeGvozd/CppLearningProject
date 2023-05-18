@@ -250,8 +250,8 @@ void MainWindow::addedToDb(){
 
 
 void MainWindow::on_actionLine_triggered(){
-    QgsController->selectionPoints();
-    msg->setText("Если вы хотите создать линию нажмите ПКМ");
+//    QgsController->selectionPoints();
+//    msg->setText("Если вы хотите создать линию нажмите ПКМ");
     //приходится курсор доставать
 }
 
@@ -262,6 +262,7 @@ void MainWindow::showLinesDialog(){
 void MainWindow::on_handButton_clicked()
 {
     QgsController->activatePanTool();
+    msg->setText("");
 }
 
 void MainWindow::on_playButton_clicked()
@@ -313,4 +314,9 @@ void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
         ListWindow->show();
         emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
     }
+}
+void MainWindow::on_MakeLineButton_clicked()
+{
+    QgsController->selectionPoints();
+    msg->setText("Если вы хотите создать линию нажмите ПКМ");
 }
