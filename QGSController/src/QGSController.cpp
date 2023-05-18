@@ -109,16 +109,41 @@ void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, 
    layer->commitChanges();
 }
 
+void QGSController::setVectorLayerColorAndScale(QgsVectorLayer *layer, QColor color,double scale)
+{
+    layer->startEditing();
+
+    QgsSymbol* s= QgsSymbol::defaultSymbol(layer->geometryType());
+    s->setColor(color);
+
+    if (scale!=0)
+    {
+        QgsLineSymbolLayer* lineLayer =dynamic_cast<QgsLineSymbolLayer*>(s->symbolLayer(0)->clone()) ;
+        lineLayer->setWidth(scale);
+        s->changeSymbolLayer(0,lineLayer);
+    }
+
+    QgsRuleBasedRenderer::Rule* rule =new QgsRuleBasedRenderer::Rule(s,0,0);
+
+    QgsRuleBasedRenderer* render= new QgsRuleBasedRenderer(rule);
+
+    layer->setRenderer(render);
+    layer->commitChanges();
+}
+
 void QGSController::startLayer()
 {
     initVectorLayer(controlPointsLayer);
-    //initVectorLayer(controlSquareLayer);
     initVectorLayer(controlLineLayer);
 
     initVectorLayerWithSVG(controlPlanes,"plane1.svg",10);
     initVectorLayerWithSVG(rocketsLayer,"rocket.svg",6);
-    initVectorLayerWithSVG(controlSAM,"zrk.svg",6);
+    initVectorLayerWithSVG(controlSAM,"zrk.svg",10);
 
+    setVectorLayerColorAndScale(controlLinePointsLayer,QColor(Qt::black));
+    setVectorLayerColorAndScale(rocketsLineLayer,QColor(Qt::darkRed));
+    setVectorLayerColorAndScale(controlLineLayer,QColor(Qt::yellow),0.5);
+    setVectorLayerColorAndScale(radarCirclesLayer,QColor(Qt::magenta),0.5);
 
     setCrs();
     layers.push_back(radarCirclesLayer);

@@ -19,6 +19,7 @@
 #include <qgsmaptoolemitpoint.h>
 #include <qgsmaptoolpan.h>
 #include <qgsmaptoolidentifyfeature.h>
+#include <qgslinesymbollayer.h>
 
 #include <qmap.h>
 
@@ -70,6 +71,8 @@ private:
     void initVectorLayer(QgsVectorLayer *layer);
     void initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, int size);
 
+    void setVectorLayerColorAndScale(QgsVectorLayer *layer, QColor color, double scale=0);
+
     void addElementToLayer(QgsVectorLayer *layer, QgsGeometry geom);
     void addElementToLayerWithSVG(QgsVectorLayer *layer, QgsGeometry geom);
 
@@ -120,8 +123,8 @@ private:
     QgsVectorLayer *rocketsLayer = new QgsVectorLayer("Point", "Rockets", "memory");
     QgsVectorLayer *rocketsLineLayer = new QgsVectorLayer("multilinestring", "RocketsLine", "memory");
 
-    QgsVectorLayer *baseWaterLayer = new QgsVectorLayer("../maps/world-bathymetry-110-million.shp", "water", "ogr");
-    QgsVectorLayer *baseEarthLayer = new QgsVectorLayer("../maps/world-land-areas-110-million.shp", "earth", "ogr");
+    QgsVectorLayer *baseWaterLayer = new QgsVectorLayer("../CppLearningProject/maps/world-bathymetry-110-million.shp", "water", "ogr");
+    QgsVectorLayer *baseEarthLayer = new QgsVectorLayer("../CppLearningProject/maps/world-land-areas-110-million.shp", "earth", "ogr");
 
     QgsVectorLayer *controlPlanes = new QgsVectorLayer("Point", "Planes", "memory");
 
