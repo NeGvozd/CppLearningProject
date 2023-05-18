@@ -18,8 +18,8 @@ public:
     std::vector<std::shared_ptr<SAM> >& _sams);
 
     void save();
-    std::shared_ptr<QVector<PacketToEngine_sams>> return_sams();
-    std::shared_ptr<QVector<PacketToEngine_planes>> return_planes();
+    std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>> return_sams();
+    std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>> return_planes();
 
 private:
     std::vector<std::shared_ptr<Plane> > planes;
