@@ -1,0 +1,18 @@
+[
+    {
+        "battery": 1,
+        "distance": 11.5,
+        "health": 100,
+        "model": "test",
+        "x": 1,
+        "y": 1
+    },
+    {
+        "battery": 1,
+        "distance": 1.4144999980926514,
+        "health": 123,
+        "model": "smth",
+        "x": 5,
+        "y": 5
+    }
+]

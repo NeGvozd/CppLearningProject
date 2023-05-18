@@ -7,6 +7,7 @@
 
 #include <database.h>
 
+
 namespace Ui {
 class DataWindow;
 }
@@ -16,6 +17,7 @@ class DataWindow : public QDialog
     Q_OBJECT
 
 public:
+    void disabled_buttons(QPushButton * btn);
     explicit DataWindow(QWidget *parent = nullptr);
     ~DataWindow();
 
@@ -39,9 +41,11 @@ private slots:
     void slot_table(QSqlTableModel *model);
     void slot_block_db();
     void slot_unblock_db();
+    void on_rocketButton_clicked();
 
+    void on_spriteButton_clicked();
 
-public:
+private:
     Ui::DataWindow *ui;
 };
 

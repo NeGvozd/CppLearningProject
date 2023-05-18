@@ -16,9 +16,12 @@ InfoAboutElement AirplansTable::select(int id)
     int speed = my_query.value(rec.indexOf("Speed")).toInt();
     int mass = my_query.value(rec.indexOf("Mass")).toInt();
     int health = my_query.value(rec.indexOf("Health")).toInt();
+    int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
+    int sprite_id = my_query.value(rec.indexOf("Sprtite_id")).toInt();//ops
+
     //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-    InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,0,0,0};
-    //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health);
+    InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,rocket,sprite_id};
+    //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health,0,0,0,0);
     return plane;
 }
 
@@ -37,10 +40,12 @@ QVector<InfoAboutElement> AirplansTable::select_all()
         int speed = my_query.value(rec.indexOf("Speed")).toInt();
         int mass = my_query.value(rec.indexOf("Mass")).toInt();
         int health = my_query.value(rec.indexOf("Health")).toInt();
+        int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
+        int sprite_id = my_query.value(rec.indexOf("Sprtite_id")).toInt();//ops
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,0,0,0};
-        //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health);
+        InfoAboutElement plane = {id, AIRPLANS, name, speed, mass,health,0,rocket,sprite_id};
+        //InfoAboutElement plane = InfoAboutElement(id, AIRPLANS, name, speed, mass,health,0,0,0,0);
         vec.append(plane);
     }
 
@@ -60,12 +65,13 @@ InfoAboutElement ZRKTable::select(int id)
 
     QString name = my_query.value(rec.indexOf("Name")).toString();
     int distance = my_query.value(rec.indexOf("Distance")).toInt();
-    int damage = my_query.value(rec.indexOf("Damage")).toInt();
     int health = my_query.value(rec.indexOf("Health")).toInt();
+    int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
+    int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();
     //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Distance ="<< distance <<"Damage ="<< damage;
 
-    //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,health, distance , damage);
-    InfoAboutElement zrk = {id, ZRK, name,0,health, distance , damage,0,0};
+    //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,0,0,health, distance , damage,0,0);
+    InfoAboutElement zrk = {id, ZRK, name,0,health, distance,rocket,sprite_id};
     return zrk;
 
 }
@@ -84,12 +90,13 @@ QVector<InfoAboutElement> ZRKTable::select_all()
         int id = my_query.value(rec.indexOf("id")).toInt();
         QString name = my_query.value(rec.indexOf("Name")).toString();
         int distance = my_query.value(rec.indexOf("Distance")).toInt();
-        int damage = my_query.value(rec.indexOf("Damage")).toInt();
         int health = my_query.value(rec.indexOf("Health")).toInt();
+        int rocket = my_query.value(rec.indexOf("Rocket")).toInt();
+        int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();//ops
 
         //qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed <<"Mass ="<< mass;
-        //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,health, distance , damage);
-        InfoAboutElement zrk = {id, ZRK, name,0,health, distance , damage,0,0};
+        //InfoAboutElement zrk = InfoAboutElement(id, ZRK, name,0,0,health, distance , damage,0,0);
+        InfoAboutElement zrk = {id, ZRK, name,0,health, distance,rocket,sprite_id};
         vec.append(zrk);
     }
 
@@ -98,12 +105,66 @@ QVector<InfoAboutElement> ZRKTable::select_all()
 
 
 
-//InfoAboutElement::InfoAboutElement(int id, Table type, QString name, int speed, int mass, int health, int rocket, int sprite_id):
-//    id{id},type{type},name{name},speed{speed},mass{mass},health{health},rocket{rocket},sprite_id{sprite_id}
-//{
-//}
+InfoAboutRocket ROCKETTable::select(int id)
+{
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM ROCKET WHERE id = (:id)");
+    my_query.bindValue(":id", id);
+    my_query.exec();
 
-//InfoAboutElement::InfoAboutElement(int id, Table type, QString name, int mass, int health, int distance, int damage, int rocket, int sprite_id):
-//    id{id},type{type},name{name},mass{mass},health{health},distance{distance},damage{damage},rocket{rocket},sprite_id{sprite_id}
-//{
-//{
+    QSqlRecord rec = my_query.record();
+    my_query.first();
+
+    QString name = my_query.value(rec.indexOf("Name")).toString();
+    int speed = my_query.value(rec.indexOf("Speed")).toInt();
+    int damage = my_query.value(rec.indexOf("Damage")).toInt();
+    int distance = my_query.value(rec.indexOf("Distance")).toInt();
+    int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
+
+    qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+    InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type};
+
+    return rocket;
+}
+
+QVector<InfoAboutRocket> ROCKETTable::select_all()
+{
+    QVector<InfoAboutRocket> vec;
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM ROCKET");
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    while(my_query.next())
+    {
+        int id = my_query.value(rec.indexOf("id")).toInt();
+        QString name = my_query.value(rec.indexOf("Name")).toString();
+        int speed = my_query.value(rec.indexOf("Speed")).toInt();
+        int damage = my_query.value(rec.indexOf("Damage")).toInt();
+        int distance = my_query.value(rec.indexOf("Distance")).toInt();
+        int guidance_type = my_query.value(rec.indexOf("Guidance type")).toInt();
+        int sprite_id = my_query.value(rec.indexOf("Sprite_id")).toInt();
+
+        qInfo() << "Row with id =" <<id<<"Name = "<< name <<"Speed ="<< speed;
+        InfoAboutRocket rocket = {id, name,speed, damage, distance, guidance_type,sprite_id};
+        vec.append(rocket);
+    }
+
+    return vec;
+}
+
+
+QString SpriteTable::select(int id)
+{
+    QSqlQuery my_query;
+    my_query.prepare("SELECT * FROM SPRITES WHERE id = (:id)");
+    my_query.bindValue(":id", id);
+    my_query.exec();
+
+    QSqlRecord rec = my_query.record();
+    my_query.first();
+
+    QString path = my_query.value(rec.indexOf("Path")).toString();
+    qInfo() << "Row with id =" <<id<<"Path = "<< path;
+    return path;
+}

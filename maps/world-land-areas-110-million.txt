@@ -1,0 +1,32 @@
+========================================================================
+ World Land Areas (1:10 million)
+------------------------------------------------------------------------
+ https://koordinates.com/layer/3775-world-land-areas-110-million/
+========================================================================
+From: Natural Earth
+
+Description:
+  World land areas at 1:10 million scale.
+  
+  Made with Natural Earth. Free vector and raster map data @
+  [naturalearthdata.com](http://naturalearthdata.com).
+
+Category: Topographic
+
+Projection: WGS 84
+
+------------------------------------------------------------------------
+ Processing steps applied by Koordinates
+------------------------------------------------------------------------
+
+- imported to Koordinates in Shapefile format on 25 Jul 2011
+- 48 invalid geometries fixed at import time 
+    (see https://koordinates.com/layer/3775-world-land-areas-110-million/history/)
+- converted by Koordinates to Shapefile on 23 Sep 2019 (reference #1714333)
+
+====================
+No license specified
+====================
+
+No license was specified for this layer. This could mean default rights under copyright law for your legal jurisdiction may apply. Please check with Koordinates if you're unsure of your right to access and use this layer.
+

@@ -23,6 +23,13 @@
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="4">
+     <widget class="QPushButton" name="rocketButton">
+      <property name="text">
+       <string>Ракеты</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="2">
      <widget class="QPushButton" name="zrkButton">
       <property name="text">
@@ -58,6 +65,13 @@
      <widget class="QPushButton" name="planeButton">
       <property name="text">
        <string>Самолёты</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="spriteButton">
+      <property name="text">
+       <string>Спрайты</string>
       </property>
      </widget>
     </item>

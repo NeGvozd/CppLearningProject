@@ -20,7 +20,6 @@ int DatabaseController::connection()
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("TECHNICALFEATURES.db");
 
-
     if (db.open())
     {
         qInfo() << "Database is open!";
@@ -37,28 +36,33 @@ int DatabaseController::connection()
 
 InfoAboutElement DatabaseController::select(Table table,int id)
 {
-    if(table == AIRPLANS)
-    {
+    switch (table) {
+    case AIRPLANS:
         return airplanTable->select(id);
-    }
-    else if(table == ZRK)
-    {
+        break;
+    case ZRK:
         return zrkTable->select(id);
+        break;
+    default:
+        return InfoAboutElement();
+        break;
     }
-
 }
 
 
 QVector<InfoAboutElement> DatabaseController::select_all(Table table)
 {
     QVector<InfoAboutElement> ans;
-    if(table == AIRPLANS)
-    {
+    switch (table) {
+    case AIRPLANS:
         ans = airplanTable->select_all();
-    }
-    else if(table == ZRK)
-    {
+        rocketTable->select_all();
+        break;
+    case ZRK:
         ans = zrkTable->select_all();
+        break;
+    default:
+        break;
     }
     return ans;
 }
@@ -67,7 +71,6 @@ void DatabaseController::dataWindow_show()
 {
     dbWindow->show();
 }
-
 
 
 void DatabaseController::slot_typeTable_clicked(Table table)
@@ -79,6 +82,12 @@ void DatabaseController::slot_typeTable_clicked(Table table)
             break;
         case ZRK:
             model->setTable("ZRK");
+            break;
+        case ROCKET:
+            model->setTable("ROCKET");
+            break;
+        case SPRITE:
+            model->setTable("SPRITES");
             break;
 
         default:
@@ -92,6 +101,7 @@ void DatabaseController::slot_typeTable_clicked(Table table)
 void DatabaseController::slot_addButton_clicked()
 {
     model->insertRow(model->rowCount());
+    emit sig_addedToDb();
 }
 
 void DatabaseController::slot_deleteButton_clicked()
@@ -109,6 +119,25 @@ void DatabaseController::slot_tableView_clicked(const QModelIndex &index)
 void DatabaseController::slot_userAddedData()
 {
     emit sig_addedToDb();
+}
+
+void DatabaseController::slot_make_backup(std::vector<std::shared_ptr<Plane> > &planes, std::vector<std::shared_ptr<SAM> > &sams, std::vector<std::shared_ptr<Rocket> > &rockets)
+{
+    //test
+    sams.push_back(std::make_shared<SAM>(100, "test", 1000, std::make_unique<Point>(1,1)));
+    sams.push_back(std::make_shared<SAM>(123, "smth", 123, std::make_unique<Point>(5,5)));
+    std::shared_ptr<QVector<std::shared_ptr<Point>>> vec(new QVector<std::shared_ptr<Point>>);
+    for (int i = 0; i < 5; i++) {
+            vec->append(std::make_shared<Point>(i,i));
+        }
+    planes.push_back(std::make_shared<Plane>(100,100,"plane", vec));
+
+    js = new JsonData(planes,sams);
+    js->save();
+    js->return_sams();
+    js->return_planes();
+
+
 }
 void DatabaseController::slot_block_db()
 {
