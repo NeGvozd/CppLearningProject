@@ -52,12 +52,11 @@ class PacketToEngine_sams:public Packet
 public:
     PacketToEngine_sams(int _health, QString _model, int _x, int _y, int _battery, int _distance):Packet( _health, _model, _x, _y),
         battery{_battery},distance{_distance} {};
-//    int health
-//    QString model;
+
     int battery;
     int distance;
-//    int x;
-//    int y;
+
+
 };
 
 class PacketToEngine_planes:public Packet
@@ -66,13 +65,9 @@ public:
     PacketToEngine_planes(int _health,QString _model,int _x,int _y,int _speed,int _angle,std::shared_ptr<QVector<std::shared_ptr<Point> > > _tragectory):
         Packet( _health, _model, _x, _y),speed{_speed},angle{_angle},tragectory{_tragectory} {};
 
-
-//    int health;
-//    QString model;
     int speed;
     int angle;
-//    int x;
-//    int y;
+
     std::shared_ptr<QVector<std::shared_ptr<Point> > > tragectory;
 };
 

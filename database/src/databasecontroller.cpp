@@ -123,17 +123,9 @@ void DatabaseController::slot_userAddedData()
 
 void DatabaseController::slot_make_backup(std::vector<std::shared_ptr<Plane> > &planes, std::vector<std::shared_ptr<SAM> > &sams, std::vector<std::shared_ptr<Rocket> > &rockets)
 {
-    //test
-    sams.push_back(std::make_shared<SAM>(100, "test", 1000, std::make_unique<Point>(1,1)));
-    sams.push_back(std::make_shared<SAM>(123, "smth", 123, std::make_unique<Point>(5,5)));
-    std::shared_ptr<QVector<std::shared_ptr<Point>>> vec(new QVector<std::shared_ptr<Point>>);
-    for (int i = 0; i < 5; i++) {
-            vec->append(std::make_shared<Point>(i,i));
-        }
-    planes.push_back(std::make_shared<Plane>(100,100,"plane", vec));
-
     js = new JsonData(planes,sams);
     js->save();
+//not here/replace to another place
     js->return_sams();
     js->return_planes();
 
