@@ -55,11 +55,13 @@ QVector<InfoAboutElement> DatabaseController::select_all(Table table)
     QVector<InfoAboutElement> ans;
     switch (table) {
     case AIRPLANS:
-        ans = airplanTable->select_all();
-        rocketTable->select_all();
+        ans = airplanTable->select_all();      
         break;
     case ZRK:
         ans = zrkTable->select_all();
+        break;
+    case ROCKET:
+        rocketTable->select_all();
         break;
     default:
         break;

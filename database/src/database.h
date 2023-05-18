@@ -71,39 +71,38 @@ public:
     std::shared_ptr<QVector<std::shared_ptr<Point> > > tragectory;
 };
 
-// class Table() toDO:: create base class
 class  BaseTable
 {
 public:
-    virtual InfoAboutElement select(int id)=0;
-    virtual QVector<InfoAboutElement> select_all()=0;
+    //virtual InfoAboutElement select(int id)=0;
+    //virtual QVector<InfoAboutElement> select_all()=0;
 };
 
-class AirplansTable//:public BaseTable
+class AirplansTable:public BaseTable
 {
 public:
-    InfoAboutElement select(int id);// override;
-    QVector<InfoAboutElement> select_all();// override;
+    InfoAboutElement select(int id);
+    QVector<InfoAboutElement> select_all();
 };
 
-class ZRKTable//:public BaseTable
+class ZRKTable:public BaseTable
 {
 public:
-    InfoAboutElement select(int id);// override;
-    QVector<InfoAboutElement> select_all();// override;
+    InfoAboutElement select(int id);
+    QVector<InfoAboutElement> select_all();
 };
 
-class ROCKETTable//:public BaseTable
+class ROCKETTable
 {
 public:
-    InfoAboutRocket select(int id);// override;
-    QVector<InfoAboutRocket> select_all();// override;
+    InfoAboutRocket select(int id);
+    QVector<InfoAboutRocket> select_all();
 };
 
-class SpriteTable//:public BaseTable
+class SpriteTable
 {
 public:
-    QString select(int id);// override;
+    QString select(int id);
 };
 
 
