@@ -198,7 +198,7 @@ font-family: 'Roboto Slab', serif;
 }</string>
        </property>
        <property name="text">
-        <string>Lines</string>
+        <string>Линии</string>
        </property>
       </widget>
       <widget class="QPushButton" name="RadarButton">
@@ -254,7 +254,7 @@ font-family: 'Roboto Slab', serif;
 }</string>
        </property>
        <property name="text">
-        <string>Radar</string>
+        <string>Радар</string>
        </property>
       </widget>
      </widget>
@@ -543,7 +543,7 @@ background-color: rgba(244, 47, 87, 0.92);
 }</string>
     </property>
     <property name="title">
-     <string>File</string>
+     <string>Файл</string>
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -552,25 +552,26 @@ background-color: rgba(244, 47, 87, 0.92);
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>Options</string>
+     <string>Настройки</string>
     </property>
     <addaction name="actionNETU"/>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>Помощь</string>
     </property>
     <addaction name="actionNO_HELP"/>
    </widget>
    <widget class="QMenu" name="menuInfo">
     <property name="title">
-     <string>Info</string>
+     <string>Информация</string>
     </property>
     <addaction name="actionauthors"/>
    </widget>
    <widget class="QMenu" name="menuHand">
     <property name="title">
-     <string>Hand</string>
+     <string>Рука</string>
     </property>
     <addaction name="actionLine"/>
    </widget>
@@ -593,17 +594,17 @@ background-color: rgba(244, 47, 87, 0.92);
   </widget>
   <action name="actionNew">
    <property name="text">
-    <string>New</string>
+    <string>Новый</string>
    </property>
   </action>
   <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>Открыть</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>Выйти</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
@@ -616,21 +617,17 @@ background-color: rgba(244, 47, 87, 0.92);
     </iconset>
    </property>
    <property name="text">
-    <string>authors</string>
+    <string>Авторы проекта</string>
    </property>
   </action>
   <action name="actionNO_HELP">
-   <property name="icon">
-    <iconset>
-     <normaloff>img/zrk.png</normaloff>img/zrk.png</iconset>
-   </property>
    <property name="text">
-    <string>NO HELP</string>
+    <string>Не будет помощи)))</string>
    </property>
   </action>
   <action name="actionNETU">
    <property name="text">
-    <string>ChangeCursor</string>
+    <string>Поменять курсор</string>
    </property>
   </action>
   <action name="actionHand">
@@ -640,7 +637,12 @@ background-color: rgba(244, 47, 87, 0.92);
   </action>
   <action name="actionLine">
    <property name="text">
-    <string>Line</string>
+    <string>Линия</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>Поменять фон</string>
    </property>
   </action>
  </widget>

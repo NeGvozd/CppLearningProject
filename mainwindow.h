@@ -59,6 +59,7 @@ public:
     QWidget *Map;
     void show();
 
+    void someVisualPreparing();
     void createStatusBar();
 //    void LinesWidgetInit();
 signals:
