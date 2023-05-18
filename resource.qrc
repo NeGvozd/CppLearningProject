@@ -7,14 +7,13 @@
         <file>img/add_icon.png</file>
         <file>img/location_icon.png</file>
         <file>img/grab.png</file>
-        <file>img/SplashScreen.png</file>
         <file>img/scale.png</file>
         <file>img/play.png</file>
         <file>img/pause.png</file>
         <file>img/plane1.svg</file>
         <file>img/plane3.svg</file>
-        <file>img/SplashScreen.png</file>
         <file>img/airplane.svg</file>
+        <file>img/SplashScreen.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
