@@ -148,67 +148,11 @@ background-color: rgba(66, 68, 226, 0.59);
         </size>
        </property>
       </widget>
-      <widget class="QPushButton" name="LinesButton">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>120</y>
-         <width>60</width>
-         <height>60</height>
-        </rect>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton#LinesButton{
-float right;
-border-radius: 5px;
-padding: 5px9px;
-font-size: 1.2em;
-background-color: rgba(27, 31, 216, 0.59);
-text shadow: #454545 0 0 2px;
-border-bottom: 4px solid rgba(27, 31, 216, 0.59);
-color: white;
-font-family: 'Roboto Slab', serif;
-}
-
-QPushButton#LinesButton:hover{
-float right;
-margin-right: 3%;
-margin-top: 5px;
-border-radius: 5px;
-padding: 5px9px;
-font-size: 1.2em;
-background-color: rgba(66, 68, 226, 0.59);
-text shadow: #454545 0 0 2px;
-border-bottom: 4px solid rgba(66, 68, 226, 0.59);
-color: white;
-font-family: 'Roboto Slab', serif;
-}
-QPushButton#LinesButton:pressed{
-float right;
-margin-right: 4%;
-margin-top: 8px;
-border-radius: 5px;
-padding: 5px9px;
-font-size: 1.2em;
-background-color: rgba(81, 83, 225, 0.59);
-text shadow: #454545 0 0 2px;
-border-bottom: 4px solid rgba(81, 83, 225, 0.59);
-color: white;
-font-family: 'Roboto Slab', serif;
-}</string>
-       </property>
-       <property name="text">
-        <string>Линии</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="RadarButton">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>180</y>
+         <y>120</y>
          <width>60</width>
          <height>60</height>
         </rect>
@@ -264,7 +208,7 @@ font-family: 'Roboto Slab', serif;
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>240</y>
+         <y>180</y>
          <width>60</width>
          <height>60</height>
         </rect>
@@ -323,7 +267,7 @@ font-family: 'Roboto Slab', serif;
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>300</y>
+         <y>240</y>
          <width>60</width>
          <height>60</height>
         </rect>
@@ -762,12 +706,6 @@ background-color: rgba(66, 68, 226, 0.59);
     <addaction name="actionauthors"/>
     <addaction name="action_2"/>
     <addaction name="action_3"/>
-   </widget>
-   <widget class="QMenu" name="menuHand">
-    <property name="title">
-     <string>Рука</string>
-    </property>
-    <addaction name="actionLine"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuOptions"/>

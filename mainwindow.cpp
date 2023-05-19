@@ -32,11 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
     
     RadarBtn = ui->RadarButton;
     lineDialog = new ChooseLine(this);
-    connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
 
     connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::addPlaneToLine);
     connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
-    connect(lineDialog, &ChooseLine::lineDeleteId, QgsController, &QGSController::deleteLine);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
     connect(RadarBtn, &QPushButton::clicked, QgsController, &QGSController::showRadarZones);
     connect(QgsController, &QGSController::coordChanged, this, &MainWindow::updateMapCoord);
@@ -255,10 +253,6 @@ void MainWindow::on_actionLine_triggered(){
     QgsController->selectionPoints();
 //    msg->setText("Если вы хотите создать линию нажмите ПКМ");
     //приходится курсор доставать
-}
-
-void MainWindow::showLinesDialog(){    
-    lineDialog->exec();
 }
 
 void MainWindow::on_handButton_clicked()
