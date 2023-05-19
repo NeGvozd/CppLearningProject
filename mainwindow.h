@@ -63,6 +63,7 @@ public:
     void show();
     void LinesWidgetInit();
 private:
+    void someVisualPreparing();
     void createStatusBar();
 signals:
     void createNewObject(InfoAboutElement element);
@@ -82,7 +83,6 @@ private slots:
     void on_TreeAddedItems_itemClicked(QTreeWidgetItem *item, int column);
     void on_DataBaseButton_clicked();
     void fillTreeFromDb();
-    void creatingStyleSheet();
     void showLinesDialog();
 
     void on_playButton_clicked();

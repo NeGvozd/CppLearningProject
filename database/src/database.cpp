@@ -168,3 +168,5 @@ QString SpriteTable::select(int id)
     qInfo() << "Row with id =" <<id<<"Path = "<< path;
     return path;
 }
+
+

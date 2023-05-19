@@ -9,12 +9,12 @@ void JsonData::save()
 {
     save_planes();
     save_sams();
-    qInfo() << "Data was saved";
+    qInfo() << "Data was saved!";
 }
 
-QVector<InfoAboutElement> JsonData::return_sams()
+std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>> JsonData::return_sams()
 {
-    QVector<InfoAboutElement> vec;
+    QVector<std::shared_ptr<PacketToEngine_sams> > vec;
     QFile jsonFile("jsonData/sams.json");
     QString json_string;
     if (jsonFile.open(QIODevice::ReadWrite))
@@ -34,24 +34,25 @@ QVector<InfoAboutElement> JsonData::return_sams()
     for(int i = 0;i < json_array.size();i++)
     {
         auto json_obj = json_array[i].toObject();
-        //тут надо дописать мб новые поля которые нужно сохранять аналогично
+
         int health = json_obj["health"].toInt();
         QString model = json_obj["model"].toString();
-        qInfo() << model;
         int battery = json_obj["battery"].toInt();
         int distance = json_obj["distance"].toInt();
         int x = json_obj["x"].toInt();
         int y = json_obj["y"].toInt();
-        //append to vec
 
+        PacketToEngine_sams obj = PacketToEngine_sams(health,model,x,y,battery,distance);
+        std::shared_ptr<PacketToEngine_sams> temp_obj = std::make_shared<PacketToEngine_sams>(obj);
+        vec.append(temp_obj);
     }
 
-    return vec;
+    return std::make_shared<QVector<std::shared_ptr<PacketToEngine_sams> >>(vec);
 }
 
-QVector<InfoAboutElement> JsonData::return_planes()
+std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>> JsonData::return_planes()
 {
-    QVector<InfoAboutElement> vec;
+    QVector<std::shared_ptr<PacketToEngine_planes> > vec;
     QFile jsonFile("jsonData/planes.json");
     QString json_string;
     if (jsonFile.open(QIODevice::ReadWrite))
@@ -71,26 +72,24 @@ QVector<InfoAboutElement> JsonData::return_planes()
     for(int i = 0;i < json_array.size();i++)
     {
         auto json_obj = json_array[i].toObject();
-        //тут надо дописать мб новые поля которые нужно сохранять аналогично
         int health = json_obj["health"].toInt();
         QString model = json_obj["model"].toString();
-        qInfo() << model;
         int speed = json_obj["speed"].toInt();
         int angle = json_obj["angle"].toInt();
         int x = json_obj["x"].toInt();
         int y = json_obj["y"].toInt();
+        std::shared_ptr<QVector<std::shared_ptr<Point> > > tragectory = unpack_tragectory(json_obj["tragectory"].toString());
 
-        //std::make_shared<QVector<std::shared_ptr<Point> >>(unpack_tragectory(json_obj["tragectory"]));
-        //append to vec
-        std::shared_ptr<QVector<std::shared_ptr<Point> > > vec = unpack_tragectory(json_obj["tragectory"].toString());
+        PacketToEngine_planes obj = PacketToEngine_planes(health,model,x,y,speed,angle,tragectory);
+        std::shared_ptr<PacketToEngine_planes> temp_obj = std::make_shared<PacketToEngine_planes>(obj);
+        vec.append(temp_obj);
     }
-    return vec;
+    return std::make_shared<QVector<std::shared_ptr<PacketToEngine_planes> >>(vec);
 }
 void JsonData::save_sams()
 {
     QJsonArray jsonArray;
     for (const auto& sam : sams) {
-        //тут надо дописать мб новые поля которые нужно сохранять
         QJsonObject jsonObj;
         jsonObj["health"] = sam->HEALTH();
         jsonObj["model"] = sam->MODEL();
@@ -104,7 +103,7 @@ void JsonData::save_sams()
     QJsonDocument jsonDoc(jsonArray);
 
     QFile jsonFile("jsonData/sams.json");
-    if (jsonFile.open(QIODevice::ReadWrite))
+    if (jsonFile.open(QIODevice::ReadWrite | QIODevice::Truncate))
     {
         QTextStream stream(&jsonFile);
         stream << jsonDoc.toJson();
@@ -116,7 +115,6 @@ void JsonData::save_planes()
 {
     QJsonArray planes_jsonArray;
     for (const auto& plane : planes) {
-        //тут надо дописать мб новые поля которые нужно сохранять
         QJsonObject jsonObj;
 
         jsonObj["health"] = plane->HEALTH();
@@ -133,7 +131,7 @@ void JsonData::save_planes()
     QJsonDocument jsonDoc(planes_jsonArray);
 
     QFile jsonFile("jsonData/planes.json");
-    if (jsonFile.open(QIODevice::ReadWrite))
+    if (jsonFile.open(QIODevice::ReadWrite | QIODevice::Truncate))
     {
         QTextStream stream(&jsonFile);
         stream << jsonDoc.toJson();
@@ -154,7 +152,6 @@ QString JsonData::pack_tragectory(std::shared_ptr<QVector<std::shared_ptr<Point>
 
     QJsonDocument tragectory_jsonDoc(jsonArray);
     QString jsonString = tragectory_jsonDoc.toJson(QJsonDocument::Compact);
-    //qInfo() << jsonString;
 
     return jsonString;
 }

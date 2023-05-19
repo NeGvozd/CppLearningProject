@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QtSql>
 #include <QVector>
+#include "../../objects/src/point.h"
 
 enum Table{AIRPLANS,ZRK,ROCKET,SPRITE};//will be more tables
 
@@ -34,44 +35,74 @@ public:
     int distance;
     int rocket;
     int sprite_id;
-   // InfoAboutElement(int id,Table type,QString name,int speed,int mass,int health,int rocket = 0,int sprite_id = 0);
-//    InfoAboutElement(int id,Table type,QString name,int mass,int health,int distance,int damage,int rocket = 0,int sprite_id = 0);
+
+};
+class Packet
+{
+public:
+    Packet(int _health,QString _model,int _x,int _y):health{_health},model{_model},x{_x},y{_y} {};
+    int health;
+    QString model;
+    int x;
+    int y;
+};
+
+class PacketToEngine_sams:public Packet
+{
+public:
+    PacketToEngine_sams(int _health, QString _model, int _x, int _y, int _battery, int _distance):Packet( _health, _model, _x, _y),
+        battery{_battery},distance{_distance} {};
+
+    int battery;
+    int distance;
+
 
 };
 
-// class Table() toDO:: create base class
+class PacketToEngine_planes:public Packet
+{
+public:
+    PacketToEngine_planes(int _health,QString _model,int _x,int _y,int _speed,int _angle,std::shared_ptr<QVector<std::shared_ptr<Point> > > _tragectory):
+        Packet( _health, _model, _x, _y),speed{_speed},angle{_angle},tragectory{_tragectory} {};
+
+    int speed;
+    int angle;
+
+    std::shared_ptr<QVector<std::shared_ptr<Point> > > tragectory;
+};
+
 class  BaseTable
 {
 public:
-    virtual InfoAboutElement select(int id)=0;
-    virtual QVector<InfoAboutElement> select_all()=0;
+    //virtual InfoAboutElement select(int id)=0;
+    //virtual QVector<InfoAboutElement> select_all()=0;
 };
 
-class AirplansTable//:public BaseTable
+class AirplansTable:public BaseTable
 {
 public:
-    InfoAboutElement select(int id);// override;
-    QVector<InfoAboutElement> select_all();// override;
+    InfoAboutElement select(int id);
+    QVector<InfoAboutElement> select_all();
 };
 
-class ZRKTable//:public BaseTable
+class ZRKTable:public BaseTable
 {
 public:
-    InfoAboutElement select(int id);// override;
-    QVector<InfoAboutElement> select_all();// override;
+    InfoAboutElement select(int id);
+    QVector<InfoAboutElement> select_all();
 };
 
-class ROCKETTable//:public BaseTable
+class ROCKETTable
 {
 public:
-    InfoAboutRocket select(int id);// override;
-    QVector<InfoAboutRocket> select_all();// override;
+    InfoAboutRocket select(int id);
+    QVector<InfoAboutRocket> select_all();
 };
 
-class SpriteTable//:public BaseTable
+class SpriteTable
 {
 public:
-    QString select(int id);// override;
+    QString select(int id);
 };
 
 
