@@ -146,16 +146,17 @@ void QGSController::startLayer()
 
     setCrs();
     layers.push_back(radarCirclesLayer);
+
+    layers.push_back(controlPlanes);
+    layers.push_back(rocketsLayer);
+    
     layers.push_back(controlSAM);
     layers.push_back(controlLineLayer);
     layers.push_back(controlLinePointsLayer);
     layers.push_back(rocketsLineLayer);
 
-    layers.push_back(controlPlanes);
-    layers.push_back(rocketsLayer);
-
-   layers.push_back(baseEarthLayer);
-   layers.push_back(baseWaterLayer);
+    layers.push_back(baseEarthLayer);
+    layers.push_back(baseWaterLayer);
 
 
    crs=layers.at(layers.size()-1)->crs();
@@ -254,12 +255,25 @@ void QGSController::showRadarZones(){
     canvas->refresh();
 }
 
+void QGSController::addTrajToLayer(QgsGeometry geom, QString name){
+    controlLineLayer->startEditing();
+    QgsFeature feat;
+    feat.setFields(controlLineLayer->fields(), true);
+    feat.setAttribute("name", name);
+    feat.setGeometry(geom);
+    controlLineLayer->addFeature(feat);
+    controlLineLayer->commitChanges();
+}
+
 void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
-        emit sendLine(int(controlLineLayer->featureCount())+1, QString::number(int(controlLineLayer->featureCount())+1));
+        static int globalLineId = 0;
+        trajId->push_back(globalLineId);
+        emit sendLine(globalLineId, "Trajectory"+QString::number(globalLineId));
         QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
-        addElementToLayer(controlLineLayer, geom);
+        addTrajToLayer(geom, "Trajectory"+QString::number(globalLineId));
+        globalLineId++;
         linePoints->clear();
         deletePointsForLine();
     }
@@ -313,19 +327,19 @@ void QGSController::selectionPoints(){
 
 void QGSController::deleteLine(int id){
     controlLineLayer->startEditing();
-    controlLineLayer->deleteFeature(*(controlLineLayer->allFeatureIds().begin()+id-1));
+    controlLineLayer->deleteFeature(*(controlLineLayer->allFeatureIds().begin()+trajId->indexOf(id)-1));
     controlLineLayer->commitChanges();
 }
 
-void QGSController::addPointToLine(int id){
-    QgsPointXY point(controlLineLayer->getFeature(id).geometry().asMultiPolyline()[0][0]);
+void QGSController::addPlaneToLine(int id){
+    QgsPointXY point(controlLineLayer->getFeature(*(controlLineLayer->allFeatureIds().begin()+trajId->indexOf(id))).geometry().asMultiPolyline()[0][0]);
     sentChosenLine(id);
     addElementToLayerWithSVG(controlPlanes,QgsGeometry::fromPointXY(point));
 }
 
 void QGSController::sentChosenLine(int id){
     QVector<QPair<double, double>>* points = new QVector<QPair<double, double>>(0);
-    QgsMultiPolylineXY polyline = controlLineLayer->getFeature(id).geometry().asMultiPolyline();
+    QgsMultiPolylineXY polyline = controlLineLayer->getFeature(*(controlLineLayer->allFeatureIds().begin()+trajId->indexOf(id))).geometry().asMultiPolyline();
     for(QgsPolylineXY line : polyline)
         for(QgsPointXY point : line)
             points->push_back({point.x(), point.y()});
@@ -338,7 +352,7 @@ void QGSController::catchNewPlaneId(int id){
 
 void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->startEditing();
-    controlLineLayer->changeAttributeValue(id,0,name);
+    controlLineLayer->changeAttributeValue(trajId->indexOf(id),0,name);
     controlLineLayer->commitChanges();
 }
 //здесь чет плохой код

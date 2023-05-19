@@ -72,6 +72,7 @@ private:
 
     void addElementToLayer(QgsVectorLayer *layer, QgsGeometry geom);
     void addElementToLayerWithSVG(QgsVectorLayer *layer, QgsGeometry geom);
+    void addTrajToLayer(QgsGeometry geom, QString name);
 
     void sentChosenLine(int id);
 signals:
@@ -87,7 +88,7 @@ public slots:
     void showRadarZones();
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
-    void addPointToLine(int id);
+    void addPlaneToLine(int id);
 
     void renderObject(QVector<QList<double>> *planes, QVector<QList<double>> *rockets);
     void addRocket(double x, double y, int id);
@@ -119,8 +120,8 @@ private:
     QgsVectorLayer *rocketsLayer = new QgsVectorLayer("Point", "Rockets", "memory");
     QgsVectorLayer *rocketsLineLayer = new QgsVectorLayer("multilinestring", "RocketsLine", "memory");
 
-    QgsVectorLayer *baseWaterLayer = new QgsVectorLayer("../CppLearningProject/maps/world-bathymetry-110-million.shp", "water", "ogr");
-    QgsVectorLayer *baseEarthLayer = new QgsVectorLayer("../CppLearningProject/maps/world-land-areas-110-million.shp", "earth", "ogr");
+    QgsVectorLayer *baseWaterLayer = new QgsVectorLayer("../maps/world-bathymetry-110-million.shp", "water", "ogr");
+    QgsVectorLayer *baseEarthLayer = new QgsVectorLayer("../maps/world-land-areas-110-million.shp", "earth", "ogr");
 
     QgsVectorLayer *controlPlanes = new QgsVectorLayer("Point", "Planes", "memory");
 
@@ -134,6 +135,7 @@ private:
     QVector<int>* planesId = new QVector<int>();
     QVector<int>* rocketsId = new QVector<int>();
     QMap<int, int> rocketsPaths = QMap<int, int>();
+    QVector<int>* trajId = new QVector<int>();
 
 
 public:

@@ -8,10 +8,14 @@
 
 class LineListItem : public QListWidgetItem{
 public:
-    int id;
-    QString name;
     LineListItem(LineListItem * parent, int id, QString name);
     LineListItem(QListWidget * parent, int id, QString name);
+    void setName(QString name);
+    int Id() const;
+    QString Name() const;
+private:
+    int id_;
+    QString name_;
 };
 
 namespace Ui {
@@ -40,6 +44,8 @@ private slots:
 private:
     Ui::ChooseLine *ui;
     QListWidget* listWidget;
+
+    bool deleting = false;
 
     QPushButton* acceptButton;
     QPushButton* cancelButton;

@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineDialog = new ChooseLine(this);
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
 
-    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::addPointToLine);
+    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::addPlaneToLine);
     connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
     connect(lineDialog, &ChooseLine::lineDeleteId, QgsController, &QGSController::deleteLine);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);

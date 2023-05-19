@@ -22,22 +22,24 @@ ChooseLine::~ChooseLine()
 }
 
 void ChooseLine::addLine(int id, QString name){
+    deleting = true;
     LineListItem *line = new LineListItem(listWidget, id, name);
     line->setFlags(line->flags() | Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
 }
 
 void ChooseLine::acceptClicked(){
     if(!listWidget->selectedItems().isEmpty()){
-        int itemId = dynamic_cast<LineListItem*>(listWidget->selectedItems()[0])->id;
+        int itemId = dynamic_cast<LineListItem*>(listWidget->selectedItems()[0])->Id();
         emit itemClickSend(itemId);
         this->close();
     }
 }
 
 void ChooseLine::deleteClicked(){
+    deleting = true;
     if(!listWidget->selectedItems().isEmpty()){
         QListWidgetItem* it = listWidget->selectedItems()[0];
-        emit lineDeleteId(dynamic_cast<LineListItem*>(it)->id);
+        emit lineDeleteId(dynamic_cast<LineListItem*>(it)->Id());
         delete it;
     }
 }
@@ -47,22 +49,30 @@ void ChooseLine::closeWindow(){
 }
 
 void ChooseLine::changeName(QListWidgetItem *item){
-//    qInfo() << "where";
-    if(!listWidget->selectedItems().isEmpty()){
+    if(!listWidget->selectedItems().isEmpty() && !deleting){
         LineListItem* listItem = dynamic_cast<LineListItem*>(item);
-        listItem->name = item->text();
-        emit itemNameChange(listItem->id, listItem->name);
+        listItem->setName(item->text());
+        emit itemNameChange(listItem->Id(), listItem->Name());
     }
+    if(deleting) deleting = false;
 }
 
-LineListItem::LineListItem(LineListItem *parent, int id, QString name) : QListWidgetItem(*parent){
-    this->id=id;
-    this->name = name;
+LineListItem::LineListItem(LineListItem *parent, int id, QString name) : QListWidgetItem(*parent), id_(id), name_(name){
     this->setText(name);
 }
 
-LineListItem::LineListItem(QListWidget *parent, int id, QString name): QListWidgetItem(parent){
-    this->id=id;
-    this->name = name;
+LineListItem::LineListItem(QListWidget *parent, int id, QString name): QListWidgetItem(parent), id_(id), name_(name){
     this->setText(name);
+}
+
+void LineListItem::setName(QString name){
+    name_ = name;
+}
+
+int LineListItem::Id() const{
+    return id_;
+}
+
+QString LineListItem::Name() const{
+    return name_;
 }
