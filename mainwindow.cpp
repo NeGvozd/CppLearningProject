@@ -141,9 +141,9 @@ void MainWindow::on_actionNew_triggered(){
 void MainWindow::on_actionauthors_triggered(){
     //TODO вынести в connect это
     //QgsController->activateSelectingPoint();
-    //QMessageBox *msg = new QMessageBox;
-    //msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
-    //msg->exec();
+    QMessageBox *msg = new QMessageBox;
+    msg->setText(" Max1 \n Max2 \n Ilya \n Nikita \n Oleg");
+    msg->exec();
 }
 
 void MainWindow::on_actionExit_triggered(){
