@@ -186,6 +186,7 @@ void QGSController::addElementToLayerWithSVG(QgsVectorLayer *layer, QgsGeometry 
 void QGSController::addRocket(double x, double y, int id){
     addElementToLayer(rocketsLayer, QgsGeometry::fromPointXY(QgsPointXY(x, y)));
     addElementToLayer(rocketsLineLayer, QgsGeometry::fromMultiPolylineXY(QgsMultiPolylineXY(1)));
+    rocketsPaths[id] = rocketsLineLayer->allFeatureIds().size()-1;
     rocketsId->push_back(id);
 }
 
@@ -238,9 +239,7 @@ void QGSController::addLine(bool checked){
     }
 }
 
-//если прилетит в середине отрисовки, то всё поломается, что делать?????
 void QGSController::deleteRocket(int id) {
-    //qInfo() << "deleting rocket" << pos;
     rocketsLayer->startEditing();
     QgsFeatureIds featIds = rocketsLayer->allFeatureIds();
     rocketsLayer->deleteFeature(*(featIds.begin()+rocketsId->indexOf(id)));
@@ -250,7 +249,6 @@ void QGSController::deleteRocket(int id) {
 }
 
 void QGSController::deletePlane(int id) {
-    //qInfo() << "deleting plane" << pos;
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds();
     controlPlanes->deleteFeature(*(featIds.begin()+planesId->indexOf(id)));
@@ -284,9 +282,7 @@ void QGSController::addPointLine(const QgsPointXY &point, Qt::MouseButton button
 void QGSController::selectionPoints(){
     selectionPointTool = new QgsMapToolEmitPoint(canvas);
     canvas->setMapTool(selectionPointTool);
-    //TODO как-то перенести в MainWindow
     connect(selectionPointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPointLine);
-    //connect(Map->SetLine, &QPushButton::Pressed, this, &QGSController::addLine);
 }
 
 void QGSController::deleteLine(int id){
@@ -319,7 +315,7 @@ void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->changeAttributeValue(id,0,name);
     controlLineLayer->commitChanges();
 }
-//здесь чет плохой код(теперь можно объединять)
+//здесь чет плохой код
 
 void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPlanes->startEditing();
@@ -347,10 +343,10 @@ void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<d
         QgsGeometry g = QgsGeometry::fromPointXY(point);
         rocketsLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
         rocketsLayer->changeAttributeValue(*(featIds.begin()+rocketsId->indexOf(id)),1,-rockets->at(k)[2]*180/M_PI);
-        QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*(featIds.begin()+rocketsId->indexOf(id))).geometry().asMultiPolyline();
+        QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id])).geometry().asMultiPolyline();
         line[0].push_back(point);
         g = QgsGeometry::fromMultiPolylineXY(line);
-        rocketsLineLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
+        rocketsLineLayer->changeGeometry(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id]), g);
         k++;
     }
     rocketsLayer->commitChanges();

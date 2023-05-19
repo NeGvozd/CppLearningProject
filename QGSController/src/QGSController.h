@@ -32,6 +32,7 @@
 #include <QDebug>
 #include <QDialog>
 #include <QFileDialog>
+#include <QMap>
 
 #include <qgsrulebasedrenderer.h>
 #include <qgssinglesymbolrenderer.h>
@@ -128,7 +129,9 @@ private:
     QVector<QgsPointXY> *linePoints = new QVector<QgsPointXY>();
 
     QVector<int>* planesId = new QVector<int>();
-    QVector<int>* rocketsId = new QVector<int>();;
+    QVector<int>* rocketsId = new QVector<int>();
+    QMap<int, int> rocketsPaths = QMap<int, int>();
+
 
 public:
     QgsMapToolEmitPoint *selectionPointTool;
