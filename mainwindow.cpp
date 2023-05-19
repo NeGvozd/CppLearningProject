@@ -68,7 +68,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::selectRocketItem, ListWindow, &ItemsListWindow::RocketCharacteristics);
     connect(this, &MainWindow::selectSAMItem, ListWindow, &ItemsListWindow::SAMCharacteristics);
     connect(ListWindow, &ItemsListWindow::sendRocketId, engine, &Engine::getRocketCoords);
-    connect(ListWindow, &ItemsListWindow::sendSAMId, engine, &Engine::getPlaneCoords);
     connect(ListWindow, &ItemsListWindow::sendPlaneId, engine, &Engine::getPlaneCoords);
     connect(engine, &Engine::sendElementCoords, ListWindow, &ItemsListWindow::getCoords);
     connect(engine,&Engine::sendDATA, dbController, &DatabaseController::slot_make_backup);
@@ -306,15 +305,15 @@ void MainWindow::itemsListClicked(QTreeWidgetItem *item, int column){
     ItemsListItem* selected = dynamic_cast<ItemsListItem*>(item);
     if(selected->ammo()!=-1){
         ListWindow->show();
-        emit selectSAMItem(column, selected->name(), selected->model(), selected->health(), selected->distance(), selected->ammo(), selected->x(), selected->y());
+        emit selectSAMItem(selected->id(), selected->name(), selected->model(), selected->health(), selected->distance(), selected->ammo(), selected->x(), selected->y());
     }
     else if(selected->range()!=-1){
         ListWindow->show();
-        emit selectRocketItem(column, selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
+        emit selectRocketItem(selected->id(), selected->name(), selected->model(), selected->damage(), selected->speed(), selected->range(), selected->x(), selected->y());
     }
     else{
         ListWindow->show();
-        emit selectPlaneItem(column, selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
+        emit selectPlaneItem(selected->id(), selected->name(), selected->model(), selected->health(), selected->speed(), selected->x(), selected->y());
     }
 }
 void MainWindow::on_MakeLineButton_clicked()

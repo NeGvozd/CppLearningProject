@@ -52,9 +52,6 @@ void ItemsListWindow::SAMCharacteristics(int id, QString name, QString model, fl
     addElement("Заряды - " + QString::number(ammo));
     addElement("Х - " + QString::number(x));
     addElement("Y - " + QString::number(y));
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &ItemsListWindow::exchangeSAMCoords);
-    timer->start(100);
 };
 void ItemsListWindow::RocketCharacteristics(int id, QString name, QString model, float damage, float speed, float range, float x, float y){
     this->id = id;
@@ -73,10 +70,6 @@ void ItemsListWindow::RocketCharacteristics(int id, QString name, QString model,
 
 void ItemsListWindow::exchangeRocketCoords(){
     emit sendRocketId(this->id);
-}
-
-void ItemsListWindow::exchangeSAMCoords(){
-    //emit sendSAMId(this->id);
 }
 
 void ItemsListWindow::exchangePlaneCoords(){

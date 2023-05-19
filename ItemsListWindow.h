@@ -34,7 +34,6 @@ public slots:
     void getCoords(float x, float y);
 private slots:
     void exchangeRocketCoords();
-    void exchangeSAMCoords();
     void exchangePlaneCoords();
 
 private:

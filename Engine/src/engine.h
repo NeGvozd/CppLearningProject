@@ -51,7 +51,6 @@ public slots:
     void addSAM(double x, double y);
     void addPlane(QVector<QPair<double, double>>* points);
     void getPlaneCoords(int id);
-    void getSAMCoords(int id);
     void getRocketCoords(int id);
 private slots:
     void packAllObjects();

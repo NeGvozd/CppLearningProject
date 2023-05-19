@@ -43,7 +43,7 @@ void Engine::addSAM(double x, double y) {
     //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
     sams.push_back(std::make_shared<SAM>(lastelement_.mass, lastelement_.name, lastelement_.distance, std::make_unique<Point>(x,y)));
     emit createSAMCircles(x, y, sams[sams.size()-1]->Distance());
-    emit sendSAMToList(sams.size()-1, lastelement_.name+QString::number(sams.size()-1), lastelement_.name, lastelement_.health, lastelement_.distance, 0, x, y);
+    emit sendSAMToList(sams[sams.size()-1]->Id(), lastelement_.name+" "+QString::number(sams[sams.size()-1]->Id()), lastelement_.name, lastelement_.health, lastelement_.distance, 0, x, y);
 }
 
 void Engine::addPlane(QVector<QPair<double, double>>* points) {
@@ -52,7 +52,7 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
             vec->append(std::make_shared<Point>(pair.first, pair.second));
         }
     planes.push_back(std::make_shared<Plane>(lastelement_.mass,lastelement_.speed,lastelement_.name, vec));
-    emit sendPlaneToList(planes[planes.size()-1]->Id(), lastelement_.name+QString::number(planes.size()-1), lastelement_.name, lastelement_.health, lastelement_.speed, points->at(0).first, points->at(0).second);
+    emit sendPlaneToList(planes[planes.size()-1]->Id(), lastelement_.name+" "+QString::number(planes[planes.size()-1]->Id()), lastelement_.name, lastelement_.health, lastelement_.speed, points->at(0).first, points->at(0).second);
     emit sendPlaneId(planes[planes.size()-1]->Id());
 }
 
@@ -165,13 +165,13 @@ void Engine::packAllObjects() {
 }
 
 void Engine::getPlaneCoords(int id){
-    emit sendElementCoords(planes[id]->X(), planes[id]->Y());
-};
-
-void Engine::getSAMCoords(int id){
-    emit sendElementCoords(sams[id]->X(), sams[id]->Y());
+    for(int i = 0; i<planes.size(); ++i)
+        if(planes[i]->Id() == id)
+            emit sendElementCoords(planes[i]->X(), planes[i]->Y());
 };
 
 void Engine::getRocketCoords(int id){
-    emit sendElementCoords(rockets[id]->X(), rockets[id]->Y());
+    for(int i = 0; i<rockets.size(); ++i)
+        if(rockets[i]->Id() == id)
+            emit sendElementCoords(rockets[i]->X(), rockets[i]->Y());
 };
