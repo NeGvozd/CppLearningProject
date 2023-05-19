@@ -139,7 +139,7 @@ private:
     QMap<int, int> rocketsPaths = QMap<int, int>();
     QVector<int>* trajId = new QVector<int>();
 
-
+    int globalLineId = 0;
 public:
     QgsMapToolEmitPoint *selectionPointTool;
 };

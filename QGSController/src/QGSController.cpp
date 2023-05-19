@@ -262,7 +262,6 @@ void QGSController::addTrajToLayer(QgsGeometry geom, QString name){
 
 void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
-        static int globalLineId = 0;
         trajId->push_back(globalLineId);
         emit sendLine(globalLineId, "Траектория "+QString::number(globalLineId));
         QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
@@ -293,15 +292,14 @@ void QGSController::deletePlane(int id) {
 } 
 
 void QGSController::addSavedLine(QVector<QPair<double, double>> vec){
-    static int globalLineSavedId = 0;
-    trajId->push_back(globalLineSavedId);
+    trajId->push_back(globalLineId);
     for(int i = 0; i<vec.size(); ++i)
         linePoints->push_back(QgsPointXY(vec[i].first, vec[i].second));
-    emit sendLine(globalLineSavedId, "Траектория "+QString::number(globalLineSavedId));
+    emit sendLine(globalLineId, "Траектория "+QString::number(globalLineId));
     QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
     geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
-    addTrajToLayer(geom, "Траектория "+QString::number(globalLineSavedId));
-    globalLineSavedId++;
+    addTrajToLayer(geom, "Траектория "+QString::number(globalLineId));
+    globalLineId++;
     linePoints->clear();
 }
 
@@ -385,6 +383,7 @@ void QGSController::deleteLine(int id){
 }
 
 void QGSController::addPlaneToLine(int id){
+    int tmp = trajId->indexOf(id);
     QgsPointXY point(controlLineLayer->getFeature(*(controlLineLayer->allFeatureIds().begin()+trajId->indexOf(id))).geometry().asMultiPolyline()[0][0]);
     sentChosenLine(id);
     addElementToLayerWithSVG(controlPlanes,QgsGeometry::fromPointXY(point));
