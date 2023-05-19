@@ -92,7 +92,7 @@ background-color: rgba(66, 68, 226, 0.59);
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="resource.qrc">
          <normaloff>:/rec/img/add_icon.png</normaloff>:/rec/img/add_icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -138,7 +138,7 @@ background-color: rgba(66, 68, 226, 0.59);
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="resource.qrc">
          <normaloff>:/rec/img/sql_icon.png</normaloff>:/rec/img/sql_icon.png</iconset>
        </property>
        <property name="iconSize">
@@ -433,7 +433,7 @@ background-color: rgba(66, 68, 226, 0.59);
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="resource.qrc">
          <normaloff>:/rec/img/grab.png</normaloff>:/rec/img/grab.png</iconset>
        </property>
        <property name="iconSize">
@@ -472,7 +472,7 @@ background-color: rgba(80, 241, 118, 0.92);
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="resource.qrc">
          <normaloff>:/rec/img/play.png</normaloff>:/rec/img/play.png</iconset>
        </property>
        <property name="iconSize">
@@ -514,7 +514,7 @@ background-color: rgba(244, 47, 87, 0.92);
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="resource.qrc">
          <normaloff>:/rec/img/pause.png</normaloff>:/rec/img/pause.png</iconset>
        </property>
        <property name="iconSize">
@@ -720,6 +720,8 @@ background-color: rgba(244, 47, 87, 0.92);
      <string>Информация</string>
     </property>
     <addaction name="actionauthors"/>
+    <addaction name="action_2"/>
+    <addaction name="action_3"/>
    </widget>
    <widget class="QMenu" name="menuHand">
     <property name="title">
@@ -797,7 +799,19 @@ background-color: rgba(244, 47, 87, 0.92);
     <string>Поменять фон</string>
    </property>
   </action>
+  <action name="action_2">
+   <property name="text">
+    <string>О чем проект?</string>
+   </property>
+  </action>
+  <action name="action_3">
+   <property name="text">
+    <string>Как пользоваться?</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
