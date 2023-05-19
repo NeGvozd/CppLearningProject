@@ -2,7 +2,10 @@
 #include <math.h>
 
 Point::Point(float x, float y) :
-    x_(x), y_(y) {}
+    x_(x), y_(y) {
+        static int globalId_ = 0;
+        id_ = globalId_;
+        globalId_++;}
 
 // Point::Point(const Point& p) :
 //     x_(p.X()), y_(p.Y()) {};
@@ -34,6 +37,10 @@ void Point::OnDead() {
 
 bool Point::IsAlive() const {
     return is_alive_;
+}
+
+int Point::Id() const {
+    return id_;
 }
 
 float Point::AngleWith(const std::weak_ptr<const Point> object) {

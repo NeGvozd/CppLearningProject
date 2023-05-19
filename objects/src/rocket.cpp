@@ -18,11 +18,7 @@ Rocket::Rocket(float damage, float speed, float range,
                const std::weak_ptr<SAM> parent) :
     damage_(damage), speed_(speed/60), range_(range), angle_(0), parent_(parent), 
     Point(parent.lock()->X(), parent.lock()->Y()),
-    target_(target){
-        static int globalRocketId_ = 0;
-        id_ = globalRocketId_;
-        globalRocketId_++;
-    }
+    target_(target){}
 
 void Rocket::Move()
 {
@@ -53,10 +49,6 @@ void Rocket::Move()
 
 float Rocket::Angle() const {
     return angle_;
-}
-
-int Rocket::Id() const {
-    return id_;
 }
 
 void Rocket::Hit()

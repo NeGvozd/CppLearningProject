@@ -49,11 +49,8 @@ public:
     QGSController(QWidget *Map);
     ~QGSController();
     void addLayer();
-    void addPointToLine(int id);
     void startLayer();
     void setCrs();
-
-    void activateSelectingPoint();
 
     void selectionPoints();
 
@@ -62,7 +59,6 @@ public:
 
     void addCircleToLayer(QgsVectorLayer *layer, const QgsPointXY &point, const double radius);
     void addLineToLayer(QgsVectorLayer *layer, const QgsPointXY &point1, const QgsPointXY &point2);
-    void addSquareToLayer(QgsVectorLayer *layer, const QgsPointXY &point, const double size);
 
 private:
     void deletePointsForLine();
@@ -85,19 +81,19 @@ signals:
 public slots:
     void addLine(bool checked);
     void showRadarZones();
-    void getLineId(int id);
     void lineChangeName(int id, QString name);
     void activateSelectingSquare();
+    void addPointToLine(int id);
 
     void renderObject(QVector<QList<double>> *planes, QVector<QList<double>> *rockets);
-    void addRocket(double x, double y);
+    void addRocket(double x, double y, int id);
     void addRadarCircles(double x, double y, double radius);
     void deleteRocket(int pos);
     void deleteLine(int id);
     void deletePlane(int pos);
+    void catchNewPlaneId(int id);
 
 private slots:
-    void addPoint(const QgsPointXY &point, Qt::MouseButton button);
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
     void mouseMoved(const QgsPointXY &p);
@@ -114,7 +110,6 @@ private:
     QgsCoordinateReferenceSystem crs;
     QList<QgsMapLayer *> layers;
 
-    QgsVectorLayer *controlPointsLayer = new QgsVectorLayer("Point", "Points", "memory");
     QgsVectorLayer *controlSAM = new QgsVectorLayer("Point", "SAM", "memory");
 
     QgsVectorLayer *rocketsLayer = new QgsVectorLayer("Point", "Rockets", "memory");
@@ -132,8 +127,8 @@ private:
 
     QVector<QgsPointXY> *linePoints = new QVector<QgsPointXY>();
 
-    // QVector<QVector<int>> lineId-Point-Numberline;
-    QVector<QVector<int>> li_P_Nl;
+    QVector<int>* planesId = new QVector<int>();
+    QVector<int>* rocketsId = new QVector<int>();;
 
 public:
     QgsMapToolEmitPoint *selectionPointTool;

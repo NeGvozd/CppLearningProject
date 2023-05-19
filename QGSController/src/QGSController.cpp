@@ -111,8 +111,6 @@ void QGSController::initVectorLayerWithSVG(QgsVectorLayer *layer, QString name, 
 
 void QGSController::startLayer()
 {
-    initVectorLayer(controlPointsLayer);
-    //initVectorLayer(controlSquareLayer);
     initVectorLayer(controlLineLayer);
 
     initVectorLayerWithSVG(controlPlanes,"plane1.svg",10);
@@ -122,7 +120,6 @@ void QGSController::startLayer()
 
     setCrs();
     layers.push_back(radarCirclesLayer);
-    layers.push_back(controlPointsLayer);
     layers.push_back(controlSAM);
     layers.push_back(controlLineLayer);
     layers.push_back(controlLinePointsLayer);
@@ -149,15 +146,6 @@ void QGSController::setCrs()
    crs.createFromProj("+proj=longlat +datum=WGS84 +no_defs");
    canvas->setDestinationCrs(crs);
 }
-
-void QGSController::activateSelectingPoint(){
-
-   pointTool = new QgsMapToolEmitPoint(canvas);
-   canvas->setMapTool(pointTool);
-   //TODO как-то перенести в MainWindow?
-   connect(pointTool, &QgsMapToolEmitPoint::canvasClicked, this, &QGSController::addPoint);
-}
-
 
 void QGSController::activateSelectingSquare(){
     QgsMapToolEmitPoint* emitPointTool= new QgsMapToolEmitPoint(canvas);
@@ -190,19 +178,15 @@ void QGSController::addElementToLayerWithSVG(QgsVectorLayer *layer, QgsGeometry 
     feat.setAttribute("angle",angle);
     //feat.setAttribute("type",0);
 
-
     layer->addFeature(feat);
 
     layer->commitChanges();
 }
 
-void QGSController::addPoint(const QgsPointXY &point, Qt::MouseButton button){
-    addElementToLayer(controlPointsLayer, QgsGeometry::fromPointXY(point)); //правильно ли так созданные объекты передавать не по указателю
-}
-
-void QGSController::addRocket(double x, double y){
+void QGSController::addRocket(double x, double y, int id){
     addElementToLayer(rocketsLayer, QgsGeometry::fromPointXY(QgsPointXY(x, y)));
     addElementToLayer(rocketsLineLayer, QgsGeometry::fromMultiPolylineXY(QgsMultiPolylineXY(1)));
+    rocketsId->push_back(id);
 }
 
 void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double radius){
@@ -212,10 +196,6 @@ void QGSController::addCircleToLayer(QgsVectorLayer* layer, const QgsPointXY &po
 
 void QGSController::addLineToLayer(QgsVectorLayer* layer, const QgsPointXY &point1, const QgsPointXY &point2){
     addElementToLayer(layer, QgsGeometry::fromPolylineXY({point1, point2}));
-}
-
-void QGSController::addSquareToLayer(QgsVectorLayer* layer, const QgsPointXY &point, const double size){
-    addElementToLayer(layer, QgsGeometry::fromRect(QgsRectangle(point+QgsVector(-size/2,-size/2),point+QgsVector(size/2,size/2))));
 }
 
 void QGSController::addRadar(const QgsPointXY &point, Qt::MouseButton button){
@@ -259,21 +239,23 @@ void QGSController::addLine(bool checked){
 }
 
 //если прилетит в середине отрисовки, то всё поломается, что делать?????
-void QGSController::deleteRocket(int pos) {
+void QGSController::deleteRocket(int id) {
     //qInfo() << "deleting rocket" << pos;
     rocketsLayer->startEditing();
     QgsFeatureIds featIds = rocketsLayer->allFeatureIds();
-    rocketsLayer->deleteFeature(*(featIds.begin()+pos));
+    rocketsLayer->deleteFeature(*(featIds.begin()+rocketsId->indexOf(id)));
     rocketsLayer->commitChanges();
+    rocketsId->remove(rocketsId->indexOf(id));
     emit continueRender();
 }
 
-void QGSController::deletePlane(int pos) {
-    qInfo() << "deleting plane" << pos;
+void QGSController::deletePlane(int id) {
+    //qInfo() << "deleting plane" << pos;
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds();
-    controlPlanes->deleteFeature(*(featIds.begin()+pos));
+    controlPlanes->deleteFeature(*(featIds.begin()+planesId->indexOf(id)));
     controlPlanes->commitChanges();
+    planesId->remove(planesId->indexOf(id));
     emit continueRender();
 } 
 
@@ -313,18 +295,10 @@ void QGSController::deleteLine(int id){
     controlLineLayer->commitChanges();
 }
 
-void QGSController::getLineId(int id){
-    QVector<int>l{id,0,0};
-    li_P_Nl.append(l);
-    addPointToLine(id);
-}
-
 void QGSController::addPointToLine(int id){
     QgsPointXY point(controlLineLayer->getFeature(id).geometry().asMultiPolyline()[0][0]);
     sentChosenLine(id);
     addElementToLayerWithSVG(controlPlanes,QgsGeometry::fromPointXY(point));
-
-    li_P_Nl[li_P_Nl.size()-1][1]=controlPointsLayer->featureCount();
 }
 
 void QGSController::sentChosenLine(int id){
@@ -336,42 +310,47 @@ void QGSController::sentChosenLine(int id){
     emit sendPointsCoords(points);
 }
 
+void QGSController::catchNewPlaneId(int id){
+    planesId->push_back(id);
+}
+
 void QGSController::lineChangeName(int id, QString name){
     controlLineLayer->startEditing();
     controlLineLayer->changeAttributeValue(id,0,name);
     controlLineLayer->commitChanges();
 }
-//здесь чет плохой код
+//здесь чет плохой код(теперь можно объединять)
 
 void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<double>>* rockets){
     controlPlanes->startEditing();
     QgsFeatureIds featIds = controlPlanes->allFeatureIds(); 
     int k = 0;
-    for(auto i = featIds.begin(); i != featIds.end(); ++i){
-        QgsPointXY point = controlPlanes->getFeature(*i).geometry().asPoint();
+    int id = -1;
+    for(int i = 0; i < planes->size(); ++i){
+        id = int(planes->at(k)[3]);
+        QgsPointXY point = controlPlanes->getFeature(*(featIds.begin()+planesId->indexOf(id))).geometry().asPoint();
         point.set(planes->at(k)[0], planes->at(k)[1]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
-        controlPlanes->changeGeometry(*i, g);
-        controlPlanes->changeAttributeValue(*i,1,-planes->at(k)[2]*180/M_PI);
+        controlPlanes->changeGeometry(*(featIds.begin()+planesId->indexOf(id)), g);
+        controlPlanes->changeAttributeValue(*(featIds.begin()+planesId->indexOf(id)),1,-planes->at(k)[2]*180/M_PI);
         k++;
     }
     controlPlanes->commitChanges();
     rocketsLayer->startEditing();
     rocketsLineLayer->startEditing();
     featIds = rocketsLayer->allFeatureIds();
-    QgsFeatureIds featIds2 = rocketsLineLayer->allFeatureIds();
     k = 0;
-    for(std::pair<QgsFeatureIds::iterator, QgsFeatureIds::iterator> i(featIds.begin(), featIds2.begin()); 
-    i.first != featIds.end() && i.second != featIds2.end(); ++i.first, ++i.second){
-        QgsPointXY point = rocketsLayer->getFeature(*i.first).geometry().asPoint();
+    for(int i = 0; i < rockets->size(); ++i){
+        id = int(rockets->at(k)[3]);
+        QgsPointXY point = rocketsLayer->getFeature(*(featIds.begin()+rocketsId->indexOf(id))).geometry().asPoint();
         point.set(rockets->at(k)[0], rockets->at(k)[1]);
         QgsGeometry g = QgsGeometry::fromPointXY(point);
-        rocketsLayer->changeGeometry(*i.first, g);
-        rocketsLayer->changeAttributeValue(*i.first,1,-rockets->at(k)[2]*180/M_PI);
-        QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*i.second).geometry().asMultiPolyline();
+        rocketsLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
+        rocketsLayer->changeAttributeValue(*(featIds.begin()+rocketsId->indexOf(id)),1,-rockets->at(k)[2]*180/M_PI);
+        QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*(featIds.begin()+rocketsId->indexOf(id))).geometry().asMultiPolyline();
         line[0].push_back(point);
         g = QgsGeometry::fromMultiPolylineXY(line);
-        rocketsLineLayer->changeGeometry(*i.second, g);
+        rocketsLineLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
         k++;
     }
     rocketsLayer->commitChanges();

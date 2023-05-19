@@ -20,11 +20,13 @@ public:
 
     void OnDead();
     bool IsAlive() const;
+    int Id() const;
     
 protected:
     float x_;
     float y_;
     bool is_alive_ = true;
+    int id_;
 };
 
 #endif // POINT_H

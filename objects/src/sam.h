@@ -26,7 +26,7 @@ protected:
     float health_;
     QString model_;
     float distance_;
-    int battery_ = 2;
+    int battery_ = 1;
     QTimer* launchTimer;
 };
 

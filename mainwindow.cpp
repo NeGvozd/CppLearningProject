@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     lineDialog = new ChooseLine(this);
     connect(ui->LinesButton, &QPushButton::clicked, this, &MainWindow::showLinesDialog);
 
-    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::getLineId);
+    connect(lineDialog, &ChooseLine::itemClickSend, QgsController, &QGSController::addPointToLine);
     connect(lineDialog, &ChooseLine::itemNameChange, QgsController, &QGSController::lineChangeName);
     connect(lineDialog, &ChooseLine::lineDeleteId, QgsController, &QGSController::deleteLine);
     connect(QgsController, &QGSController::sendLine, lineDialog, &ChooseLine::addLine);
@@ -72,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ListWindow, &ItemsListWindow::sendPlaneId, engine, &Engine::getPlaneCoords);
     connect(engine, &Engine::sendElementCoords, ListWindow, &ItemsListWindow::getCoords);
     connect(engine,&Engine::sendDATA, dbController, &DatabaseController::slot_make_backup);
+    connect(engine, &Engine::sendPlaneId, QgsController, &QGSController::catchNewPlaneId);
 }
 
 MainWindow::~MainWindow(){

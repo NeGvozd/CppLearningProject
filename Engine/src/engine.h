@@ -35,14 +35,15 @@ signals:
     void planeCreated();
     void samCreated();
     void sendObjects(QVector<QList<double>>* sendPlanes, QVector<QList<double>>* sendRockets);
-    void rocketCreated(double x, double y);
+    void rocketCreated(double x, double y, int id);
     void createSAMCircles(double x, double y, double radius);
-    void deleteRocket(int pos);
+    void deleteRocket(int id);
     void sendRocketToList(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
     void sendSAMToList(int id, QString name, QString model, float health, float distance, int ammo, float x, float y);
     void sendPlaneToList(int id, QString name, QString model, float health, float speed, float x, float y);
     void sendElementCoords(float x, float y);
-    void deletePlane(int pos);
+    void deletePlane(int id);
+    void sendPlaneId(int id);
     void sendDATA(std::vector<std::shared_ptr<Plane>> &planes, std::vector<std::shared_ptr<SAM>> &sams, std::vector<std::shared_ptr<Rocket>> &rockets);
 public slots:
     void createNewObject(InfoAboutElement element);
