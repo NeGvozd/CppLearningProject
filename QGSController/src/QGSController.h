@@ -97,7 +97,7 @@ public slots:
     void deleteLine(int id);
     void deletePlane(int pos);
     void catchNewPlaneId(int id);
-    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines);
+    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines, QVector<QList<double>> sendPlanes, QVector<QList<double>> sendSams);
 
 private slots:
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);

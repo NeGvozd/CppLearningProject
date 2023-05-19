@@ -323,15 +323,6 @@ void MainWindow::on_saveButton_clicked()
     engine->sendVectorsToDB();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_action_4_triggered(){
+    dbController->return_backup();
+}

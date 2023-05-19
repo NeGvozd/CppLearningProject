@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <type_traits>
 
+#define KM 0.0115
+
 Engine::Engine() {
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Engine::moveObjects);
@@ -55,23 +57,27 @@ void Engine::getSavedData(QPair<std::shared_ptr<QVector<std::shared_ptr<PacketTo
     rockets.clear();
     QVector<QVector<QPair<double, double>>> allLines;
     QVector<QList<double>> sendPlanes;
+    QVector<QList<double>> sendSams;
     for(int i = 0; i<(*pair.first).size(); ++i){
         PacketToEngine_sams tmp = (*(*pair.first)[i]);
-        sams.push_back(std::make_shared<SAM>(tmp.health, tmp.model, tmp.distance, std::make_unique<Point>(tmp.x, tmp.y)));
-        emit createSAMCircles(tmp.x, tmp.y, sams[sams.size()-1]->Distance());
-        emit sendSAMToList(sams[sams.size()-1]->Id(), lastelement_.name+" "+QString::number(sams[sams.size()-1]->Id()), lastelement_.name, lastelement_.health, lastelement_.distance, 0, tmp.x, tmp.y);
+        sams.push_back(std::make_shared<SAM>(tmp.health, tmp.model, tmp.distance/(KM*1000), std::make_unique<Point>(tmp.x, tmp.y)));
+        sendSams.push_back({tmp.x, tmp.y, double(sams[i]->Id())});
+        emit sendSAMToList(sams[i]->Id(), tmp.model+" "+QString::number(sams[i]->Id()), tmp.model, tmp.health, tmp.distance/(KM*1000), 0, tmp.x, tmp.y);
     }
     for(int i = 0; i<(*pair.second).size(); ++i){
         PacketToEngine_planes tmp = (*(*pair.second)[i]);
-        planes.push_back(std::make_shared<Plane>(tmp.health, tmp.speed, tmp.model, tmp.tragectory));
+        planes.push_back(std::make_shared<Plane>(tmp.health, tmp.speed/KM, tmp.model, tmp.tragectory));
+        planes[i]->setIdForLoad(tmp.id);
         QVector<std::shared_ptr<Point>> traj = (*tmp.tragectory);
         QVector<QPair<double, double>> trajstd = QVector<QPair<double, double>>();
         for(int i = 0; i<traj.size(); ++i)
             trajstd.push_back({(*traj[i]).X(), (*traj[i]).Y()});
         allLines.push_back(trajstd);
-        sendPlanes.push_back({tmp.x, tmp.y, 0, double(vector[i]->Id())});
+        sendPlanes.push_back({tmp.x, tmp.y, tmp.angle, double(planes[i]->Id())});
+        emit sendPlaneToList(planes[planes.size()-1]->Id(), tmp.model+" "+QString::number(planes[planes.size()-1]->Id()), tmp.model, tmp.health, tmp.speed/KM, tmp.x, tmp.y);
     }
-    emit loadSavedLines(allLines);
+    emit loadSavedLines(allLines, sendPlanes, sendSams);
+    for(int i = 0; i<(*pair.first).size(); ++i) emit createSAMCircles((*(*pair.first)[i]).x, (*(*pair.first)[i]).y, sams[i]->Distance());
 };
 
 void Engine::startRenderCycle() {

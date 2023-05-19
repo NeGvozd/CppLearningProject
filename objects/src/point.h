@@ -20,7 +20,7 @@ public:
 
     void OnDead();
     bool IsAlive() const;
-    int Id() const;
+    int Id();
     
 protected:
     float x_;

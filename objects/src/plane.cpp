@@ -65,6 +65,10 @@ void Plane::Move()
     }
 }
 
+void Plane::setIdForLoad(int id){
+    id_=id;
+}
+
 void Plane::SetTragectory(std::shared_ptr<QVector<std::shared_ptr<Point>>> tragectory)
 {
     if (curr_route_point_ != -1) 

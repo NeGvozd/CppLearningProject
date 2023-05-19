@@ -35,14 +35,15 @@ std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>> JsonData::return_
     {
         auto json_obj = json_array[i].toObject();
 
-        int health = json_obj["health"].toInt();
+        int id = json_obj["id"].toInt();
+        double health = json_obj["health"].toDouble();
         QString model = json_obj["model"].toString();
         int battery = json_obj["battery"].toInt();
-        int distance = json_obj["distance"].toInt();
-        int x = json_obj["x"].toInt();
-        int y = json_obj["y"].toInt();
+        double distance = json_obj["distance"].toDouble();
+        double x = json_obj["x"].toDouble();
+        double y = json_obj["y"].toDouble();
 
-        PacketToEngine_sams obj = PacketToEngine_sams(health,model,x,y,battery,distance);
+        PacketToEngine_sams obj = PacketToEngine_sams(id,health,model,x,y,battery,distance);
         std::shared_ptr<PacketToEngine_sams> temp_obj = std::make_shared<PacketToEngine_sams>(obj);
         vec.append(temp_obj);
     }
@@ -72,15 +73,16 @@ std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>> JsonData::retur
     for(int i = 0;i < json_array.size();i++)
     {
         auto json_obj = json_array[i].toObject();
-        int health = json_obj["health"].toInt();
+        int id = json_obj["id"].toInt();
+        double health = json_obj["health"].toDouble();
         QString model = json_obj["model"].toString();
-        int speed = json_obj["speed"].toInt();
-        int angle = json_obj["angle"].toInt();
-        int x = json_obj["x"].toInt();
-        int y = json_obj["y"].toInt();
+        double speed = json_obj["speed"].toDouble();
+        double angle = json_obj["angle"].toDouble();
+        double x = json_obj["x"].toDouble();
+        double y = json_obj["y"].toDouble();
         std::shared_ptr<QVector<std::shared_ptr<Point> > > tragectory = unpack_tragectory(json_obj["tragectory"].toString());
 
-        PacketToEngine_planes obj = PacketToEngine_planes(health,model,x,y,speed,angle,tragectory);
+        PacketToEngine_planes obj = PacketToEngine_planes(id,health,model,x,y,speed,angle,tragectory);
         std::shared_ptr<PacketToEngine_planes> temp_obj = std::make_shared<PacketToEngine_planes>(obj);
         vec.append(temp_obj);
     }
@@ -91,6 +93,7 @@ void JsonData::save_sams()
     QJsonArray jsonArray;
     for (const auto& sam : sams) {
         QJsonObject jsonObj;
+        jsonObj["id"] = sam->Id();
         jsonObj["health"] = sam->HEALTH();
         jsonObj["model"] = sam->MODEL();
         jsonObj["battery"] = sam->BATTERY();
@@ -116,7 +119,7 @@ void JsonData::save_planes()
     QJsonArray planes_jsonArray;
     for (const auto& plane : planes) {
         QJsonObject jsonObj;
-
+        jsonObj["id"] = plane->Id();
         jsonObj["health"] = plane->HEALTH();
         jsonObj["speed"] = plane->SPEED();
         jsonObj["angle"] = plane->Angle();

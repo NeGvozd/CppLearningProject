@@ -39,7 +39,7 @@ bool Point::IsAlive() const {
     return is_alive_;
 }
 
-int Point::Id() const {
+int Point::Id() {
     return id_;
 }
 

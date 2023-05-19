@@ -305,7 +305,7 @@ void QGSController::addSavedLine(QVector<QPair<double, double>> vec){
     linePoints->clear();
 }
 
-void QGSController::loadSavedLines(QVector<QVector<QPair<double, double>>> lines){
+void QGSController::loadSavedLines(QVector<QVector<QPair<double, double>>> lines, QVector<QList<double>> sendPlanes, QVector<QList<double>> sendSams){
     controlSAM->startEditing();
     rocketsLayer->startEditing();
     rocketsLineLayer->startEditing();
@@ -314,13 +314,29 @@ void QGSController::loadSavedLines(QVector<QVector<QPair<double, double>>> lines
     controlLinePointsLayer->startEditing();
     radarCirclesLayer->startEditing();
     controlSAM->deleteFeatures(controlSAM->allFeatureIds());
+    for(int i = 0; i<sendSams.size(); ++i){
+        QgsFeature feat;
+        feat.setFields(controlSAM->fields(), true);
+        feat.setAttribute("name", QString::number(int(controlSAM->featureCount())+1));
+        feat.setGeometry(QgsGeometry::fromPointXY(QgsPointXY(sendSams[i][0], sendSams[i][1])));
+        controlSAM->addFeature(feat);
+    }
     rocketsLayer->deleteFeatures(rocketsLayer->allFeatureIds());
     rocketsLineLayer->deleteFeatures(rocketsLineLayer->allFeatureIds());
     controlPlanes->deleteFeatures(controlPlanes->allFeatureIds());
+    planesId->clear();
+    for(int i = 0; i<sendPlanes.size(); ++i){
+        QgsFeature feat;
+        feat.setFields(controlPlanes->fields(), true);
+        feat.setAttribute("name", QString::number(int(controlPlanes->featureCount())+1));
+        feat.setGeometry(QgsGeometry::fromPointXY(QgsPointXY(sendPlanes[i][0], sendPlanes[i][1])));
+        feat.setAttribute("angle",sendPlanes[i][2]);
+        controlPlanes->addFeature(feat);
+        planesId->push_back(sendPlanes[i][3]);
+    }
     controlLineLayer->deleteFeatures(controlLineLayer->allFeatureIds());
     controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
     radarCirclesLayer->deleteFeatures(radarCirclesLayer->allFeatureIds());
-    planesId->clear();
     rocketsId->clear();
     rocketsPaths.clear();
     trajId->clear();
@@ -421,6 +437,7 @@ void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<d
         rocketsLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
         rocketsLayer->changeAttributeValue(*(featIds.begin()+rocketsId->indexOf(id)),1,-rockets->at(k)[2]*180/M_PI);
         QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id])).geometry().asMultiPolyline();
+        qInfo() << rocketsPaths[id];
         line[0].push_back(point);
         g = QgsGeometry::fromMultiPolylineXY(line);
         rocketsLineLayer->changeGeometry(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id]), g);

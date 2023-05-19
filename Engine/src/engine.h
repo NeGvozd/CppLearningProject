@@ -44,7 +44,7 @@ signals:
     void sendElementCoords(float x, float y);
     void deletePlane(int id);
     void sendPlaneId(int id);
-    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines);
+    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines, QVector<QList<double>> sendPlanes, QVector<QList<double>> sendSams);
     void sendDATA(std::vector<std::shared_ptr<Plane>> &planes, std::vector<std::shared_ptr<SAM>> &sams, std::vector<std::shared_ptr<Rocket>> &rockets);
 public slots:
     void createNewObject(InfoAboutElement element);

@@ -683,6 +683,7 @@ background-color: rgba(66, 68, 226, 0.59);
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="action_4"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -784,6 +785,11 @@ background-color: rgba(66, 68, 226, 0.59);
   <action name="action_3">
    <property name="text">
     <string>Как пользоваться?</string>
+   </property>
+  </action>
+  <action name="action_4">
+   <property name="text">
+    <string>Загрузить</string>
    </property>
   </action>
  </widget>

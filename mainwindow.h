@@ -102,6 +102,9 @@ public slots:
     void addRocketToItems(int id, QString name, QString model, float damage, float speed, float range, float x, float y);
 
 private slots:
+    void on_action_4_triggered();
+
+private slots:
     void on_MakeLineButton_clicked();
 
 private:
