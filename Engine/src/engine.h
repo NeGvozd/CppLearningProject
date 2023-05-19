@@ -44,14 +44,15 @@ signals:
     void sendElementCoords(float x, float y);
     void deletePlane(int id);
     void sendPlaneId(int id);
+    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines);
     void sendDATA(std::vector<std::shared_ptr<Plane>> &planes, std::vector<std::shared_ptr<SAM>> &sams, std::vector<std::shared_ptr<Rocket>> &rockets);
 public slots:
     void createNewObject(InfoAboutElement element);
-    void addLine(QVector<QPair<double, double>>* linePoints);
     void addSAM(double x, double y);
     void addPlane(QVector<QPair<double, double>>* points);
     void getPlaneCoords(int id);
     void getRocketCoords(int id);
+    void getSavedData(QPair<std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>>, std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>>> pair);
 private slots:
     void packAllObjects();
     void moveObjects();
@@ -59,7 +60,6 @@ private:
     std::vector<std::shared_ptr<Plane>> planes;
     std::vector<std::shared_ptr<SAM>> sams;
     std::vector<std::shared_ptr<Rocket>> rockets;
-    std::vector<std::shared_ptr<Point>> allLines;
 
     QTimer* timer;
     QTimer* sendTimer;

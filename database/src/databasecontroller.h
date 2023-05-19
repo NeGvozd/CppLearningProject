@@ -33,12 +33,13 @@ public:
     InfoAboutElement select(Table table,int id);//where and what
     QVector<InfoAboutElement> select_all(Table table);
     void dataWindow_show();
-
+    void return_backup();
 signals:
     void sig_table(QSqlTableModel *model);
     void sig_addedToDb();
     void sig_block_db();
     void sig_unblock_db();
+    void send_saved_data(QPair<std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>>, std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>>> pair);
 
 public slots:
     void slot_typeTable_clicked(Table table);

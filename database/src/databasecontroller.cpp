@@ -128,11 +128,12 @@ void DatabaseController::slot_make_backup(std::vector<std::shared_ptr<Plane> > &
     js = new JsonData(planes,sams);
     js->save();
 //not here/replace to another place
-    js->return_sams();
-    js->return_planes();
-
-
 }
+
+void DatabaseController::return_backup(){
+    emit send_saved_data({js->return_sams(), js->return_planes()});
+}
+
 void DatabaseController::slot_block_db()
 {
     emit sig_block_db();

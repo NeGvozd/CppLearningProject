@@ -97,12 +97,14 @@ public slots:
     void deleteLine(int id);
     void deletePlane(int pos);
     void catchNewPlaneId(int id);
+    void loadSavedLines(QVector<QVector<QPair<double, double>>> lines);
 
 private slots:
     void addRadar(const QgsPointXY &point, Qt::MouseButton button);
     void addPointLine(const QgsPointXY &point, Qt::MouseButton button);
     void mouseMoved(const QgsPointXY &p);
     void mapScaled(double s);
+    void addSavedLine(QVector<QPair<double, double>> vec);
 
 private:
     QgsMapToolPan *panTool;

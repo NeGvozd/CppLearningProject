@@ -243,15 +243,10 @@ void QGSController::addRadarCircles(double x, double y, double radius){
 }
 
 void QGSController::showRadarZones(){
-    if(layers.contains(radarCirclesLayer))
-        layers.removeOne(radarCirclesLayer);
+    if(radarCirclesLayer->opacity())
+        radarCirclesLayer->setOpacity(0);
     else
-        layers.push_back(radarCirclesLayer);
-
-    canvas->setLayers(layers);
-    for(int i=2;i<layers.length();i++)
-        canvas->setExtent(layers[i]->extent());
-
+        radarCirclesLayer->setOpacity(1);
     canvas->refresh();
 }
 
@@ -269,10 +264,10 @@ void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
         static int globalLineId = 0;
         trajId->push_back(globalLineId);
-        emit sendLine(globalLineId, "Trajectory"+QString::number(globalLineId));
+        emit sendLine(globalLineId, "Траектория "+QString::number(globalLineId));
         QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
-        addTrajToLayer(geom, "Trajectory"+QString::number(globalLineId));
+        addTrajToLayer(geom, "Траектория "+QString::number(globalLineId));
         globalLineId++;
         linePoints->clear();
         deletePointsForLine();
@@ -297,6 +292,49 @@ void QGSController::deletePlane(int id) {
     emit continueRender();
 } 
 
+void QGSController::addSavedLine(QVector<QPair<double, double>> vec){
+    static int globalLineSavedId = 0;
+    trajId->push_back(globalLineSavedId);
+    for(int i = 0; i<vec.size(); ++i)
+        linePoints->push_back(QgsPointXY(vec[i].first, vec[i].second));
+    emit sendLine(globalLineSavedId, "Траектория "+QString::number(globalLineSavedId));
+    QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
+    geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
+    addTrajToLayer(geom, "Траектория "+QString::number(globalLineSavedId));
+    globalLineSavedId++;
+    linePoints->clear();
+}
+
+void QGSController::loadSavedLines(QVector<QVector<QPair<double, double>>> lines){
+    controlSAM->startEditing();
+    rocketsLayer->startEditing();
+    rocketsLineLayer->startEditing();
+    controlPlanes->startEditing();
+    controlLineLayer->startEditing();
+    controlLinePointsLayer->startEditing();
+    radarCirclesLayer->startEditing();
+    controlSAM->deleteFeatures(controlSAM->allFeatureIds());
+    rocketsLayer->deleteFeatures(rocketsLayer->allFeatureIds());
+    rocketsLineLayer->deleteFeatures(rocketsLineLayer->allFeatureIds());
+    controlPlanes->deleteFeatures(controlPlanes->allFeatureIds());
+    controlLineLayer->deleteFeatures(controlLineLayer->allFeatureIds());
+    controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
+    radarCirclesLayer->deleteFeatures(radarCirclesLayer->allFeatureIds());
+    planesId->clear();
+    rocketsId->clear();
+    rocketsPaths.clear();
+    trajId->clear();
+    controlSAM->commitChanges();
+    rocketsLayer->commitChanges();
+    rocketsLineLayer->commitChanges();
+    controlPlanes->commitChanges();
+    controlLineLayer->commitChanges();
+    controlLinePointsLayer->commitChanges();
+    radarCirclesLayer->commitChanges();
+    for(int i = 0; i<lines.size(); ++i)
+        addSavedLine(lines[i]);
+}
+
 void QGSController::deletePointsForLine(){
     controlLinePointsLayer->startEditing();
     QgsFeatureIds featIds = controlLinePointsLayer->allFeatureIds(); 
@@ -306,7 +344,6 @@ void QGSController::deletePointsForLine(){
         linePoints->push_back({point.x(), point.y()});
     }
     controlLinePointsLayer->deleteFeatures(controlLinePointsLayer->allFeatureIds());
-    emit createLine(linePoints);
     controlLinePointsLayer->commitChanges();
 }
 

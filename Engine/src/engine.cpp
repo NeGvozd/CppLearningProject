@@ -32,13 +32,6 @@ void Engine::createNewObject(InfoAboutElement element) {
 //void Engine::loadSave(QVector<QPair<InfoAboutElement, std::shared_ptr<QVector<std::shared_ptr<Point>>>>> planes, QVector<InfoAboutElement> sams){
 
 //}
-
-void Engine::addLine(QVector<QPair<double, double>>* linePoints)
-{
-    for(auto i = linePoints->begin(); i < linePoints->end(); ++i)
-        allLines.push_back(std::make_shared<Point>((*i).first, (*i).second));
-}
-
 void Engine::addSAM(double x, double y) {
     //создал SAM здесь, кинул emit об этом в QGIS, QGIS дал мне точку на которую кликнули, я её добавил в движке и кинул QGIS обратно какого радиуса круги и где создать
     sams.push_back(std::make_shared<SAM>(lastelement_.mass, lastelement_.name, lastelement_.distance, std::make_unique<Point>(x,y)));
@@ -55,6 +48,31 @@ void Engine::addPlane(QVector<QPair<double, double>>* points) {
     emit sendPlaneToList(planes[planes.size()-1]->Id(), lastelement_.name+" "+QString::number(planes[planes.size()-1]->Id()), lastelement_.name, lastelement_.health, lastelement_.speed, points->at(0).first, points->at(0).second);
     emit sendPlaneId(planes[planes.size()-1]->Id());
 }
+
+void Engine::getSavedData(QPair<std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_sams>>>, std::shared_ptr<QVector<std::shared_ptr<PacketToEngine_planes>>>> pair){
+    sams.clear();
+    planes.clear();
+    rockets.clear();
+    QVector<QVector<QPair<double, double>>> allLines;
+    QVector<QList<double>> sendPlanes;
+    for(int i = 0; i<(*pair.first).size(); ++i){
+        PacketToEngine_sams tmp = (*(*pair.first)[i]);
+        sams.push_back(std::make_shared<SAM>(tmp.health, tmp.model, tmp.distance, std::make_unique<Point>(tmp.x, tmp.y)));
+        emit createSAMCircles(tmp.x, tmp.y, sams[sams.size()-1]->Distance());
+        emit sendSAMToList(sams[sams.size()-1]->Id(), lastelement_.name+" "+QString::number(sams[sams.size()-1]->Id()), lastelement_.name, lastelement_.health, lastelement_.distance, 0, tmp.x, tmp.y);
+    }
+    for(int i = 0; i<(*pair.second).size(); ++i){
+        PacketToEngine_planes tmp = (*(*pair.second)[i]);
+        planes.push_back(std::make_shared<Plane>(tmp.health, tmp.speed, tmp.model, tmp.tragectory));
+        QVector<std::shared_ptr<Point>> traj = (*tmp.tragectory);
+        QVector<QPair<double, double>> trajstd = QVector<QPair<double, double>>();
+        for(int i = 0; i<traj.size(); ++i)
+            trajstd.push_back({(*traj[i]).X(), (*traj[i]).Y()});
+        allLines.push_back(trajstd);
+        sendPlanes.push_back({tmp.x, tmp.y, 0, double(vector[i]->Id())});
+    }
+    emit loadSavedLines(allLines);
+};
 
 void Engine::startRenderCycle() {
     if(!timer->isActive())

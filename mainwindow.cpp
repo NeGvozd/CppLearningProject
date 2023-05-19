@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, &MainWindow::createNewObject, engine, &Engine::createNewObject);
     connect(engine, &Engine::planeCreated, this, &MainWindow::planeCreated);
     connect(engine, &Engine::samCreated, QgsController, &QGSController::activateSelectingSquare);
-    connect(QgsController, &QGSController::createLine, engine, &Engine::addLine);
     connect(QgsController, &QGSController::createSAM, engine, &Engine::addSAM);
     connect(QgsController, &QGSController::sendPointsCoords, engine, &Engine::addPlane);
     connect(this, SIGNAL(sig_block_db()),dbController,SLOT(slot_block_db()));
@@ -69,6 +68,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(engine, &Engine::sendElementCoords, ListWindow, &ItemsListWindow::getCoords);
     connect(engine,&Engine::sendDATA, dbController, &DatabaseController::slot_make_backup);
     connect(engine, &Engine::sendPlaneId, QgsController, &QGSController::catchNewPlaneId);
+    connect(dbController, &DatabaseController::send_saved_data, engine, &Engine::getSavedData);
+    connect(engine, &Engine::loadSavedLines, QgsController, &QGSController::loadSavedLines);
 }
 
 MainWindow::~MainWindow(){
