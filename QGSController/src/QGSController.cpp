@@ -263,6 +263,7 @@ void QGSController::addTrajToLayer(QgsGeometry geom, QString name){
 void QGSController::addLine(bool checked){
     if(!linePoints->isEmpty()){
         trajId->push_back(globalLineId);
+        qInfo() << globalLineId;
         emit sendLine(globalLineId, "Траектория "+QString::number(globalLineId));
         QgsGeometry geom= QgsGeometry();//Странно, почему нельзя просто поставить скобочки?
         geom.addPart(*linePoints, QgsWkbTypes::GeometryType::LineGeometry);
@@ -436,7 +437,7 @@ void QGSController::renderObject(QVector<QList<double>>* planes, QVector<QList<d
         rocketsLayer->changeGeometry(*(featIds.begin()+rocketsId->indexOf(id)), g);
         rocketsLayer->changeAttributeValue(*(featIds.begin()+rocketsId->indexOf(id)),1,-rockets->at(k)[2]*180/M_PI);
         QgsMultiPolylineXY line = rocketsLineLayer->getFeature(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id])).geometry().asMultiPolyline();
-        qInfo() << rocketsPaths[id];
+        qInfo() << rocketsPaths[id] << rocketsLineLayer->allFeatureIds().size();
         line[0].push_back(point);
         g = QgsGeometry::fromMultiPolylineXY(line);
         rocketsLineLayer->changeGeometry(*(rocketsLineLayer->allFeatureIds().begin()+rocketsPaths[id]), g);

@@ -3,6 +3,7 @@
 #include <type_traits>
 
 #define KM 0.0115
+#define KMS 0.0115*300
 
 Engine::Engine() {
     timer = new QTimer(this);
@@ -60,9 +61,9 @@ void Engine::getSavedData(QPair<std::shared_ptr<QVector<std::shared_ptr<PacketTo
     QVector<QList<double>> sendSams;
     for(int i = 0; i<(*pair.first).size(); ++i){
         PacketToEngine_sams tmp = (*(*pair.first)[i]);
-        sams.push_back(std::make_shared<SAM>(tmp.health, tmp.model, tmp.distance/(KM*1000), std::make_unique<Point>(tmp.x, tmp.y)));
+        sams.push_back(std::make_shared<SAM>(tmp.health, tmp.model, tmp.distance/(KMS), std::make_unique<Point>(tmp.x, tmp.y)));
         sendSams.push_back({tmp.x, tmp.y, double(sams[i]->Id())});
-        emit sendSAMToList(sams[i]->Id(), tmp.model+" "+QString::number(sams[i]->Id()), tmp.model, tmp.health, tmp.distance/(KM*1000), 0, tmp.x, tmp.y);
+        emit sendSAMToList(sams[i]->Id(), tmp.model+" "+QString::number(sams[i]->Id()), tmp.model, tmp.health, tmp.distance/(KMS), 0, tmp.x, tmp.y);
     }
     for(int i = 0; i<(*pair.second).size(); ++i){
         PacketToEngine_planes tmp = (*(*pair.second)[i]);

@@ -789,7 +789,7 @@ background-color: rgba(66, 68, 226, 0.59);
   </action>
   <action name="action_4">
    <property name="text">
-    <string>Загрузить</string>
+    <string>Выгрузить</string>
    </property>
   </action>
  </widget>

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>ItemsListWindow</string>
+   <string>Характеристики</string>
   </property>
   <widget class="QListWidget" name="ListWidget">
    <property name="geometry">
